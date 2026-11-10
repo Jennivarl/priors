@@ -25,19 +25,40 @@
     <section class="card log">
       <h2>Log a pick <small>before the event starts</small></h2>
       <form id="pick-form" autocomplete="off">
-        <label>Event <input name="event" placeholder="Arsenal vs Chelsea" /></label>
-        <div class="row">
-          <label>Your pick <input name="subject" placeholder="Arsenal" required /></label>
-          <label>Category
-            <input name="category" list="cats" placeholder="Football" required />
-            <datalist id="cats"><option>Football</option><option>Tennis</option><option>NBA</option><option>Elections</option><option>Crypto</option><option>F1</option></datalist>
-          </label>
+        <div class="seg" role="radiogroup">
+          <label><input type="radio" name="kind" value="sports" checked /> Sports</label>
+          <label><input type="radio" name="kind" value="crypto" /> Crypto <small>auto-settled onchain</small></label>
         </div>
+
+        <div class="sports-only">
+          <div class="row">
+            <label>Category
+              <select name="category"><option>Football</option><option>Tennis</option><option>NBA</option><option>NFL</option><option>Elections</option></select>
+            </label>
+            <label class="feed-only">Live event (bookmaker feed)
+              <select name="eventId"><option value="">Loading events…</option></select>
+            </label>
+          </div>
+          <label class="manual-only">Event <input name="event" placeholder="Arsenal vs Chelsea" /></label>
+          <label>Your pick <input name="subject" list="outcomes" placeholder="Arsenal" /><datalist id="outcomes"></datalist></label>
+        </div>
+
+        <div class="crypto-only row">
+          <label>Asset <select name="asset"><option>SUI</option><option>WAL</option></select></label>
+          <label>Call <select name="direction"><option value="above">above</option><option value="below">below</option></select></label>
+          <label>Target $ <input name="target" type="number" step="0.0001" min="0" /></label>
+          <label>Deadline (min) <input name="minutes" type="number" min="1" value="3" /></label>
+        </div>
+        <p class="crypto-only hint" id="live-price">Reading live price from Sui…</p>
+
+        <label>Why do you like it? <small>the coach learns from your reasoning</small>
+          <textarea name="reason" rows="2" placeholder="They're on great form and it's a revenge game"></textarea>
+        </label>
         <div class="row">
           <label>Gut confidence <span class="conf-val" id="conf-val">70%</span>
             <input type="range" name="confidence" min="51" max="99" value="70" />
           </label>
-          <label>Bookmaker odds (decimal) <input name="odds" type="number" step="0.01" min="1.01" placeholder="1.85" required /></label>
+          <label>Odds (decimal) <small id="odds-src">typed by you</small><input name="odds" type="number" step="0.01" min="1.01" placeholder="1.85" /></label>
         </div>
 
         <div class="opinion" id="opinion">
@@ -48,6 +69,7 @@
             <div><span>Market</span><b id="o-mkt">–</b></div>
           </div>
           <ul id="o-reasons"></ul>
+          <div class="echo" id="o-echo"></div>
           <p class="verdict" id="o-verdict">Fill in the pick to get a second opinion from your own history.</p>
         </div>
 
