@@ -1,0 +1,9 @@
+.env
+.env.*
+data/
+node_modules/
+CLAUDE.md
+HACKATHON.md
+BLOG.md
+VIDEO.md
+FORM.md

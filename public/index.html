@@ -21,6 +21,11 @@
     </div>
   </header>
 
+  <div class="banner" id="demo-banner" hidden>
+    <b>Live demo, read-only.</b> This is a real forecaster history: every pick is sealed with a Sui Mainnet checkpoint and stored in Walrus Memory.
+    Try the coach: fill in a pick and reason to get a second opinion, or search "Ask your past self". To log your own picks, run Priors yourself (README, How to Test).
+  </div>
+
   <main class="grid">
     <section class="card log">
       <h2>Log a pick <small>before the event starts</small></h2>
@@ -117,6 +122,11 @@
     </section>
   </main>
 
+  <div class="owner" id="owner-box" hidden>
+    <input type="password" id="owner-token" placeholder="Owner passcode" autocomplete="off" />
+    <button class="ghost small" id="owner-save">Unlock</button>
+    <span id="owner-msg"></span>
+  </div>
   <footer>Built with Walrus Memory (Mainnet) and Tatum Sui gRPC. Picks are sealed with the live Sui checkpoint, so nobody can claim a pick after the fact.</footer>
   <script src="app.js" type="module"></script>
 </body>

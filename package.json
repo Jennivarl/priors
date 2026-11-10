@@ -8,7 +8,8 @@
     "start": "node server.js",
     "seed": "node scripts/seed.js",
     "check": "node scripts/smoke.js",
-    "live-calls": "node scripts/live-calls.js"
+    "live-calls": "node scripts/live-calls.js",
+    "snapshot": "node scripts/snapshot.js"
   },
   "keywords": [],
   "author": "",

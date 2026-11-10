@@ -7,11 +7,39 @@ import * as store from './lib/store.js';
 import { fingerprint, calibration, secondOpinion, reasoningEcho } from './lib/coach.js';
 import { getPrice } from './lib/oracle.js';
 import * as markets from './lib/markets.js';
-import { onchainPrice, selfReported, sourceFor, parseCrypto, commitment } from './lib/settle.js';
+import { selfReported, sourceFor, parseCrypto, commitment } from './lib/settle.js';
 
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 app.use(express.json({ limit: '20kb' }));
-app.use(express.static('public'));
+app.use(express.static(path.join(ROOT, 'public')));
+
+// ---- Access control for a hosted deployment ----
+// The server holds the owner's Walrus delegate key and Tatum key. When OWNER_TOKEN is set (hosted demo),
+// anyone can read and ask for a second opinion, but only the owner can write: log, settle, rebuild.
+const OWNER_TOKEN = process.env.OWNER_TOKEN || '';
+const READ_ONLY = Boolean(OWNER_TOKEN);
+const sameToken = (a, b) => a.length === b.length && crypto.timingSafeEqual(Buffer.from(a), Buffer.from(b));
+function ownerOnly(req, res, next) {
+  if (!READ_ONLY) return next();
+  const t = String(req.get('x-owner-token') || '');
+  if (t && sameToken(t, OWNER_TOKEN)) return next();
+  res.status(403).json({ error: 'This is the read-only live demo. Run Priors yourself (see README, How to Test) to log your own picks.' });
+}
+// Simple per-instance limit on endpoints that spend Walrus / Tatum quota.
+const hits = new Map();
+function rateLimit(req, res, next) {
+  const key = `${req.ip}:${req.path}`;
+  const now = Date.now();
+  const h = (hits.get(key) || []).filter((t) => now - t < 60_000);
+  if (h.length >= 20) return res.status(429).json({ error: 'Too many requests. Try again in a minute.' });
+  h.push(now);
+  hits.set(key, h);
+  next();
+}
 
 let state = store.load();
 const persist = () => store.save(state);
@@ -139,7 +167,8 @@ async function autoSettle() {
     settling = false;
   }
 }
-setInterval(autoSettle, 15_000);
+// On serverless hosts there is no long-running process; the owner's own server does the settling.
+if (!process.env.VERCEL) setInterval(autoSettle, 15_000);
 
 // Reasoning echo: ask Walrus Memory which past REASONS mean the same thing as this one,
 // then look up how those picks ended. Semantic recall is what makes this possible.
@@ -164,7 +193,7 @@ const view = () => ({
   stored: state.memories.filter((m) => m.status === 'stored').length,
 });
 
-app.get('/api/state', (_req, res) => res.json(view()));
+app.get('/api/state', (_req, res) => res.json({ ...view(), readOnly: READ_ONLY }));
 
 async function opinionFor(draft) {
   let echo = null;
@@ -177,7 +206,7 @@ async function opinionFor(draft) {
   return { ...secondOpinion(state.picks, draft, echo), echoError };
 }
 
-app.post('/api/opinion', async (req, res) => {
+app.post('/api/opinion', rateLimit, async (req, res) => {
   let draft;
   try {
     draft = parseDraft(req.body);
@@ -203,7 +232,7 @@ app.get('/api/price/:asset', async (req, res) => {
   }
 });
 
-app.post('/api/picks', async (req, res) => {
+app.post('/api/picks', ownerOnly, async (req, res) => {
   let draft;
   try {
     draft = parseDraft(req.body);
@@ -269,7 +298,7 @@ app.post('/api/picks', async (req, res) => {
   }
 });
 
-app.post('/api/picks/:id/settle', (req, res) => {
+app.post('/api/picks/:id/settle', ownerOnly, (req, res) => {
   const pick = state.picks.find((p) => p.id === req.params.id);
   if (!pick) return res.status(404).json({ error: 'Unknown pick.' });
   if (pick.status !== 'open') return res.status(409).json({ error: 'Already settled.' });
@@ -283,7 +312,7 @@ app.post('/api/picks/:id/settle', (req, res) => {
 });
 
 // Semantic search over your own memory on Walrus: "ask your past self".
-app.post('/api/recall', async (req, res) => {
+app.post('/api/recall', rateLimit, async (req, res) => {
   try {
     const hits = await memory.recall(String(req.body.query || ''), 6);
     res.json(hits.map(({ text, blob_id, distance }) => ({ text: text.split('\n##GC')[0], blob_id, distance })));
@@ -301,7 +330,7 @@ app.get('/api/memory-count', async (_req, res) => {
 });
 
 // Wipe local state and rebuild the whole app from Walrus Memory alone.
-app.post('/api/restore', async (_req, res) => {
+app.post('/api/restore', ownerOnly, async (_req, res) => {
   try {
     await whenIdle();
     const mems = await memory.restoreAll();
@@ -325,6 +354,10 @@ app.post('/api/restore', async (_req, res) => {
 });
 
 // The server holds your Walrus delegate key and Tatum key, so it only listens on this computer by default.
-const port = Number(process.env.PORT || 3000);
-const host = process.env.HOST || '127.0.0.1';
-app.listen(port, host, () => console.log(`Priors running at http://localhost:${port}`));
+export default app;
+
+if (!process.env.VERCEL) {
+  const port = Number(process.env.PORT || 3000);
+  const host = process.env.HOST || '127.0.0.1';
+  app.listen(port, host, () => console.log(`Priors running at http://localhost:${port}${READ_ONLY ? ' (read-only demo mode)' : ''}`));
+}

@@ -1,0 +1,1457 @@
+{
+  "picks": [
+    {
+      "id": "528a3bf1-c10e-4f5c-8bbd-5084509227dc",
+      "subject": "Real Madrid CF Femenino",
+      "category": "Football",
+      "event": "Will Real Madrid CF Femenino win on 2026-11-10?",
+      "reason": "Home side has won 8 of the last 10 at home and the market underrates them",
+      "odds": 1.439,
+      "confidence": 0.7,
+      "marketProb": 0.695,
+      "oddsSource": {
+        "kind": "market",
+        "name": "Polymarket",
+        "marketId": "6322669"
+      },
+      "starts": "2026-11-10T17:45:00.000Z",
+      "market": {
+        "marketId": "6322669",
+        "question": "Will Real Madrid CF Femenino win on 2026-11-10?",
+        "side": "Yes"
+      },
+      "createdAt": "2026-11-10T14:49:41.621Z",
+      "status": "open",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343748796",
+        "timestamp": "2026-11-10T14:49:39.086Z",
+        "digest": "HcfqMkHdmZbwrDseYfPveRx1cZLSvWzoDCzp3CuEfdco"
+      },
+      "coach": {
+        "adjusted": 0.39222222222222225,
+        "verdict": "Corrected for your bias, the market is more right than you. Pass or size down."
+      },
+      "commitment": "b6ad629f3950890e4994b065e5c88dd6e0d16eae7cfca1556f6582140223fae9"
+    },
+    {
+      "id": "a75f8a03-d3d7-482a-ac16-8e588b0061f9",
+      "subject": "WAL below $0.028205",
+      "category": "Crypto",
+      "event": "by 14:48 UTC",
+      "reason": "A 0.4% move in 6 minutes is outside normal range for this pool",
+      "odds": 1.7,
+      "confidence": 0.61,
+      "marketProb": 0.5882352941176471,
+      "crypto": {
+        "asset": "WAL",
+        "direction": "below",
+        "target": 0.028205,
+        "deadline": "2026-11-10T14:48:27.446Z",
+        "startPrice": 0.02809280962252231
+      },
+      "oddsSource": {
+        "kind": "manual",
+        "note": "your own price for this crypto call"
+      },
+      "createdAt": "2026-11-10T14:42:30.867Z",
+      "status": "won",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343747019",
+        "timestamp": "2026-11-10T14:42:27.235Z",
+        "digest": "He6f6cKDXRJPYC38VQdgnuQtE8fDkFW9Qkx7GpbRAiHy"
+      },
+      "coach": {
+        "adjusted": 0.10109774436090223,
+        "verdict": "Corrected for your bias, the market is more right than you. Pass or size down."
+      },
+      "settledAt": "2026-11-10T14:48:40.232Z",
+      "verified": true,
+      "evidence": {
+        "asset": "WAL",
+        "usd": 0.028091925050176957,
+        "pools": [
+          "0xb8d7d9e66a60c239e7a60110efcf8de6c705580ed924d0dde141f4a0e2c90105",
+          "0x72f5c6eef73d77de271886219a2543e7c29a33de19a6c69c5cf1899f729c3f17"
+        ],
+        "checkpoint": "343748550",
+        "timestamp": "2026-11-10T14:48:38.984Z",
+        "source": "Cetus pool state on Sui Mainnet, read via Tatum gRPC",
+        "target": 0.028205,
+        "direction": "below"
+      }
+    },
+    {
+      "id": "9c66163d-e664-490e-a62f-9d57e498a3e1",
+      "subject": "WAL above $0.028121",
+      "category": "Crypto",
+      "event": "by 14:48 UTC",
+      "reason": "Big week for Walrus, it has to go up",
+      "odds": 2,
+      "confidence": 0.74,
+      "marketProb": 0.5,
+      "crypto": {
+        "asset": "WAL",
+        "direction": "above",
+        "target": 0.028121,
+        "deadline": "2026-11-10T14:48:22.958Z",
+        "startPrice": 0.02809280962252231
+      },
+      "oddsSource": {
+        "kind": "manual",
+        "note": "your own price for this crypto call"
+      },
+      "createdAt": "2026-11-10T14:42:26.111Z",
+      "status": "lost",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343747000",
+        "timestamp": "2026-11-10T14:42:22.507Z",
+        "digest": "2vpnbYh4JDPhcXRrRmyF6DLCQDBK2ebmJwSnE8EKGCqC"
+      },
+      "coach": {
+        "adjusted": 0.16616917293233097,
+        "verdict": "Corrected for your bias, the market is more right than you. Pass or size down."
+      },
+      "settledAt": "2026-11-10T14:48:25.428Z",
+      "verified": true,
+      "evidence": {
+        "asset": "WAL",
+        "usd": 0.028111808020320737,
+        "pools": [
+          "0xb8d7d9e66a60c239e7a60110efcf8de6c705580ed924d0dde141f4a0e2c90105",
+          "0x72f5c6eef73d77de271886219a2543e7c29a33de19a6c69c5cf1899f729c3f17"
+        ],
+        "checkpoint": "343748489",
+        "timestamp": "2026-11-10T14:48:24.153Z",
+        "source": "Cetus pool state on Sui Mainnet, read via Tatum gRPC",
+        "target": 0.028121,
+        "direction": "above"
+      }
+    },
+    {
+      "id": "17fb8f1a-97ad-4d26-ab47-a3e936be396a",
+      "subject": "SUI below $0.83673",
+      "category": "Crypto",
+      "event": "by 14:47 UTC",
+      "reason": "Short window and low volatility, price should stay under a 0.2% move",
+      "odds": 1.75,
+      "confidence": 0.63,
+      "marketProb": 0.5714285714285714,
+      "crypto": {
+        "asset": "SUI",
+        "direction": "below",
+        "target": 0.83673,
+        "deadline": "2026-11-10T14:47:18.739Z",
+        "startPrice": 0.83505691659754
+      },
+      "oddsSource": {
+        "kind": "manual",
+        "note": "your own price for this crypto call"
+      },
+      "createdAt": "2026-11-10T14:42:21.632Z",
+      "status": "won",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343746984",
+        "timestamp": "2026-11-10T14:42:18.467Z",
+        "digest": "8zVRWS34aA53KdrkHhbcqRnbeDcH8nwC1FgCyNVtM4Jm"
+      },
+      "coach": {
+        "adjusted": 0.1555977443609023,
+        "verdict": "Corrected for your bias, the market is more right than you. Pass or size down."
+      },
+      "settledAt": "2026-11-10T14:47:24.990Z",
+      "verified": true,
+      "evidence": {
+        "asset": "SUI",
+        "usd": 0.8357391489847794,
+        "pools": [
+          "0xb8d7d9e66a60c239e7a60110efcf8de6c705580ed924d0dde141f4a0e2c90105"
+        ],
+        "checkpoint": "343748238",
+        "timestamp": "2026-11-10T14:47:23.716Z",
+        "source": "Cetus pool state on Sui Mainnet, read via Tatum gRPC",
+        "target": 0.83673,
+        "direction": "below"
+      }
+    },
+    {
+      "id": "9b94dbd2-7c2f-4dbe-8eca-aed92169ff36",
+      "subject": "SUI above $0.83589",
+      "category": "Crypto",
+      "event": "by 14:47 UTC",
+      "reason": "Feels like breakout time, momentum is building, it owes us",
+      "odds": 2,
+      "confidence": 0.78,
+      "marketProb": 0.5,
+      "crypto": {
+        "asset": "SUI",
+        "direction": "above",
+        "target": 0.83589,
+        "deadline": "2026-11-10T14:47:14.707Z",
+        "startPrice": 0.83505691659754
+      },
+      "oddsSource": {
+        "kind": "manual",
+        "note": "your own price for this crypto call"
+      },
+      "createdAt": "2026-11-10T14:42:17.643Z",
+      "status": "lost",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343746967",
+        "timestamp": "2026-11-10T14:42:14.235Z",
+        "digest": "CizbNy5zKZJRQb4wpPBQmnLyasnBLuuevHHrPHgQ7Hbz"
+      },
+      "coach": {
+        "adjusted": 0.16234774436090232,
+        "verdict": "Corrected for your bias, the market is more right than you. Pass or size down."
+      },
+      "settledAt": "2026-11-10T14:47:26.150Z",
+      "verified": true,
+      "evidence": {
+        "asset": "SUI",
+        "usd": 0.8357391489847794,
+        "pools": [
+          "0xb8d7d9e66a60c239e7a60110efcf8de6c705580ed924d0dde141f4a0e2c90105"
+        ],
+        "checkpoint": "343748244",
+        "timestamp": "2026-11-10T14:47:25.103Z",
+        "source": "Cetus pool state on Sui Mainnet, read via Tatum gRPC",
+        "target": 0.83589,
+        "direction": "above"
+      }
+    },
+    {
+      "id": "d2f00655-17ff-4406-8b10-be32c301637f",
+      "subject": "WAL below $0.028177",
+      "category": "Crypto",
+      "event": "by 14:46 UTC",
+      "reason": "WAL rarely moves 0.3% in a few minutes, mean reversion favours under",
+      "odds": 1.7,
+      "confidence": 0.62,
+      "marketProb": 0.5882352941176471,
+      "crypto": {
+        "asset": "WAL",
+        "direction": "below",
+        "target": 0.028177,
+        "deadline": "2026-11-10T14:46:11.071Z",
+        "startPrice": 0.02809280962252231
+      },
+      "oddsSource": {
+        "kind": "manual",
+        "note": "your own price for this crypto call"
+      },
+      "createdAt": "2026-11-10T14:42:13.775Z",
+      "status": "won",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343746953",
+        "timestamp": "2026-11-10T14:42:10.920Z",
+        "digest": "6xuUcQ7WLv3e32JH8L9BTLgwMiaPqe69PgQ6njLZr8kZ"
+      },
+      "coach": {
+        "adjusted": 0.18959774436090227,
+        "verdict": "Corrected for your bias, the market is more right than you. Pass or size down."
+      },
+      "settledAt": "2026-11-10T14:46:25.456Z",
+      "verified": true,
+      "evidence": {
+        "asset": "WAL",
+        "usd": 0.028131454489256257,
+        "pools": [
+          "0xb8d7d9e66a60c239e7a60110efcf8de6c705580ed924d0dde141f4a0e2c90105",
+          "0x72f5c6eef73d77de271886219a2543e7c29a33de19a6c69c5cf1899f729c3f17"
+        ],
+        "checkpoint": "343747995",
+        "timestamp": "2026-11-10T14:46:24.111Z",
+        "source": "Cetus pool state on Sui Mainnet, read via Tatum gRPC",
+        "target": 0.028177,
+        "direction": "below"
+      }
+    },
+    {
+      "id": "d88f47b4-2c9c-4ad4-a229-32ac5f7901dc",
+      "subject": "WAL above $0.028107",
+      "category": "Crypto",
+      "event": "by 14:46 UTC",
+      "reason": "WAL is going to rip, everyone is talking about Walrus today",
+      "odds": 1.9,
+      "confidence": 0.75,
+      "marketProb": 0.5263157894736842,
+      "crypto": {
+        "asset": "WAL",
+        "direction": "above",
+        "target": 0.028107,
+        "deadline": "2026-11-10T14:46:07.100Z",
+        "startPrice": 0.02809280962252231
+      },
+      "oddsSource": {
+        "kind": "manual",
+        "note": "your own price for this crypto call"
+      },
+      "createdAt": "2026-11-10T14:42:09.751Z",
+      "status": "won",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343746935",
+        "timestamp": "2026-11-10T14:42:06.517Z",
+        "digest": "5KuZQ8vFkGiFhYNpcSVNQ1RXPMkSii1pv5xTBSH8EzQj"
+      },
+      "coach": {
+        "adjusted": 0.4315977443609023,
+        "verdict": "Corrected for your bias, the market is more right than you. Pass or size down."
+      },
+      "settledAt": "2026-11-10T14:46:10.187Z",
+      "verified": true,
+      "evidence": {
+        "asset": "WAL",
+        "usd": 0.028131454489256257,
+        "pools": [
+          "0xb8d7d9e66a60c239e7a60110efcf8de6c705580ed924d0dde141f4a0e2c90105",
+          "0x72f5c6eef73d77de271886219a2543e7c29a33de19a6c69c5cf1899f729c3f17"
+        ],
+        "checkpoint": "343747932",
+        "timestamp": "2026-11-10T14:46:09.020Z",
+        "source": "Cetus pool state on Sui Mainnet, read via Tatum gRPC",
+        "target": 0.028107,
+        "direction": "above"
+      }
+    },
+    {
+      "id": "5f6a370f-6319-4b85-a1db-30be391bb5fd",
+      "subject": "SUI below $0.83686",
+      "category": "Crypto",
+      "event": "by 14:45 UTC",
+      "reason": "Spot is flat and liquidity is deep, a 0.15% jump in 3 minutes is unlikely",
+      "odds": 1.8,
+      "confidence": 0.64,
+      "marketProb": 0.5555555555555556,
+      "crypto": {
+        "asset": "SUI",
+        "direction": "below",
+        "target": 0.83686,
+        "deadline": "2026-11-10T14:45:01.842Z",
+        "startPrice": 0.8353434793128727
+      },
+      "oddsSource": {
+        "kind": "manual",
+        "note": "your own price for this crypto call"
+      },
+      "createdAt": "2026-11-10T14:42:05.334Z",
+      "status": "won",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343746913",
+        "timestamp": "2026-11-10T14:42:01.158Z",
+        "digest": "CgHM5SdA27AMbBy9L4XrKS2ZDXWxWik7osfpoJ1hJsjS"
+      },
+      "coach": {
+        "adjusted": 0.20959774436090228,
+        "verdict": "Corrected for your bias, the market is more right than you. Pass or size down."
+      },
+      "settledAt": "2026-11-10T14:45:09.720Z",
+      "verified": true,
+      "evidence": {
+        "asset": "SUI",
+        "usd": 0.8356350601048985,
+        "pools": [
+          "0xb8d7d9e66a60c239e7a60110efcf8de6c705580ed924d0dde141f4a0e2c90105"
+        ],
+        "checkpoint": "343747682",
+        "timestamp": "2026-11-10T14:45:08.368Z",
+        "source": "Cetus pool state on Sui Mainnet, read via Tatum gRPC",
+        "target": 0.83686,
+        "direction": "below"
+      }
+    },
+    {
+      "id": "155bab7d-6fd1-44e1-9bc7-b86da8ab360a",
+      "subject": "SUI above $0.83602",
+      "category": "Crypto",
+      "event": "by 14:44 UTC",
+      "reason": "SUI always pumps when my timeline is bullish, it is due a move",
+      "odds": 1.9,
+      "confidence": 0.72,
+      "marketProb": 0.5263157894736842,
+      "crypto": {
+        "asset": "SUI",
+        "direction": "above",
+        "target": 0.83602,
+        "deadline": "2026-11-10T14:44:58.752Z",
+        "startPrice": 0.8356069182168648
+      },
+      "oddsSource": {
+        "kind": "manual",
+        "note": "your own price for this crypto call"
+      },
+      "createdAt": "2026-11-10T14:42:00.909Z",
+      "status": "lost",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343746901",
+        "timestamp": "2026-11-10T14:41:58.271Z",
+        "digest": "BxxnzpM23HubobRQKGe4e1kTfUZqNCoXTYaqmECyeTJy"
+      },
+      "coach": {
+        "adjusted": 0.25893107769423557,
+        "verdict": "Corrected for your bias, the market is more right than you. Pass or size down."
+      },
+      "settledAt": "2026-11-10T14:45:10.891Z",
+      "verified": true,
+      "evidence": {
+        "asset": "SUI",
+        "usd": 0.8356350601048985,
+        "pools": [
+          "0xb8d7d9e66a60c239e7a60110efcf8de6c705580ed924d0dde141f4a0e2c90105"
+        ],
+        "checkpoint": "343747687",
+        "timestamp": "2026-11-10T14:45:09.525Z",
+        "source": "Cetus pool state on Sui Mainnet, read via Tatum gRPC",
+        "target": 0.83602,
+        "direction": "above"
+      }
+    },
+    {
+      "id": "a8d6a730-e2e1-4e37-9140-a676b52fc17b",
+      "subject": "SUI below $0.8664",
+      "category": "Crypto",
+      "event": "by 14:34 UTC",
+      "reason": "Price barely moves in a minute, so it should stay under a 5% jump",
+      "odds": 1.9,
+      "confidence": 0.7,
+      "marketProb": 0.5263157894736842,
+      "crypto": {
+        "asset": "SUI",
+        "direction": "below",
+        "target": 0.8664,
+        "deadline": "2026-11-10T14:34:34.691Z",
+        "startPrice": 0.8251428510327286
+      },
+      "oddsSource": {
+        "kind": "manual",
+        "note": "your own price for this crypto call"
+      },
+      "createdAt": "2026-11-10T14:33:36.630Z",
+      "status": "won",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343744811",
+        "timestamp": "2026-11-10T14:33:34.467Z",
+        "digest": "3zpa7JzUhLAfHytMYdNRRVCi7XyVvreBSnXaZxVjTnND"
+      },
+      "coach": {
+        "adjusted": 0.3628823529411764,
+        "verdict": "Corrected for your bias, the market is more right than you. Pass or size down."
+      },
+      "settledAt": "2026-11-10T14:34:39.445Z",
+      "verified": true,
+      "evidence": {
+        "asset": "SUI",
+        "usd": 0.8290384603222405,
+        "pools": [
+          "0xb8d7d9e66a60c239e7a60110efcf8de6c705580ed924d0dde141f4a0e2c90105"
+        ],
+        "checkpoint": "343745076",
+        "timestamp": "2026-11-10T14:34:38.099Z",
+        "source": "Cetus pool state on Sui Mainnet, read via Tatum gRPC",
+        "target": 0.8664,
+        "direction": "below"
+      }
+    },
+    {
+      "id": "2fd42175-a6c1-47b5-b576-36bffd1a0447",
+      "subject": "SUI above $0.8664",
+      "category": "Crypto",
+      "event": "by 14:34 UTC",
+      "reason": "SUI always pumps when my timeline is bullish, it is due",
+      "odds": 1.9,
+      "confidence": 0.7,
+      "marketProb": 0.5263157894736842,
+      "crypto": {
+        "asset": "SUI",
+        "direction": "above",
+        "target": 0.8664,
+        "deadline": "2026-11-10T14:34:32.731Z",
+        "startPrice": 0.8251428510327286
+      },
+      "oddsSource": {
+        "kind": "manual",
+        "note": "your own price for this crypto call"
+      },
+      "createdAt": "2026-11-10T14:33:34.682Z",
+      "status": "lost",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343744803",
+        "timestamp": "2026-11-10T14:33:32.481Z",
+        "digest": "Fc558Wx9vKnycTCGXrxrGz6pDMoYJwheP465mW12tJbS"
+      },
+      "coach": {
+        "adjusted": 0.3628823529411764,
+        "verdict": "Corrected for your bias, the market is more right than you. Pass or size down."
+      },
+      "settledAt": "2026-11-10T14:34:40.613Z",
+      "verified": true,
+      "evidence": {
+        "asset": "SUI",
+        "usd": 0.8290384603222405,
+        "pools": [
+          "0xb8d7d9e66a60c239e7a60110efcf8de6c705580ed924d0dde141f4a0e2c90105"
+        ],
+        "checkpoint": "343745081",
+        "timestamp": "2026-11-10T14:34:39.348Z",
+        "source": "Cetus pool state on Sui Mainnet, read via Tatum gRPC",
+        "target": 0.8664,
+        "direction": "above"
+      }
+    },
+    {
+      "id": "fa8aecc7-7833-4046-ae7b-6a07e56596c8",
+      "subject": "Gauff",
+      "category": "Tennis",
+      "event": "Gauff vs Pegula (demo)",
+      "reason": "Going with my gut to win back the NBA losses",
+      "odds": 1.9,
+      "confidence": 0.58,
+      "marketProb": 0.5263157894736842,
+      "oddsSource": {
+        "kind": "manual"
+      },
+      "createdAt": "2026-11-10T14:33:31.765Z",
+      "status": "lost",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343744792",
+        "timestamp": "2026-11-10T14:33:29.744Z",
+        "digest": "DVk3NcDZnvRAmpGZNPrFCnHQyTjJ4LJm4nFmwktqLpXY"
+      },
+      "coach": {
+        "adjusted": 0.712952380952381,
+        "verdict": "Your edge survives the correction: 71% vs market 53%."
+      },
+      "settledAt": "2026-11-10T14:33:31.769Z",
+      "verified": false,
+      "evidence": {
+        "source": "self-reported by the user (unverified)"
+      }
+    },
+    {
+      "id": "9ce1b1b4-aff2-4496-926b-6488f390fed6",
+      "subject": "Nuggets",
+      "category": "NBA",
+      "event": "Nuggets vs Warriors (demo)",
+      "reason": "Down this week so I need a big win, the odds are juicy",
+      "odds": 2.5,
+      "confidence": 0.74,
+      "marketProb": 0.4,
+      "oddsSource": {
+        "kind": "manual"
+      },
+      "createdAt": "2026-11-10T14:33:30.658Z",
+      "status": "lost",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343744789",
+        "timestamp": "2026-11-10T14:33:28.971Z",
+        "digest": "61gEvxdD9VV8yJ65eRRnsXdKvKgb2breiKUMdAbNTDo"
+      },
+      "coach": {
+        "adjusted": 0.5062261904761904,
+        "verdict": "Your edge survives the correction: 51% vs market 40%."
+      },
+      "settledAt": "2026-11-10T14:33:30.664Z",
+      "verified": false,
+      "evidence": {
+        "source": "self-reported by the user (unverified)"
+      }
+    },
+    {
+      "id": "fbe2a1a0-35aa-4e2a-8f5b-ff27849f2903",
+      "subject": "Arsenal",
+      "category": "Football",
+      "event": "Arsenal vs Spurs (demo)",
+      "reason": "Derby day, Arsenal are in brilliant form and it is our year",
+      "odds": 1.95,
+      "confidence": 0.8,
+      "marketProb": 0.5128205128205129,
+      "oddsSource": {
+        "kind": "manual"
+      },
+      "createdAt": "2026-11-10T14:33:29.526Z",
+      "status": "lost",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343744782",
+        "timestamp": "2026-11-10T14:33:27.214Z",
+        "digest": "2CAQUCBG8yvzHHZTPwDXZMbdXDsd3xj51u6StXbnoMx8"
+      },
+      "coach": {
+        "adjusted": 0.49830357142857146,
+        "verdict": "After correcting for your bias there is no real edge here."
+      },
+      "settledAt": "2026-11-10T14:33:29.534Z",
+      "verified": false,
+      "evidence": {
+        "source": "self-reported by the user (unverified)"
+      }
+    },
+    {
+      "id": "cda1c46f-c5ae-4ea6-9764-46712ff19bcd",
+      "subject": "Swiatek",
+      "category": "Tennis",
+      "event": "Swiatek vs Sabalenka (demo)",
+      "reason": "Swiatek break point conversion is far higher on this surface",
+      "odds": 1.65,
+      "confidence": 0.6,
+      "marketProb": 0.6060606060606061,
+      "oddsSource": {
+        "kind": "manual"
+      },
+      "createdAt": "2026-11-10T14:33:27.958Z",
+      "status": "won",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343744778",
+        "timestamp": "2026-11-10T14:33:26.208Z",
+        "digest": "C6bYJW8HD9rDe6MRtJUuD5ymrjsAdrJtdPFmyP7h9JYb"
+      },
+      "coach": {
+        "adjusted": 0.7783333333333333,
+        "verdict": "Your edge survives the correction: 78% vs market 61%."
+      },
+      "settledAt": "2026-11-10T14:33:27.967Z",
+      "verified": false,
+      "evidence": {
+        "source": "self-reported by the user (unverified)"
+      }
+    },
+    {
+      "id": "22818e9c-7d8b-4217-8014-0d8082dea6fa",
+      "subject": "Arsenal",
+      "category": "Football",
+      "event": "Arsenal vs Fulham (demo)",
+      "reason": "Fulham have injuries in defence and Arsenal create the most chances in the league",
+      "odds": 1.75,
+      "confidence": 0.78,
+      "marketProb": 0.5714285714285714,
+      "oddsSource": {
+        "kind": "manual"
+      },
+      "createdAt": "2026-11-10T14:33:26.829Z",
+      "status": "won",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343744773",
+        "timestamp": "2026-11-10T14:33:24.945Z",
+        "digest": "Awt3xJ1P4ujDmofjPEGo4vtyFXmeNA7VfhCNvFvuRp6b"
+      },
+      "coach": {
+        "adjusted": 0.37857142857142867,
+        "verdict": "Corrected for your bias, the market is more right than you. Pass or size down."
+      },
+      "settledAt": "2026-11-10T14:33:26.837Z",
+      "verified": false,
+      "evidence": {
+        "source": "self-reported by the user (unverified)"
+      }
+    },
+    {
+      "id": "bd4e0032-2a60-4f08-ab9e-dcf86f957bb8",
+      "subject": "Alcaraz",
+      "category": "Tennis",
+      "event": "Alcaraz vs Zverev (demo)",
+      "reason": "Alcaraz has the better first serve stats and 4-1 on clay head to head",
+      "odds": 1.5,
+      "confidence": 0.66,
+      "marketProb": 0.6666666666666666,
+      "oddsSource": {
+        "kind": "manual"
+      },
+      "createdAt": "2026-11-10T14:33:25.693Z",
+      "status": "won",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343744768",
+        "timestamp": "2026-11-10T14:33:23.720Z",
+        "digest": "CnMPcy2onyroGgDwKpDWMfQm51rsdv15DZ9KCYhASzuJ"
+      },
+      "coach": {
+        "adjusted": 0.3238961038961039,
+        "verdict": "Corrected for your bias, the market is more right than you. Pass or size down."
+      },
+      "settledAt": "2026-11-10T14:33:25.701Z",
+      "verified": false,
+      "evidence": {
+        "source": "self-reported by the user (unverified)"
+      }
+    },
+    {
+      "id": "b9be76fc-bbdb-4a21-a8b0-fb5c882bde08",
+      "subject": "Liverpool",
+      "category": "Football",
+      "event": "Liverpool vs City (demo)",
+      "reason": "I have to make up for the last loss, Liverpool at a big price",
+      "odds": 2.8,
+      "confidence": 0.72,
+      "marketProb": 0.35714285714285715,
+      "oddsSource": {
+        "kind": "manual"
+      },
+      "createdAt": "2026-11-10T14:33:24.541Z",
+      "status": "lost",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343744759",
+        "timestamp": "2026-11-10T14:33:21.642Z",
+        "digest": "6JPcTqJfEpieiVCfZWYFUBQdSmPmseKghZhF2edfPxH5"
+      },
+      "coach": {
+        "adjusted": 0.44399999999999995,
+        "verdict": "Your edge survives the correction: 44% vs market 36%."
+      },
+      "settledAt": "2026-11-10T14:33:24.550Z",
+      "verified": false,
+      "evidence": {
+        "source": "self-reported by the user (unverified)"
+      }
+    },
+    {
+      "id": "32f9e100-8724-4eb9-858e-0339a95eda3c",
+      "subject": "Arsenal",
+      "category": "Football",
+      "event": "Arsenal vs Newcastle (demo)",
+      "reason": "Great form, revenge game, they owe us one",
+      "odds": 1.8,
+      "confidence": 0.85,
+      "marketProb": 0.5555555555555556,
+      "oddsSource": {
+        "kind": "manual"
+      },
+      "createdAt": "2026-11-10T14:33:22.825Z",
+      "status": "lost",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343744756",
+        "timestamp": "2026-11-10T14:33:20.957Z",
+        "digest": "GFvTBQn45uEALry5nKfoiASLTBSWNvyDF5qojFVemk6x"
+      },
+      "coach": {
+        "adjusted": 0.726,
+        "verdict": "Your edge survives the correction: 73% vs market 56%."
+      },
+      "settledAt": "2026-11-10T14:33:22.832Z",
+      "verified": false,
+      "evidence": {
+        "source": "self-reported by the user (unverified)"
+      }
+    },
+    {
+      "id": "d6925da4-9178-48d4-b28b-342041116673",
+      "subject": "Sinner",
+      "category": "Tennis",
+      "event": "Sinner vs Rune (demo)",
+      "reason": "Sinner wins 70% of return points against lefties, stats favour him",
+      "odds": 1.6,
+      "confidence": 0.62,
+      "marketProb": 0.625,
+      "oddsSource": {
+        "kind": "manual"
+      },
+      "createdAt": "2026-11-10T14:33:21.714Z",
+      "status": "won",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343744752",
+        "timestamp": "2026-11-10T14:33:19.981Z",
+        "digest": "NczEV41xTdTLRmDuewGZGZxXkC3ZU7vkXcNj2BMvQJU"
+      },
+      "coach": {
+        "adjusted": 0.29500000000000004,
+        "verdict": "Corrected for your bias, the market is more right than you. Pass or size down."
+      },
+      "settledAt": "2026-11-10T14:33:21.722Z",
+      "verified": false,
+      "evidence": {
+        "source": "self-reported by the user (unverified)"
+      }
+    },
+    {
+      "id": "52693e02-d115-4bba-8638-ee7116b56a6d",
+      "subject": "Celtics",
+      "category": "NBA",
+      "event": "Celtics vs Bucks (demo)",
+      "reason": "Chasing it back, the long price feels like a steal tonight",
+      "odds": 2.6,
+      "confidence": 0.78,
+      "marketProb": 0.3846153846153846,
+      "oddsSource": {
+        "kind": "manual"
+      },
+      "createdAt": "2026-11-10T14:33:20.548Z",
+      "status": "lost",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343744746",
+        "timestamp": "2026-11-10T14:33:18.593Z",
+        "digest": "GB8JX2JbBCNrEqrap2pf8VNJLD4MMNDmnaz4uiR2vDk"
+      },
+      "coach": {
+        "adjusted": 0.6342857142857143,
+        "verdict": "Your edge survives the correction: 63% vs market 38%."
+      },
+      "settledAt": "2026-11-10T14:33:20.558Z",
+      "verified": false,
+      "evidence": {
+        "source": "self-reported by the user (unverified)"
+      }
+    },
+    {
+      "id": "6490c536-b8c3-4c33-a03b-249a29d0c906",
+      "subject": "Lakers",
+      "category": "NBA",
+      "event": "Lakers vs Suns (demo)",
+      "reason": "Need to win back what I lost on Arsenal, big odds are value",
+      "odds": 2.4,
+      "confidence": 0.75,
+      "marketProb": 0.4166666666666667,
+      "oddsSource": {
+        "kind": "manual"
+      },
+      "createdAt": "2026-11-10T14:33:19.337Z",
+      "status": "lost",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343744741",
+        "timestamp": "2026-11-10T14:33:17.361Z",
+        "digest": "HWzGcX6gcDDqntV6f5vrRJbz5buj7KM7pTvihCmZTcQN"
+      },
+      "coach": {
+        "adjusted": 0.705,
+        "verdict": "Your edge survives the correction: 71% vs market 42%."
+      },
+      "settledAt": "2026-11-10T14:33:19.346Z",
+      "verified": false,
+      "evidence": {
+        "source": "self-reported by the user (unverified)"
+      }
+    },
+    {
+      "id": "2262872c-3435-4e67-8e4d-48830c6dbdaa",
+      "subject": "Arsenal",
+      "category": "Football",
+      "event": "Arsenal vs Villa (demo)",
+      "reason": "Arsenal are flying right now, they are due a big win",
+      "odds": 1.9,
+      "confidence": 0.82,
+      "marketProb": 0.5263157894736842,
+      "oddsSource": {
+        "kind": "manual"
+      },
+      "createdAt": "2026-11-10T14:33:18.040Z",
+      "status": "lost",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343744735",
+        "timestamp": "2026-11-10T14:33:15.845Z",
+        "digest": "GFmN5hQyZhmmiNo7tkBmnGeUwZSJgM1eLjS6kQz8VCxG"
+      },
+      "coach": {
+        "adjusted": 0.82,
+        "verdict": "Your edge survives the correction: 82% vs market 53%."
+      },
+      "settledAt": "2026-11-10T14:33:18.050Z",
+      "verified": false,
+      "evidence": {
+        "source": "self-reported by the user (unverified)"
+      }
+    },
+    {
+      "id": "9376414f-20c5-44c3-bfd4-439e5eff8b9e",
+      "subject": "Djokovic",
+      "category": "Tennis",
+      "event": "Djokovic vs Fritz (demo)",
+      "reason": "Djokovic is 9-0 head to head and holds serve 90% on hard courts",
+      "odds": 1.55,
+      "confidence": 0.65,
+      "marketProb": 0.6451612903225806,
+      "oddsSource": {
+        "kind": "manual"
+      },
+      "createdAt": "2026-11-10T14:33:16.718Z",
+      "status": "won",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343744701",
+        "timestamp": "2026-11-10T14:33:07.576Z",
+        "digest": "EJE7s6EUydcy1nfeqtDtHdJH7V7TTx8YVD15GTgfsMHc"
+      },
+      "coach": {
+        "adjusted": 0.65,
+        "verdict": "After correcting for your bias there is no real edge here."
+      },
+      "settledAt": "2026-11-10T14:33:16.731Z",
+      "verified": false,
+      "evidence": {
+        "source": "self-reported by the user (unverified)"
+      }
+    },
+    {
+      "id": "ab899ce2-00a0-4f1e-9210-d9c1badcdf54",
+      "subject": "Arsenal",
+      "category": "Football",
+      "event": "Arsenal vs Brighton (demo)",
+      "reason": "Arsenal are on great form and the home crowd will carry them",
+      "odds": 1.7,
+      "confidence": 0.8,
+      "marketProb": 0.5882352941176471,
+      "oddsSource": {
+        "kind": "manual"
+      },
+      "createdAt": "2026-11-10T14:33:08.212Z",
+      "status": "won",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343744693",
+        "timestamp": "2026-11-10T14:33:05.657Z",
+        "digest": "6UZzhKxwBvkmU8r8FSeR9t8wa6vpFLBzhVryAy9TnRxw"
+      },
+      "coach": {
+        "adjusted": 0.8,
+        "verdict": "No history yet. Log and settle a few picks so I can learn your blind spots."
+      },
+      "settledAt": "2026-11-10T14:33:08.239Z",
+      "verified": false,
+      "evidence": {
+        "source": "self-reported by the user (unverified)"
+      }
+    }
+  ],
+  "memories": [
+    {
+      "id": "iKsovPZigCe6y2s-wqRsl_M9dq7cA7UpTFAqsrL0xaU",
+      "kind": "pick",
+      "sentence": "Gut Check pick logged: I backed Real Madrid CF Femenino in Will Real Madrid CF Femenino win on 2026-11-10? (Football) at 70% confidence. Polymarket implied 70% (odds 1.439). Why: Home side has won 8 of the last 10 at home and the market underrates them. Commitment sha256 b6ad629f3950890e4994b065e5c88dd6e0d16eae7cfca1556f6582140223fae9, Sui checkpoint digest HcfqMkHdmZbwrDseYfPveRx1cZLSvWzoDCzp3CuEfdco. Coach said 39%. Sealed at Sui checkpoint 343748796.",
+      "status": "stored",
+      "blob_id": "iKsovPZigCe6y2s-wqRsl_M9dq7cA7UpTFAqsrL0xaU",
+      "at": "2026-11-10T14:49:41.621Z"
+    },
+    {
+      "id": "iwdOPJTBqTbnYspkClhzej-CPv28ad67mhBrLrL45sU",
+      "kind": "result",
+      "sentence": "Gut Check result settled: my pick on WAL below $0.028205 (by 14:48 UTC) won. I had said 61%. Verified onchain: WAL was $0.0281 at Sui checkpoint 343748550 (target below $0.028205).",
+      "status": "stored",
+      "blob_id": "iwdOPJTBqTbnYspkClhzej-CPv28ad67mhBrLrL45sU",
+      "at": "2026-11-10T14:48:40.232Z"
+    },
+    {
+      "id": "WUF7KvXYI7V8sLhe3a6fCnNUh2dhcjZbCrnumqEQ5cE",
+      "kind": "lesson",
+      "sentence": "Gut Check coach learned a lesson about my bias: You are overconfident on Crypto. Crypto: confidence 70% vs hit rate 56% (9 picks).",
+      "status": "stored",
+      "blob_id": "WUF7KvXYI7V8sLhe3a6fCnNUh2dhcjZbCrnumqEQ5cE",
+      "at": "2026-11-10T14:48:25.430Z"
+    },
+    {
+      "id": "yv3nEe5QfPmLxXsPc7EQb4H9IAsuN1roiJ8YjQfOfEU",
+      "kind": "result",
+      "sentence": "Gut Check result settled: my pick on WAL above $0.028121 (by 14:48 UTC) lost. I had said 74%. Verified onchain: WAL was $0.0281 at Sui checkpoint 343748489 (target above $0.028121).",
+      "status": "stored",
+      "blob_id": "yv3nEe5QfPmLxXsPc7EQb4H9IAsuN1roiJ8YjQfOfEU",
+      "at": "2026-11-10T14:48:25.428Z"
+    },
+    {
+      "id": "TpkcJ9oIfjQ0ZoYwMEQX6wuxCcMy5wLdKIMwCKH8_gA",
+      "kind": "result",
+      "sentence": "Gut Check result settled: my pick on SUI above $0.83589 (by 14:47 UTC) lost. I had said 78%. Verified onchain: SUI was $0.8357 at Sui checkpoint 343748244 (target above $0.83589).",
+      "status": "stored",
+      "blob_id": "TpkcJ9oIfjQ0ZoYwMEQX6wuxCcMy5wLdKIMwCKH8_gA",
+      "at": "2026-11-10T14:47:26.150Z"
+    },
+    {
+      "id": "UL61l6uvjnWHyJW2bPiQ3yMNzRXUucRlVvY7Aw-Vj6Y",
+      "kind": "result",
+      "sentence": "Gut Check result settled: my pick on SUI below $0.83673 (by 14:47 UTC) won. I had said 63%. Verified onchain: SUI was $0.8357 at Sui checkpoint 343748238 (target below $0.83673).",
+      "status": "stored",
+      "blob_id": "UL61l6uvjnWHyJW2bPiQ3yMNzRXUucRlVvY7Aw-Vj6Y",
+      "at": "2026-11-10T14:47:24.990Z"
+    },
+    {
+      "id": "XjyMIhniY3AMHDyOHVXDwub4UnZQy31IGTmC5jEiS0U",
+      "kind": "lesson",
+      "sentence": "Gut Check coach learned a lesson about my bias: You are sharp on Crypto. Crypto: confidence 69% vs hit rate 67% (6 picks).",
+      "status": "stored",
+      "blob_id": "XjyMIhniY3AMHDyOHVXDwub4UnZQy31IGTmC5jEiS0U",
+      "at": "2026-11-10T14:46:25.459Z"
+    },
+    {
+      "id": "WrnCVmYHqerHIIZe0j0NOMTS1Cktu8ZCBY-t7Cn8o7c",
+      "kind": "result",
+      "sentence": "Gut Check result settled: my pick on WAL below $0.028177 (by 14:46 UTC) won. I had said 62%. Verified onchain: WAL was $0.0281 at Sui checkpoint 343747995 (target below $0.028177).",
+      "status": "stored",
+      "blob_id": "WrnCVmYHqerHIIZe0j0NOMTS1Cktu8ZCBY-t7Cn8o7c",
+      "at": "2026-11-10T14:46:25.456Z"
+    },
+    {
+      "id": "9ar29oF7DQ2Clf_3A3vQVuf3eA9ccuMfbLy-QuCYTF0",
+      "kind": "result",
+      "sentence": "Gut Check result settled: my pick on WAL above $0.028107 (by 14:46 UTC) won. I had said 75%. Verified onchain: WAL was $0.0281 at Sui checkpoint 343747932 (target above $0.028107).",
+      "status": "stored",
+      "blob_id": "9ar29oF7DQ2Clf_3A3vQVuf3eA9ccuMfbLy-QuCYTF0",
+      "at": "2026-11-10T14:46:10.187Z"
+    },
+    {
+      "id": "4g4AA0EMtHwQhdJ5_6vVNjY_0_t7OV8pUiIHDFvaJfs",
+      "kind": "lesson",
+      "sentence": "Gut Check coach learned a lesson about my bias: You are overconfident on Crypto. Crypto: confidence 69% vs hit rate 50% (4 picks).",
+      "status": "stored",
+      "blob_id": "4g4AA0EMtHwQhdJ5_6vVNjY_0_t7OV8pUiIHDFvaJfs",
+      "at": "2026-11-10T14:45:10.893Z"
+    },
+    {
+      "id": "BSj_a-edpIh3VRKF7mHM04CVLGLbSwjioctxICCvKFE",
+      "kind": "result",
+      "sentence": "Gut Check result settled: my pick on SUI above $0.83602 (by 14:44 UTC) lost. I had said 72%. Verified onchain: SUI was $0.8356 at Sui checkpoint 343747687 (target above $0.83602).",
+      "status": "stored",
+      "blob_id": "BSj_a-edpIh3VRKF7mHM04CVLGLbSwjioctxICCvKFE",
+      "at": "2026-11-10T14:45:10.891Z"
+    },
+    {
+      "id": "lTDocPz_yD82dhrB19i5wxY7jYeXdos1fCUY35WU65o",
+      "kind": "lesson",
+      "sentence": "Gut Check coach learned a lesson about my bias: You are sharp on Crypto. Crypto: confidence 68% vs hit rate 67% (3 picks).",
+      "status": "stored",
+      "blob_id": "lTDocPz_yD82dhrB19i5wxY7jYeXdos1fCUY35WU65o",
+      "at": "2026-11-10T14:45:09.722Z"
+    },
+    {
+      "id": "sbV9stHJJoObgMQE6O6UFKNHd7PKlB8Rh4Fx19LlRiY",
+      "kind": "result",
+      "sentence": "Gut Check result settled: my pick on SUI below $0.83686 (by 14:45 UTC) won. I had said 64%. Verified onchain: SUI was $0.8356 at Sui checkpoint 343747682 (target below $0.83686).",
+      "status": "stored",
+      "blob_id": "sbV9stHJJoObgMQE6O6UFKNHd7PKlB8Rh4Fx19LlRiY",
+      "at": "2026-11-10T14:45:09.720Z"
+    },
+    {
+      "id": "B38Ki4BrXQDGaPXpyfzIWGRQiZRsW6CVZhDmKF2fYD8",
+      "kind": "pick",
+      "sentence": "Gut Check pick logged: I backed WAL below $0.028205 in by 14:48 UTC (Crypto) at 61% confidence. My own typed odds implied 59% (odds 1.7). WAL was $0.0281 onchain when I called it. Why: A 0.4% move in 6 minutes is outside normal range for this pool. Coach said 10%. Sealed at Sui checkpoint 343747019.",
+      "status": "stored",
+      "blob_id": "B38Ki4BrXQDGaPXpyfzIWGRQiZRsW6CVZhDmKF2fYD8",
+      "at": "2026-11-10T14:42:30.867Z"
+    },
+    {
+      "id": "Fm6KqeSzfcYOaZZNmcvOqC-8KEnfokan4OFKMvaHJ7Y",
+      "kind": "pick",
+      "sentence": "Gut Check pick logged: I backed WAL above $0.028121 in by 14:48 UTC (Crypto) at 74% confidence. My own typed odds implied 50% (odds 2). WAL was $0.0281 onchain when I called it. Why: Big week for Walrus, it has to go up. Coach said 17%. Sealed at Sui checkpoint 343747000.",
+      "status": "stored",
+      "blob_id": "Fm6KqeSzfcYOaZZNmcvOqC-8KEnfokan4OFKMvaHJ7Y",
+      "at": "2026-11-10T14:42:26.111Z"
+    },
+    {
+      "id": "imxEcs2637qoXrwULwN6u8_mHB9W6tTapAKm9-eaf8g",
+      "kind": "pick",
+      "sentence": "Gut Check pick logged: I backed SUI below $0.83673 in by 14:47 UTC (Crypto) at 63% confidence. My own typed odds implied 57% (odds 1.75). SUI was $0.8351 onchain when I called it. Why: Short window and low volatility, price should stay under a 0.2% move. Coach said 16%. Sealed at Sui checkpoint 343746984.",
+      "status": "stored",
+      "blob_id": "imxEcs2637qoXrwULwN6u8_mHB9W6tTapAKm9-eaf8g",
+      "at": "2026-11-10T14:42:21.632Z"
+    },
+    {
+      "id": "RBSz8lqgS4pv23LKi9dxQDampOUdK0TvC-tOQVUkH3A",
+      "kind": "pick",
+      "sentence": "Gut Check pick logged: I backed SUI above $0.83589 in by 14:47 UTC (Crypto) at 78% confidence. My own typed odds implied 50% (odds 2). SUI was $0.8351 onchain when I called it. Why: Feels like breakout time, momentum is building, it owes us. Coach said 16%. Sealed at Sui checkpoint 343746967.",
+      "status": "stored",
+      "blob_id": "RBSz8lqgS4pv23LKi9dxQDampOUdK0TvC-tOQVUkH3A",
+      "at": "2026-11-10T14:42:17.643Z"
+    },
+    {
+      "id": "pFYsB6CondhA0_uvVDOhiz26y3H4Zrunk340xkOqrLU",
+      "kind": "pick",
+      "sentence": "Gut Check pick logged: I backed WAL below $0.028177 in by 14:46 UTC (Crypto) at 62% confidence. My own typed odds implied 59% (odds 1.7). WAL was $0.0281 onchain when I called it. Why: WAL rarely moves 0.3% in a few minutes, mean reversion favours under. Coach said 19%. Sealed at Sui checkpoint 343746953.",
+      "status": "stored",
+      "blob_id": "pFYsB6CondhA0_uvVDOhiz26y3H4Zrunk340xkOqrLU",
+      "at": "2026-11-10T14:42:13.775Z"
+    },
+    {
+      "id": "x4UTR9DjZmyAR09LgkB_D6PS7jXeXiAH0QzfkqZ7olE",
+      "kind": "pick",
+      "sentence": "Gut Check pick logged: I backed WAL above $0.028107 in by 14:46 UTC (Crypto) at 75% confidence. My own typed odds implied 53% (odds 1.9). WAL was $0.0281 onchain when I called it. Why: WAL is going to rip, everyone is talking about Walrus today. Coach said 43%. Sealed at Sui checkpoint 343746935.",
+      "status": "stored",
+      "blob_id": "x4UTR9DjZmyAR09LgkB_D6PS7jXeXiAH0QzfkqZ7olE",
+      "at": "2026-11-10T14:42:09.751Z"
+    },
+    {
+      "id": "zxXj1i1vjDNa1QWno0Fsbbz2WYoGHl_HuZuVCgxdIeY",
+      "kind": "pick",
+      "sentence": "Gut Check pick logged: I backed SUI below $0.83686 in by 14:45 UTC (Crypto) at 64% confidence. My own typed odds implied 56% (odds 1.8). SUI was $0.8353 onchain when I called it. Why: Spot is flat and liquidity is deep, a 0.15% jump in 3 minutes is unlikely. Coach said 21%. Sealed at Sui checkpoint 343746913.",
+      "status": "stored",
+      "blob_id": "zxXj1i1vjDNa1QWno0Fsbbz2WYoGHl_HuZuVCgxdIeY",
+      "at": "2026-11-10T14:42:05.334Z"
+    },
+    {
+      "id": "D4d_NQCXv2Mp7-_mrnNCE39dpVNoi2xz1mkd4AOZ-aM",
+      "kind": "pick",
+      "sentence": "Gut Check pick logged: I backed SUI above $0.83602 in by 14:44 UTC (Crypto) at 72% confidence. My own typed odds implied 53% (odds 1.9). SUI was $0.8356 onchain when I called it. Why: SUI always pumps when my timeline is bullish, it is due a move. Coach said 26%. Sealed at Sui checkpoint 343746901.",
+      "status": "stored",
+      "blob_id": "D4d_NQCXv2Mp7-_mrnNCE39dpVNoi2xz1mkd4AOZ-aM",
+      "at": "2026-11-10T14:42:00.909Z"
+    },
+    {
+      "id": "K4zzMezHa1KJ7uPFX8AxBAgcf08e8cX8PG7WE4xil2U",
+      "kind": "result",
+      "sentence": "Gut Check result settled: my pick on SUI above $0.8664 (by 14:34 UTC) lost. I had said 70%. Verified onchain: SUI was $0.8290 at Sui checkpoint 343745081 (target above $0.8664).",
+      "status": "stored",
+      "blob_id": "K4zzMezHa1KJ7uPFX8AxBAgcf08e8cX8PG7WE4xil2U",
+      "at": "2026-11-10T14:34:40.613Z"
+    },
+    {
+      "id": "omb2IuaksUT4iB1Fa35Rn350HQcYwZTUp02o3n_JDME",
+      "kind": "result",
+      "sentence": "Gut Check result settled: my pick on SUI below $0.8664 (by 14:34 UTC) won. I had said 70%. Verified onchain: SUI was $0.8290 at Sui checkpoint 343745076 (target below $0.8664).",
+      "status": "stored",
+      "blob_id": "omb2IuaksUT4iB1Fa35Rn350HQcYwZTUp02o3n_JDME",
+      "at": "2026-11-10T14:34:39.445Z"
+    },
+    {
+      "id": "QKVa5_gdjqLRWcPKEdkfkiN6qpUhCybKr4JQHPU_uEI",
+      "kind": "pick",
+      "sentence": "Gut Check pick logged: I backed SUI below $0.8664 in by 14:34 UTC (Crypto) at 70% confidence. My own typed odds implied 53% (odds 1.9). SUI was $0.8251 onchain when I called it. Why: Price barely moves in a minute, so it should stay under a 5% jump. Coach said 36%. Sealed at Sui checkpoint 343744811.",
+      "status": "stored",
+      "blob_id": "QKVa5_gdjqLRWcPKEdkfkiN6qpUhCybKr4JQHPU_uEI",
+      "at": "2026-11-10T14:33:36.630Z"
+    },
+    {
+      "id": "v5rLupXdb7QwvswKcP9k1POKKSziKOROiTVxkP3DCDY",
+      "kind": "pick",
+      "sentence": "Gut Check pick logged: I backed SUI above $0.8664 in by 14:34 UTC (Crypto) at 70% confidence. My own typed odds implied 53% (odds 1.9). SUI was $0.8251 onchain when I called it. Why: SUI always pumps when my timeline is bullish, it is due. Coach said 36%. Sealed at Sui checkpoint 343744803.",
+      "status": "stored",
+      "blob_id": "v5rLupXdb7QwvswKcP9k1POKKSziKOROiTVxkP3DCDY",
+      "at": "2026-11-10T14:33:34.682Z"
+    },
+    {
+      "id": "VmuFJjfB6oV_vtZ0X-zsyYN0YJAnYIqdnbwJPY_-iKo",
+      "kind": "result",
+      "sentence": "Gut Check result settled: my pick on Gauff (Gauff vs Pegula (demo)) lost. I had said 58%. Self-reported, unverified.",
+      "status": "stored",
+      "blob_id": "VmuFJjfB6oV_vtZ0X-zsyYN0YJAnYIqdnbwJPY_-iKo",
+      "at": "2026-11-10T14:33:31.769Z"
+    },
+    {
+      "id": "LB4zgmUSoUtjOlTaF5cOcmb19G9YL7yMp9-3lj7_AOI",
+      "kind": "pick",
+      "sentence": "Gut Check pick logged: I backed Gauff in Gauff vs Pegula (demo) (Tennis) at 58% confidence. My own typed odds implied 53% (odds 1.9). Why: Going with my gut to win back the NBA losses. Coach said 71%. Sealed at Sui checkpoint 343744792.",
+      "status": "stored",
+      "blob_id": "LB4zgmUSoUtjOlTaF5cOcmb19G9YL7yMp9-3lj7_AOI",
+      "at": "2026-11-10T14:33:31.765Z"
+    },
+    {
+      "id": "yGl9a0uVfa3--2riIyvjQB3aDWgAyuf9ApM7vdvS9hU",
+      "kind": "lesson",
+      "sentence": "Gut Check coach learned a lesson about my bias: You are overconfident on NBA. NBA: confidence 76% vs hit rate 0% (3 picks).",
+      "status": "stored",
+      "blob_id": "yGl9a0uVfa3--2riIyvjQB3aDWgAyuf9ApM7vdvS9hU",
+      "at": "2026-11-10T14:33:30.664Z"
+    },
+    {
+      "id": "3cboh1T0QFd5_KfuTlImk1_9iDPju77yE0E-pKfKJj0",
+      "kind": "result",
+      "sentence": "Gut Check result settled: my pick on Nuggets (Nuggets vs Warriors (demo)) lost. I had said 74%. Self-reported, unverified.",
+      "status": "stored",
+      "blob_id": "3cboh1T0QFd5_KfuTlImk1_9iDPju77yE0E-pKfKJj0",
+      "at": "2026-11-10T14:33:30.664Z"
+    },
+    {
+      "id": "vx8KXRE8mHpbuvfwQiU0VF8zvQ7SL2US60V40NZemtw",
+      "kind": "pick",
+      "sentence": "Gut Check pick logged: I backed Nuggets in Nuggets vs Warriors (demo) (NBA) at 74% confidence. My own typed odds implied 40% (odds 2.5). Why: Down this week so I need a big win, the odds are juicy. Coach said 51%. Sealed at Sui checkpoint 343744789.",
+      "status": "stored",
+      "blob_id": "vx8KXRE8mHpbuvfwQiU0VF8zvQ7SL2US60V40NZemtw",
+      "at": "2026-11-10T14:33:30.658Z"
+    },
+    {
+      "id": "SXvXBDacHi8iEonriueTMnM-YDt8cB1yiyWxwqF6zkQ",
+      "kind": "result",
+      "sentence": "Gut Check result settled: my pick on Arsenal (Arsenal vs Spurs (demo)) lost. I had said 80%. Self-reported, unverified.",
+      "status": "stored",
+      "blob_id": "SXvXBDacHi8iEonriueTMnM-YDt8cB1yiyWxwqF6zkQ",
+      "at": "2026-11-10T14:33:29.534Z"
+    },
+    {
+      "id": "sBnlg_SV360INMTGRoapErhThiiVXG3pRqpvveqpCe0",
+      "kind": "pick",
+      "sentence": "Gut Check pick logged: I backed Arsenal in Arsenal vs Spurs (demo) (Football) at 80% confidence. My own typed odds implied 51% (odds 1.95). Why: Derby day, Arsenal are in brilliant form and it is our year. Coach said 50%. Sealed at Sui checkpoint 343744782.",
+      "status": "stored",
+      "blob_id": "sBnlg_SV360INMTGRoapErhThiiVXG3pRqpvveqpCe0",
+      "at": "2026-11-10T14:33:29.526Z"
+    },
+    {
+      "id": "16ohaBYrWBVRDTNctsX84wrK4dUtUqSflWBgFwowg3U",
+      "kind": "result",
+      "sentence": "Gut Check result settled: my pick on Swiatek (Swiatek vs Sabalenka (demo)) won. I had said 60%. Self-reported, unverified.",
+      "status": "stored",
+      "blob_id": "16ohaBYrWBVRDTNctsX84wrK4dUtUqSflWBgFwowg3U",
+      "at": "2026-11-10T14:33:27.967Z"
+    },
+    {
+      "id": "4GXx9uKjkfXCu6Gc-RVKjLn--fKrL6gM4GE8X-IaoN4",
+      "kind": "pick",
+      "sentence": "Gut Check pick logged: I backed Swiatek in Swiatek vs Sabalenka (demo) (Tennis) at 60% confidence. My own typed odds implied 61% (odds 1.65). Why: Swiatek break point conversion is far higher on this surface. Coach said 78%. Sealed at Sui checkpoint 343744778.",
+      "status": "stored",
+      "blob_id": "4GXx9uKjkfXCu6Gc-RVKjLn--fKrL6gM4GE8X-IaoN4",
+      "at": "2026-11-10T14:33:27.958Z"
+    },
+    {
+      "id": "BZbMy02u91Q-5ivBc5GTauTRJgSLyrmEewuWN2HQ1cw",
+      "kind": "result",
+      "sentence": "Gut Check result settled: my pick on Arsenal (Arsenal vs Fulham (demo)) won. I had said 78%. Self-reported, unverified.",
+      "status": "stored",
+      "blob_id": "BZbMy02u91Q-5ivBc5GTauTRJgSLyrmEewuWN2HQ1cw",
+      "at": "2026-11-10T14:33:26.837Z"
+    },
+    {
+      "id": "Kmfzrb4FR6_8gPweKSaUT1JoXgPcPrAo4sFYWEGz1cA",
+      "kind": "pick",
+      "sentence": "Gut Check pick logged: I backed Arsenal in Arsenal vs Fulham (demo) (Football) at 78% confidence. My own typed odds implied 57% (odds 1.75). Why: Fulham have injuries in defence and Arsenal create the most chances in the league. Coach said 38%. Sealed at Sui checkpoint 343744773.",
+      "status": "stored",
+      "blob_id": "Kmfzrb4FR6_8gPweKSaUT1JoXgPcPrAo4sFYWEGz1cA",
+      "at": "2026-11-10T14:33:26.829Z"
+    },
+    {
+      "id": "_MPElzlKVBfIRIYoUaVLFs_IrslO7Qqy8ZJSZyucIp8",
+      "kind": "lesson",
+      "sentence": "Gut Check coach learned a lesson about my bias: You undersell yourself on Tennis. Tennis: confidence 64% vs hit rate 100% (3 picks).",
+      "status": "stored",
+      "blob_id": "_MPElzlKVBfIRIYoUaVLFs_IrslO7Qqy8ZJSZyucIp8",
+      "at": "2026-11-10T14:33:25.702Z"
+    },
+    {
+      "id": "pfY7nUfaBSZngNeCF9VY2VFouoqdBWLLHUaTAbGyuS0",
+      "kind": "result",
+      "sentence": "Gut Check result settled: my pick on Alcaraz (Alcaraz vs Zverev (demo)) won. I had said 66%. Self-reported, unverified.",
+      "status": "stored",
+      "blob_id": "pfY7nUfaBSZngNeCF9VY2VFouoqdBWLLHUaTAbGyuS0",
+      "at": "2026-11-10T14:33:25.701Z"
+    },
+    {
+      "id": "4MZxjohl6BTSjT90Zm8il87ildVh1gSryWdm6z9wnDM",
+      "kind": "pick",
+      "sentence": "Gut Check pick logged: I backed Alcaraz in Alcaraz vs Zverev (demo) (Tennis) at 66% confidence. My own typed odds implied 67% (odds 1.5). Why: Alcaraz has the better first serve stats and 4-1 on clay head to head. Coach said 32%. Sealed at Sui checkpoint 343744768.",
+      "status": "stored",
+      "blob_id": "4MZxjohl6BTSjT90Zm8il87ildVh1gSryWdm6z9wnDM",
+      "at": "2026-11-10T14:33:25.693Z"
+    },
+    {
+      "id": "WTBv0_IehTPWsssvfX3R15Dd2cTriWdcLMGlOualakc",
+      "kind": "result",
+      "sentence": "Gut Check result settled: my pick on Liverpool (Liverpool vs City (demo)) lost. I had said 72%. Self-reported, unverified.",
+      "status": "stored",
+      "blob_id": "WTBv0_IehTPWsssvfX3R15Dd2cTriWdcLMGlOualakc",
+      "at": "2026-11-10T14:33:24.550Z"
+    },
+    {
+      "id": "FnsTDOlwu0T3zahl7-0WUSO6Va70oMSgBAOOdXwnxwU",
+      "kind": "pick",
+      "sentence": "Gut Check pick logged: I backed Liverpool in Liverpool vs City (demo) (Football) at 72% confidence. My own typed odds implied 36% (odds 2.8). Why: I have to make up for the last loss, Liverpool at a big price. Coach said 44%. Sealed at Sui checkpoint 343744759.",
+      "status": "stored",
+      "blob_id": "FnsTDOlwu0T3zahl7-0WUSO6Va70oMSgBAOOdXwnxwU",
+      "at": "2026-11-10T14:33:24.541Z"
+    },
+    {
+      "id": "5cxHIcb-TtInCJ-p6U3k2nPqJhD2gRVi5CLlaQi_SAg",
+      "kind": "lesson",
+      "sentence": "Gut Check coach learned a lesson about my bias: You are overconfident on Football. Football: confidence 82% vs hit rate 33% (3 picks).",
+      "status": "stored",
+      "blob_id": "5cxHIcb-TtInCJ-p6U3k2nPqJhD2gRVi5CLlaQi_SAg",
+      "at": "2026-11-10T14:33:22.835Z"
+    },
+    {
+      "id": "rVVRa2ka1MoXYTucgjtndWdc9KMvgqIVW9VjjZHEAmc",
+      "kind": "lesson",
+      "sentence": "Gut Check coach learned a lesson about my bias: You overrate Arsenal. You give Arsenal 82% on average. They came through 33% of the time (3 picks).",
+      "status": "stored",
+      "blob_id": "rVVRa2ka1MoXYTucgjtndWdc9KMvgqIVW9VjjZHEAmc",
+      "at": "2026-11-10T14:33:22.834Z"
+    },
+    {
+      "id": "XgWcqYS-AfSWIiu7zCZp57s7HAAdGrzp4Mc4Z-_DcPY",
+      "kind": "result",
+      "sentence": "Gut Check result settled: my pick on Arsenal (Arsenal vs Newcastle (demo)) lost. I had said 85%. Self-reported, unverified.",
+      "status": "stored",
+      "blob_id": "XgWcqYS-AfSWIiu7zCZp57s7HAAdGrzp4Mc4Z-_DcPY",
+      "at": "2026-11-10T14:33:22.832Z"
+    },
+    {
+      "id": "snM2R5gwGcHao2XB_UUf3i0IQxtguaAeRMBYIRpasXU",
+      "kind": "pick",
+      "sentence": "Gut Check pick logged: I backed Arsenal in Arsenal vs Newcastle (demo) (Football) at 85% confidence. My own typed odds implied 56% (odds 1.8). Why: Great form, revenge game, they owe us one. Coach said 73%. Sealed at Sui checkpoint 343744756.",
+      "status": "stored",
+      "blob_id": "snM2R5gwGcHao2XB_UUf3i0IQxtguaAeRMBYIRpasXU",
+      "at": "2026-11-10T14:33:22.825Z"
+    },
+    {
+      "id": "O_gTjUFx-Sz4MCLyeAUJeECp8IDNmzWHYCJ4wIsDmYM",
+      "kind": "result",
+      "sentence": "Gut Check result settled: my pick on Sinner (Sinner vs Rune (demo)) won. I had said 62%. Self-reported, unverified.",
+      "status": "stored",
+      "blob_id": "O_gTjUFx-Sz4MCLyeAUJeECp8IDNmzWHYCJ4wIsDmYM",
+      "at": "2026-11-10T14:33:21.722Z"
+    },
+    {
+      "id": "d5r_hKPiwrwnMR1K99F5nO3v_B08eAKZLDXAQTkP6q8",
+      "kind": "pick",
+      "sentence": "Gut Check pick logged: I backed Sinner in Sinner vs Rune (demo) (Tennis) at 62% confidence. My own typed odds implied 63% (odds 1.6). Why: Sinner wins 70% of return points against lefties, stats favour him. Coach said 30%. Sealed at Sui checkpoint 343744752.",
+      "status": "stored",
+      "blob_id": "d5r_hKPiwrwnMR1K99F5nO3v_B08eAKZLDXAQTkP6q8",
+      "at": "2026-11-10T14:33:21.714Z"
+    },
+    {
+      "id": "JJnnhCai_md7vtjC1ZqclqKs4uNvPVrHRjAmbaVOpdo",
+      "kind": "lesson",
+      "sentence": "Gut Check coach learned a lesson about my bias: You chase after a loss. Right after a loss you hit 0% (vs 67% normally) and take longer odds (+0.78). 2 picks.",
+      "status": "stored",
+      "blob_id": "JJnnhCai_md7vtjC1ZqclqKs4uNvPVrHRjAmbaVOpdo",
+      "at": "2026-11-10T14:33:20.560Z"
+    },
+    {
+      "id": "HmOGE5M7zlv9TsoN9zRhDq3pQP8gYPSUL2h_sTQ7iXo",
+      "kind": "result",
+      "sentence": "Gut Check result settled: my pick on Celtics (Celtics vs Bucks (demo)) lost. I had said 78%. Self-reported, unverified.",
+      "status": "stored",
+      "blob_id": "HmOGE5M7zlv9TsoN9zRhDq3pQP8gYPSUL2h_sTQ7iXo",
+      "at": "2026-11-10T14:33:20.558Z"
+    },
+    {
+      "id": "V1j91yIC0xwzecPK-crcV4TjKshgzhi5GKy9O-8yJuE",
+      "kind": "pick",
+      "sentence": "Gut Check pick logged: I backed Celtics in Celtics vs Bucks (demo) (NBA) at 78% confidence. My own typed odds implied 38% (odds 2.6). Why: Chasing it back, the long price feels like a steal tonight. Coach said 63%. Sealed at Sui checkpoint 343744746.",
+      "status": "stored",
+      "blob_id": "V1j91yIC0xwzecPK-crcV4TjKshgzhi5GKy9O-8yJuE",
+      "at": "2026-11-10T14:33:20.548Z"
+    },
+    {
+      "id": "XHfdiKJbOhh-QmUs6zaoGXqenCZt0RAV84DWWkLzY3w",
+      "kind": "lesson",
+      "sentence": "Gut Check coach learned a lesson about my bias: When you fight the market, the market wins. You disagreed with the bookmaker by 10+ points 3 times and were right 1 times.",
+      "status": "stored",
+      "blob_id": "XHfdiKJbOhh-QmUs6zaoGXqenCZt0RAV84DWWkLzY3w",
+      "at": "2026-11-10T14:33:19.348Z"
+    },
+    {
+      "id": "xN4wbPNPNlWB6eVaiR18Fzo47I1DMAsRNnf2jIgPT0k",
+      "kind": "result",
+      "sentence": "Gut Check result settled: my pick on Lakers (Lakers vs Suns (demo)) lost. I had said 75%. Self-reported, unverified.",
+      "status": "stored",
+      "blob_id": "xN4wbPNPNlWB6eVaiR18Fzo47I1DMAsRNnf2jIgPT0k",
+      "at": "2026-11-10T14:33:19.346Z"
+    },
+    {
+      "id": "9YcNv5X0dUYr6L6StcouKnr0-sZZ4rsD5cZB8pj8Xmk",
+      "kind": "pick",
+      "sentence": "Gut Check pick logged: I backed Lakers in Lakers vs Suns (demo) (NBA) at 75% confidence. My own typed odds implied 42% (odds 2.4). Why: Need to win back what I lost on Arsenal, big odds are value. Coach said 71%. Sealed at Sui checkpoint 343744741.",
+      "status": "stored",
+      "blob_id": "9YcNv5X0dUYr6L6StcouKnr0-sZZ4rsD5cZB8pj8Xmk",
+      "at": "2026-11-10T14:33:19.337Z"
+    },
+    {
+      "id": "zlpjegeipMupb7wjOJaWTEAbA3ONrHG3_WHEb8_AnYM",
+      "kind": "lesson",
+      "sentence": "Gut Check coach learned a lesson about my bias: You are overconfident. Average confidence 76%, actual hit rate 67% across 3 picks.",
+      "status": "stored",
+      "blob_id": "zlpjegeipMupb7wjOJaWTEAbA3ONrHG3_WHEb8_AnYM",
+      "at": "2026-11-10T14:33:18.052Z"
+    },
+    {
+      "id": "FPbyB5US29qX1Pg146PaS69cnY5YfRpuaAqwOWweSV4",
+      "kind": "result",
+      "sentence": "Gut Check result settled: my pick on Arsenal (Arsenal vs Villa (demo)) lost. I had said 82%. Self-reported, unverified.",
+      "status": "stored",
+      "blob_id": "FPbyB5US29qX1Pg146PaS69cnY5YfRpuaAqwOWweSV4",
+      "at": "2026-11-10T14:33:18.050Z"
+    },
+    {
+      "id": "wsk0Nwbq1HWAyk-13WghioEfpg4vlDsg0-O1hew3gYU",
+      "kind": "pick",
+      "sentence": "Gut Check pick logged: I backed Arsenal in Arsenal vs Villa (demo) (Football) at 82% confidence. My own typed odds implied 53% (odds 1.9). Why: Arsenal are flying right now, they are due a big win. Coach said 82%. Sealed at Sui checkpoint 343744735.",
+      "status": "stored",
+      "blob_id": "wsk0Nwbq1HWAyk-13WghioEfpg4vlDsg0-O1hew3gYU",
+      "at": "2026-11-10T14:33:18.040Z"
+    },
+    {
+      "id": "KHZ89Ox0jwJSvpCl4Bpb172umMA8ysKa5P0jTNkUEqQ",
+      "kind": "result",
+      "sentence": "Gut Check result settled: my pick on Djokovic (Djokovic vs Fritz (demo)) won. I had said 65%. Self-reported, unverified.",
+      "status": "stored",
+      "blob_id": "KHZ89Ox0jwJSvpCl4Bpb172umMA8ysKa5P0jTNkUEqQ",
+      "at": "2026-11-10T14:33:16.731Z"
+    },
+    {
+      "id": "wZuf_-q9bv3AIVmpHi_ur_2_g7hDLvF2JYsRx7xDVug",
+      "kind": "pick",
+      "sentence": "Gut Check pick logged: I backed Djokovic in Djokovic vs Fritz (demo) (Tennis) at 65% confidence. My own typed odds implied 65% (odds 1.55). Why: Djokovic is 9-0 head to head and holds serve 90% on hard courts. Coach said 65%. Sealed at Sui checkpoint 343744701.",
+      "status": "stored",
+      "blob_id": "wZuf_-q9bv3AIVmpHi_ur_2_g7hDLvF2JYsRx7xDVug",
+      "at": "2026-11-10T14:33:16.718Z"
+    },
+    {
+      "id": "kfRfcdMwuwPJOoJ38kNJ15iqkRCxVU-dnmy0E2SVAgA",
+      "kind": "result",
+      "sentence": "Gut Check result settled: my pick on Arsenal (Arsenal vs Brighton (demo)) won. I had said 80%. Self-reported, unverified.",
+      "status": "stored",
+      "blob_id": "kfRfcdMwuwPJOoJ38kNJ15iqkRCxVU-dnmy0E2SVAgA",
+      "at": "2026-11-10T14:33:08.239Z"
+    },
+    {
+      "id": "2tnLPT2o6V-sfr5FtIjcYO441E4L14Jg1N8PpgcR76c",
+      "kind": "pick",
+      "sentence": "Gut Check pick logged: I backed Arsenal in Arsenal vs Brighton (demo) (Football) at 80% confidence. My own typed odds implied 59% (odds 1.7). Why: Arsenal are on great form and the home crowd will carry them. Coach said 80%. Sealed at Sui checkpoint 343744693.",
+      "status": "stored",
+      "blob_id": "2tnLPT2o6V-sfr5FtIjcYO441E4L14Jg1N8PpgcR76c",
+      "at": "2026-11-10T14:33:08.212Z"
+    },
+    {
+      "id": "HBwuzwMMgGnojw7hm2vwe7RW4HjPFcbRDg3t7TjcDg4",
+      "kind": "check",
+      "sentence": "Gut Check connection check at Sui checkpoint 343744272.",
+      "status": "stored",
+      "blob_id": "HBwuzwMMgGnojw7hm2vwe7RW4HjPFcbRDg3t7TjcDg4",
+      "at": "2026-11-10T14:31:24.728Z"
+    }
+  ],
+  "learned": {
+    "vs-market": "When you fight the market, the market wins",
+    "category:Football": "You are overconfident on Football",
+    "overall": "You are overconfident",
+    "tilt": "You chase after a loss",
+    "category:Crypto": "You are sharp on Crypto",
+    "category:NBA": "You are overconfident on NBA",
+    "category:Tennis": "You undersell yourself on Tennis",
+    "subject:Arsenal": "You overrate Arsenal"
+  }
+}

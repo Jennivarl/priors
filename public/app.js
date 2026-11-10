@@ -6,8 +6,11 @@ const SUISCAN = 'https://suiscan.xyz/mainnet/checkpoint/';
 
 let known = new Set();
 
+let ownerToken = '';
+try { ownerToken = localStorage.getItem('priors-owner') || ''; } catch { /* storage blocked */ }
 async function api(path, body) {
-  const res = await fetch(path, body ? { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) } : {});
+  const headers = { 'Content-Type': 'application/json', ...(ownerToken ? { 'x-owner-token': ownerToken } : {}) };
+  const res = await fetch(path, body ? { method: 'POST', headers, body: JSON.stringify(body) } : { headers });
   const json = await res.json();
   if (!res.ok) throw new Error(json.error || res.statusText);
   return json;
@@ -115,7 +118,13 @@ function refreshOpinion() {
   }, 500);
 }
 form.addEventListener('input', (ev) => {
-  if (ev.target.name === 'kind') setKind();
+  if (ev.target.name === 'kind') $('#owner-save').addEventListener('click', () => {
+  ownerToken = $('#owner-token').value.trim();
+  try { localStorage.setItem('priors-owner', ownerToken); } catch { /* storage blocked */ }
+  $('#owner-msg').textContent = ownerToken ? 'Saved. Writes will use this passcode.' : 'Cleared.';
+  poll();
+});
+setKind();
   if (ev.target.name === 'category') loadEvents().then(applyEventOdds);
   if (ev.target.name === 'marketId' || ev.target.name === 'side') applyEventOdds();
   if (ev.target.name === 'asset') { form.elements.target.value = ''; loadPrice(); }
@@ -145,6 +154,8 @@ $('#pick-form').addEventListener('submit', async (ev) => {
 
 // ---------- Render ----------
 function render(v) {
+  $('#demo-banner').hidden = !v.readOnly || Boolean(ownerToken);
+  $('#owner-box').hidden = !v.readOnly;
   $('#stored').textContent = v.stored;
   $('#pill-memory').classList.toggle('ok', v.stored > 0);
 
