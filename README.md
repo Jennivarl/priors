@@ -174,7 +174,7 @@ In **Ask your past self**, type `why do I lose after a bad week` and click **Rec
 Expected: memories about chasing losses, ranked by meaning, each with its Walrus blob id.
 
 ## Deploying your own (Vercel)
-Set `TATUM_API_KEY`, `MEMWAL_PRIVATE_KEY`, `MEMWAL_ACCOUNT_ID` and `OWNER_TOKEN` as Production environment variables, run `npm run snapshot` to publish your current history to `demo/state.json`, then `vercel deploy --prod` (Vercel runs `npm run build`, which bundles the wallet sign-in). With `OWNER_TOKEN` set the demo record is read-only for visitors, who can connect their own wallet instead; enter the passcode in the box at the bottom of the page to log picks on the demo record. The demo record's background settlement needs a long-running server (`npm start`), since serverless hosts have no background loop.
+Set `TATUM_API_KEY`, `MEMWAL_PRIVATE_KEY`, `MEMWAL_ACCOUNT_ID` and `OWNER_TOKEN` as Production environment variables, run `npm run snapshot` to publish your current history to `demo/state.json`, then `vercel deploy --prod` (Vercel runs `npm run build`, which bundles the wallet sign-in). With `OWNER_TOKEN` set the demo record is read-only for visitors, who can connect their own wallet instead; enter the passcode in the box at the bottom of the page to log picks on the demo record. The demo record's background settlement needs a long-running server (`npm start`), since serverless hosts have no background loop. Pick receipts are signed with `RECEIPT_SECRET` if set, otherwise with a key derived from `OWNER_TOKEN`; set `RECEIPT_SECRET` if you plan to rotate the passcode, so open picks stay settleable.
 
 ## Project layout
 ```
