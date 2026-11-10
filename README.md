@@ -141,24 +141,24 @@ Open http://localhost:3000. Expected: the Priors page, with an empty fingerprint
 npm run seed
 ```
 Expected: 14 lines like `lost Arsenal 85% @ 1.8 sealed at Sui checkpoint #343744756`, then two open SUI calls. Refresh the page:
-- **Your bias fingerprint** shows lessons such as *You overrate Arsenal*, *You chase after a loss*, *You undersell yourself on Tennis*.
+- **Bias fingerprint** shows lessons such as *You overrate Arsenal*, *You chase after a loss*, *You undersell yourself on Tennis*.
 - **Memory timeline** fills up as writes land (pending → `blob ...`). About 50 writes take a few minutes.
 - About a minute later the two **SUI calls settle by themselves** and show `verified onchain` with the settlement price and checkpoint.
 
 ### 7. See the coach push back
-In **Log a pick**: Sports → Football → pick `Arsenal`, odds `1.95`, confidence `80`, reason `Arsenal are on great form and they are due a win`.
-Expected: the coach number drops well below 80%, with reasons such as *You overrate Arsenal…* and **Walrus recall: you argued like this N times before and won M**, quoting your past reasons.
+In **Log a pick**: Sports → Category `Football` → leave **Market** on `Not listed, type it yourself` (the default) → Event `Arsenal vs Spurs`, Your pick `Arsenal`, Odds `1.95`, Gut confidence `80`, Why you like it `Arsenal are on great form and they are due a win`.
+Expected: your gut figure gets a red strike through it and the coach figure drops well below 80%, with reasons such as *You overrate Arsenal…* and a line **Walrus found N past picks where you argued the same way**, quoting your past reasons. Recall can take a few seconds; the box shows "Checking your record on Walrus" meanwhile.
 
 ### 8. Make a verified crypto call
-Crypto → SUI → above → target (pre-filled just above the live onchain price) → deadline `2` minutes → odds `2` → a reason → **Seal on Sui & remember**.
+Switch to **Crypto** → Asset `SUI` → Call `Above` → Target (pre-filled just above the live onchain price) → Minutes `2` → Odds `2` → a reason → **Seal on Sui and remember**.
 Expected: a receipt with the Sui checkpoint link. After the deadline the pick settles itself from the Cetus pool price, marked `verified onchain`.
 
 ### 9. Prove the memory is portable
-Click **Wipe local data & rebuild from Walrus**.
+In the **Memory timeline** panel, click **Rebuild from Walrus** (it wipes the local data first).
 Expected: "Rebuilt from N memories on Walrus", and the picks, results and fingerprint come back from Walrus alone. You can also delete `data/state.json` while the server is stopped, start it, and click the button.
 
 ### 10. Ask your past self
-In **Ask your past self**, type `why do I lose after a bad week?`.
+In **Ask your past self**, type `why do I lose after a bad week` and click **Recall**, or click one of the example questions under the search box (the first one runs once by itself when the page opens).
 Expected: memories about chasing losses, ranked by meaning, each with its Walrus blob id.
 
 ## Deploying your own (Vercel)
