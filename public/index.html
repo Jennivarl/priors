@@ -4,130 +4,213 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Priors</title>
+  <meta name="description" content="A forecasting coach that remembers how you are wrong. Picks sealed on Sui, memory on Walrus." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header class="top">
-    <div class="brand">
-      <h1>Priors</h1>
-      <p>The forecasting coach that remembers how <em>you</em> are wrong.</p>
-    </div>
-    <div class="pills">
-      <span class="pill" id="pill-memory"><i class="dot"></i>Walrus Memory · <b id="stored">0</b> stored</span>
-      <span class="pill" id="pill-sui"><i class="dot"></i>Sui Mainnet via Tatum</span>
+  <header class="bar">
+    <div class="bar-in">
+      <a class="brand" href="/" aria-label="Priors">
+        <svg class="mark" viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="2" width="16" height="16" rx="4" fill="currentColor"/><path d="M5.5 13.5 14.5 6.5" stroke="var(--pen)" stroke-width="2" stroke-linecap="round"/></svg>
+        <span>Priors</span>
+      </a>
+      <div class="status">
+        <span class="stat-line"><i class="dot" id="sui-dot"></i>Sui Mainnet <span class="mono" id="sui-cp">via Tatum</span></span>
+        <span class="stat-line"><i class="dot" id="mem-dot"></i>Walrus Memory <span class="mono"><span id="stored">0</span> memories</span></span>
+      </div>
     </div>
   </header>
 
-  <div class="banner" id="demo-banner" hidden>
-    <b>Live demo, read-only.</b> This is a real forecaster history: every pick is sealed with a Sui Mainnet checkpoint and stored in Walrus Memory.
-    Try the coach: fill in a pick and reason to get a second opinion, or search "Ask your past self". To log your own picks, run Priors yourself (README, How to Test).
+  <div class="notice" id="demo-banner" hidden>
+    Read-only demo of a real record. Try the coach or ask your past self. To log your own picks, run Priors locally
   </div>
 
-  <main class="grid">
-    <section class="card log">
-      <h2>Log a pick <small>before the event starts</small></h2>
-      <form id="pick-form" autocomplete="off">
-        <div class="seg" role="radiogroup">
-          <label><input type="radio" name="kind" value="sports" checked /> Sports</label>
-          <label><input type="radio" name="kind" value="crypto" /> Crypto <small>auto-settled onchain</small></label>
+  <main class="page">
+    <section class="head">
+      <div>
+        <h1>Your record</h1>
+        <p class="sub" id="head-sub">The coach that remembers how you are wrong</p>
+      </div>
+      <dl class="stats" id="stats">
+        <div><dt>Said</dt><dd class="num" id="st-said">–</dd><dd class="cmp">average confidence</dd></div>
+        <div><dt>Happened</dt><dd class="num" id="st-hit">–</dd><dd class="cmp" id="st-gap">hit rate</dd></div>
+        <div><dt>Verified results</dt><dd class="num" id="st-ver">–</dd><dd class="cmp" id="st-ver-of">by chain or market</dd></div>
+        <div><dt>Open picks</dt><dd class="num" id="st-open">–</dd><dd class="cmp">waiting for a result</dd></div>
+      </dl>
+    </section>
+
+    <div class="row-a">
+      <section class="panel log" aria-labelledby="log-h">
+        <div class="panel-head">
+          <h2 id="log-h">Log a pick</h2>
+          <div class="seg" role="radiogroup" aria-label="Pick type">
+            <label><input type="radio" name="kind" value="sports" form="pick-form" checked /><span>Sports</span></label>
+            <label><input type="radio" name="kind" value="crypto" form="pick-form" /><span>Crypto</span></label>
+          </div>
         </div>
 
-        <div class="sports-only">
-          <div class="row">
-            <label>Category
-              <select name="category"><option>Football</option><option>Tennis</option><option>NBA</option><option>NFL</option><option>Elections</option></select>
-            </label>
-            <label class="market-only">You back
+        <form id="pick-form" autocomplete="off">
+          <div class="sports-only">
+            <div class="fields split">
+              <label class="field">Category
+                <select name="category"><option>Football</option><option>Tennis</option><option>NBA</option><option>NFL</option><option>Elections</option></select>
+              </label>
+              <label class="field feed-only">Market <span class="hint">Polymarket, settles on resolution</span>
+                <select name="marketId"><option value="">Loading markets</option></select>
+              </label>
+            </div>
+            <label class="field market-only">You back
               <select name="side"></select>
             </label>
+            <div class="fields two manual-only">
+              <label class="field">Event <input name="event" placeholder="Arsenal vs Chelsea" /></label>
+              <label class="field">Your pick <input name="subject" placeholder="Arsenal" /></label>
+            </div>
           </div>
-          <label class="feed-only">Live market (Polymarket, settles on resolution)
-            <select name="marketId"><option value="">Loading markets…</option></select>
-          </label>
-          <label class="manual-only">Event <input name="event" placeholder="Arsenal vs Chelsea" /></label>
-          <label class="manual-only">Your pick <input name="subject" placeholder="Arsenal" /></label>
-        </div>
 
-        <div class="crypto-only row">
-          <label>Asset <select name="asset"><option>SUI</option><option>WAL</option></select></label>
-          <label>Call <select name="direction"><option value="above">above</option><option value="below">below</option></select></label>
-          <label>Target $ <input name="target" type="number" step="0.0001" min="0" /></label>
-          <label>Deadline (min) <input name="minutes" type="number" min="1" value="3" /></label>
-        </div>
-        <p class="crypto-only hint" id="live-price">Reading live price from Sui…</p>
-
-        <label>Why do you like it? <small>the coach learns from your reasoning</small>
-          <textarea name="reason" rows="2" placeholder="They're on great form and it's a revenge game"></textarea>
-        </label>
-        <div class="row">
-          <label>Gut confidence <span class="conf-val" id="conf-val">70%</span>
-            <input type="range" name="confidence" min="51" max="99" value="70" />
-          </label>
-          <label>Odds (decimal) <small id="odds-src">typed by you</small><input name="odds" type="number" step="0.01" min="1.01" placeholder="1.85" /></label>
-        </div>
-
-        <div class="opinion" id="opinion">
-          <div class="nums">
-            <div><span>Your gut</span><b id="o-gut">–</b></div>
-            <div class="arrow">→</div>
-            <div class="coach"><span>Coach, from memory</span><b id="o-adj">–</b></div>
-            <div><span>Market</span><b id="o-mkt">–</b></div>
+          <div class="crypto-only">
+            <div class="fields four">
+              <label class="field">Asset <select name="asset"><option>SUI</option><option>WAL</option></select></label>
+              <label class="field">Call <select name="direction"><option value="above">Above</option><option value="below">Below</option></select></label>
+              <label class="field">Target <input name="target" type="number" step="0.0001" min="0" inputmode="decimal" /></label>
+              <label class="field">Minutes <input name="minutes" type="number" min="1" value="3" inputmode="numeric" /></label>
+            </div>
+            <p class="hint line" id="live-price">Reading the live price from Sui</p>
           </div>
-          <ul id="o-reasons"></ul>
+
+          <label class="field">Why you like it <span class="hint">the coach learns from your reasoning</span>
+            <textarea name="reason" rows="2" placeholder="They're on great form and it's a revenge game"></textarea>
+          </label>
+
+          <div class="fields two">
+            <label class="field">Gut confidence <output class="mono val" id="conf-val">70%</output>
+              <input type="range" name="confidence" min="51" max="99" value="70" />
+            </label>
+            <label class="field">Odds <span class="hint" id="odds-src">decimal, typed by you</span>
+              <input name="odds" type="number" step="0.01" min="1.01" placeholder="1.85" inputmode="decimal" />
+            </label>
+          </div>
+        </form>
+
+        <div class="correction" id="opinion" aria-live="polite">
+          <div class="figs">
+            <div class="fig">
+              <span class="lbl"><i class="k k-gut"></i>Your gut</span>
+              <span class="num gut"><span class="pen" id="o-gut">70%</span></span>
+            </div>
+            <div class="fig lead">
+              <span class="lbl"><i class="k k-coach"></i>Coach, from your record</span>
+              <span class="num coach" id="o-adj">–</span>
+            </div>
+            <div class="fig">
+              <span class="lbl"><i class="k k-mkt"></i>Market</span>
+              <span class="num" id="o-mkt">–</span>
+            </div>
+          </div>
+          <div class="rule" id="o-rule" aria-hidden="true">
+            <div class="track"></div>
+            <div class="span" id="r-span"></div>
+            <i class="tick t-gut" id="r-gut"></i>
+            <i class="tick t-coach" id="r-coach"></i>
+            <i class="tick t-mkt" id="r-mkt"></i>
+            <div class="scale"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+          </div>
+          <ol class="why" id="o-reasons"></ol>
           <div class="echo" id="o-echo"></div>
-          <p class="verdict" id="o-verdict">Fill in the pick to get a second opinion from your own history.</p>
+          <p class="verdict" id="o-verdict">Fill in a pick to get a second opinion from your own record</p>
         </div>
 
-        <button type="submit" id="submit">Seal on Sui &amp; remember</button>
-        <p class="receipt" id="receipt"></p>
-      </form>
-    </section>
+        <div class="actions">
+          <button type="submit" form="pick-form" class="btn primary" id="submit">
+            <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 22h14"/><path d="M19.27 13.73A2.5 2.5 0 0 0 17.5 13h-11A2.5 2.5 0 0 0 4 15.5V17a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-1.5c0-.66-.26-1.3-.73-1.77Z"/><path d="M14 13V8.5C14 7 15 7 15 5a3 3 0 0 0-3-3c-1.66 0-3 1-3 3s1 2 1 3.5V13"/></svg>
+            <span>Seal on Sui and remember</span>
+          </button>
+          <p class="receipt mono" id="receipt"></p>
+        </div>
+      </section>
 
-    <section class="card fingerprint">
-      <h2>Your bias fingerprint <small id="fp-sub">learned from 0 settled picks</small></h2>
-      <div id="insights" class="insights"></div>
-    </section>
+      <div class="stack">
+        <section class="panel fingerprint" aria-labelledby="fp-h">
+          <div class="panel-head">
+            <h2 id="fp-h">Bias fingerprint</h2>
+            <span class="meta mono" id="fp-sub">0 settled</span>
+          </div>
+          <ul class="insights" id="insights"></ul>
+        </section>
 
-    <section class="card open">
-      <h2>Open picks <small>settle them when the result is in</small></h2>
-      <div id="open-list" class="list"></div>
-      <details class="history">
-        <summary>Settled history</summary>
-        <div id="settled-list" class="list"></div>
-      </details>
-    </section>
+        <section class="panel open" aria-labelledby="open-h">
+          <div class="panel-head">
+            <h2 id="open-h">Open picks</h2>
+            <span class="meta mono" id="open-count"></span>
+          </div>
+          <ul class="rows" id="open-list"></ul>
+          <details class="history">
+            <summary><span>Settled history</span><span class="meta mono" id="settled-count"></span></summary>
+            <ul class="rows" id="settled-list"></ul>
+          </details>
+        </section>
+      </div>
+    </div>
 
-    <section class="card calib">
-      <h2>Calibration <small>what you said vs what happened</small></h2>
-      <svg id="calib-chart" viewBox="0 0 320 220" role="img" aria-label="Calibration chart"></svg>
-      <p class="legend"><span class="sw diag"></span>perfectly calibrated <span class="sw you"></span>you</p>
-    </section>
-
-    <section class="card ask">
-      <h2>Ask your past self <small>semantic search over your Walrus Memory</small></h2>
-      <form id="ask-form"><input name="q" placeholder="Why do I keep losing on derbies?" /><button>Recall</button></form>
-      <div id="ask-results" class="list"></div>
-    </section>
-
-    <section class="card timeline">
-      <h2>Memory timeline <small>every write lands on Walrus Mainnet</small></h2>
-      <div id="mem-list" class="list"></div>
-      <div class="restore">
-        <button id="restore" class="ghost">Wipe local data &amp; rebuild from Walrus</button>
-        <span id="restore-msg"></span>
+    <section class="panel calib" aria-labelledby="cal-h">
+      <div class="panel-head">
+        <h2 id="cal-h">Calibration</h2>
+        <span class="legend"><i class="key diag"></i>Perfectly calibrated<i class="key you"></i>Your gap</span>
+      </div>
+      <p class="lede" id="cal-lede">What you said against what happened, per 10 point band</p>
+      <div class="calib-body">
+        <svg id="calib-chart" viewBox="0 0 760 340" role="img" aria-label="Calibration chart: stated confidence against actual hit rate"></svg>
+        <table class="bands" aria-label="Calibration by band">
+          <thead><tr><th>Band</th><th>Said</th><th>Happened</th><th>Picks</th></tr></thead>
+          <tbody id="bands"></tbody>
+        </table>
       </div>
     </section>
+
+    <div class="row-c">
+      <section class="panel ask" aria-labelledby="ask-h">
+        <div class="panel-head">
+          <h2 id="ask-h">Ask your past self</h2>
+          <span class="meta mono">Walrus semantic recall</span>
+        </div>
+        <form id="ask-form" class="search">
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input name="q" placeholder="Ask in your own words" aria-label="Search your memory" />
+          <button class="btn quiet">Recall</button>
+        </form>
+        <div class="suggest" id="ask-suggest">
+          <button type="button" class="chip" data-q="Why do I lose after a bad week">Why do I lose after a bad week</button>
+          <button type="button" class="chip" data-q="What do I tell myself before Arsenal games">What do I tell myself before Arsenal games</button>
+          <button type="button" class="chip" data-q="Which reasons actually won">Which reasons actually won</button>
+        </div>
+        <ul class="rows" id="ask-results"></ul>
+      </section>
+
+      <section class="panel timeline" aria-labelledby="mem-h">
+        <div class="panel-head">
+          <h2 id="mem-h">Memory timeline</h2>
+          <button id="restore" class="btn quiet small" title="Wipe local data and rebuild everything from Walrus">
+            <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            <span>Rebuild from Walrus</span>
+          </button>
+        </div>
+        <p class="lede" id="restore-msg">Every pick, reason, result and lesson is a memory on Walrus Mainnet</p>
+        <ul class="rows mem" id="mem-list"></ul>
+      </section>
+    </div>
   </main>
 
-  <div class="owner" id="owner-box" hidden>
-    <input type="password" id="owner-token" placeholder="Owner passcode" autocomplete="off" />
-    <button class="ghost small" id="owner-save">Unlock</button>
-    <span id="owner-msg"></span>
-  </div>
-  <footer>Built with Walrus Memory (Mainnet) and Tatum Sui gRPC. Picks are sealed with the live Sui checkpoint, so nobody can claim a pick after the fact.</footer>
+  <footer class="foot">
+    <span>Picks sealed with the live Sui checkpoint via Tatum. Memory on Walrus Mainnet</span>
+    <div class="owner" id="owner-box" hidden>
+      <input type="password" id="owner-token" placeholder="Owner passcode" autocomplete="off" aria-label="Owner passcode" />
+      <button class="btn quiet small" id="owner-save">Unlock</button>
+      <span class="meta" id="owner-msg"></span>
+    </div>
+  </footer>
   <script src="app.js" type="module"></script>
 </body>
 </html>
