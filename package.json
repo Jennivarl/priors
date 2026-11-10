@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node --test test/coach.test.js",
+    "test": "node --test test/coach.test.js test/settle.test.js",
     "start": "node server.js",
     "seed": "node scripts/seed.js",
-    "check": "node scripts/smoke.js"
+    "check": "node scripts/smoke.js",
+    "live-calls": "node scripts/live-calls.js"
   },
   "keywords": [],
   "author": "",

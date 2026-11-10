@@ -7,10 +7,10 @@ import * as store from './lib/store.js';
 import { fingerprint, calibration, secondOpinion, reasoningEcho } from './lib/coach.js';
 import { getPrice } from './lib/oracle.js';
 import * as odds from './lib/odds.js';
-import { onchainPrice, selfReported, sourceFor, parseCrypto } from './lib/settle.js';
+import { onchainPrice, selfReported, sourceFor, parseCrypto, commitment } from './lib/settle.js';
 
 const app = express();
-app.use(express.json());
+app.use(express.json({ limit: '20kb' }));
 app.use(express.static('public'));
 
 let state = store.load();
@@ -39,27 +39,40 @@ function enqueue(job) {
 }
 const whenIdle = () => (running || jobs.length ? new Promise((r) => idleWaiters.push(r)) : Promise.resolve());
 
-function writeMemory(kind, sentence, payload, namespace = memory.NAMESPACE) {
-  const entry = { id: crypto.randomUUID(), kind, sentence, status: 'pending', at: new Date().toISOString() };
-  state.memories.unshift(entry);
-  persist();
-  enqueue(async () => {
+// The entry keeps its payload until stored, so a restart can resume it. entry.id doubles as the
+// idempotency key, so a write that was in flight during a crash is never stored twice.
+function runWrite(entry) {
+  return async () => {
     for (let attempt = 1; ; attempt++) {
       try {
-        const r = await memory.remember(sentence, payload, namespace);
+        const r = await memory.remember(entry.sentence, entry.payload, entry.namespace, entry.id);
         Object.assign(entry, { status: 'stored', blob_id: r.blob_id });
+        delete entry.payload;
         break;
       } catch (e) {
-        if (attempt < 3) continue; // relayer is busy on deadline day; retry twice
+        if (attempt < 3) {
+          await new Promise((r) => setTimeout(r, 2000 * attempt)); // relayer is busy on deadline day
+          continue;
+        }
         Object.assign(entry, { status: 'failed', error: e.message.slice(0, 200) });
         console.error('Walrus write failed:', e.message);
         break;
       }
     }
     persist();
-  });
+  };
+}
+
+function writeMemory(kind, sentence, payload, namespace = memory.NAMESPACE) {
+  const entry = { id: crypto.randomUUID(), kind, sentence, payload, namespace, status: 'pending', at: new Date().toISOString() };
+  state.memories.unshift(entry);
+  persist();
+  enqueue(runWrite(entry));
   return entry;
 }
+
+// Resume writes that were still pending when the server last stopped.
+for (const entry of state.memories.filter((m) => m.status === 'pending' && m.payload)) enqueue(runWrite(entry));
 
 // After a result, store any lesson that is new or changed, so the coach's learning is itself memory.
 function learn() {
@@ -218,10 +231,11 @@ app.post('/api/picks', async (req, res) => {
     ]);
     if (startPrice) draft.crypto.startPrice = startPrice.usd;
     const pick = { id: crypto.randomUUID(), ...draft, createdAt: new Date().toISOString(), status: 'open', stamp, coach: { adjusted: opinion.adjusted, verdict: opinion.verdict } };
+    pick.commitment = commitment(pick);
     state.picks.unshift(pick);
     writeMemory(
       'pick',
-      `Gut Check pick logged: I backed ${pick.subject}${pick.event ? ` in ${pick.event}` : ''} (${pick.category}) at ${pct(pick.confidence)} confidence. ${pick.oddsSource.kind === 'bookmaker' ? `${pick.oddsSource.bookmaker} odds` : 'My own typed odds'} implied ${pct(pick.marketProb)} (odds ${pick.odds}).${pick.crypto ? ` ${pick.crypto.asset} was $${pick.crypto.startPrice?.toFixed(4)} onchain when I called it.` : ''} Why: ${pick.reason}. Coach said ${pct(opinion.adjusted)}. Sealed at Sui checkpoint ${stamp.checkpoint}.`,
+      `Gut Check pick logged: I backed ${pick.subject}${pick.event ? ` in ${pick.event}` : ''} (${pick.category}) at ${pct(pick.confidence)} confidence. ${pick.oddsSource.kind === 'bookmaker' ? `${pick.oddsSource.bookmaker} odds` : 'My own typed odds'} implied ${pct(pick.marketProb)} (odds ${pick.odds}).${pick.crypto ? ` ${pick.crypto.asset} was $${pick.crypto.startPrice?.toFixed(4)} onchain when I called it.` : ''} Why: ${pick.reason}. Commitment sha256 ${pick.commitment}, Sui checkpoint digest ${stamp.digest}. Coach said ${pct(opinion.adjusted)}. Sealed at Sui checkpoint ${stamp.checkpoint}.`,
       { kind: 'pick', pick },
     );
     writeMemory('reason', `My reason for backing ${pick.subject} (${pick.category}): ${pick.reason}`, { kind: 'reason', pickId: pick.id }, memory.REASONS);
@@ -299,5 +313,7 @@ app.post('/api/restore', async (_req, res) => {
   }
 });
 
+// The server holds your Walrus delegate key and Tatum key, so it only listens on this computer by default.
 const port = Number(process.env.PORT || 3000);
-app.listen(port, () => console.log(`Gut Check running at http://localhost:${port}`));
+const host = process.env.HOST || '127.0.0.1';
+app.listen(port, host, () => console.log(`Gut Check running at http://localhost:${port}`));

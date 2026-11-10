@@ -120,7 +120,7 @@ $('#pick-form').addEventListener('submit', async (ev) => {
   try {
     const r = await api('/api/picks', formData());
     const s = r.pick.stamp;
-    $('#receipt').innerHTML = `Sealed at Sui checkpoint <a href="${SUISCAN}${s.checkpoint}" target="_blank" rel="noopener">#${s.checkpoint}</a> · ${esc(s.timestamp)}${s.digest ? ` · digest ${esc(short(s.digest))}` : ''}. Writing to Walrus Memory…`;
+    $('#receipt').innerHTML = `Sealed at Sui checkpoint <a href="${SUISCAN}${s.checkpoint}" target="_blank" rel="noopener">#${s.checkpoint}</a> · ${esc(s.timestamp)}${s.digest ? ` · digest ${esc(short(s.digest))}` : ''} · commitment ${esc(short(r.pick.commitment))}. Writing to Walrus Memory…`;
     render(r);
     ['event', 'subject', 'reason', 'target'].forEach((n) => (form.elements[n].value = ''));
     if (!form.elements.odds.readOnly) form.elements.odds.value = '';
