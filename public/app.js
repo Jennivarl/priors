@@ -28,8 +28,8 @@ async function loadEvents() {
     events = r.events || [];
     if (events.length) {
       form.dataset.feed = '1';
-      form.elements.marketId.innerHTML = `<option value="">Choose a market…</option>` +
-        events.map((e) => `<option value="${esc(e.marketId)}">${esc(e.label === e.event ? e.event : `${e.label} · ${e.event}`)} · ${esc(e.starts.slice(5, 16).replace('T', ' '))} UTC</option>`).join('');
+      form.elements.marketId.innerHTML = 
+        `<option value="">Not listed: type it yourself (self-reported)</option>` + events.map((e) => `<option value="${esc(e.marketId)}">${esc(e.label === e.event ? e.event : `${e.label} · ${e.event}`)} · ${esc(e.starts.slice(5, 16).replace('T', ' '))} UTC</option>`).join('');
       form.elements.side.innerHTML = '';
     } else {
       delete form.dataset.feed;
@@ -41,13 +41,16 @@ async function loadEvents() {
   }
 }
 function applyEventOdds() {
-  if (!form.dataset.feed) { form.elements.odds.readOnly = false; return; }
+  if (!form.dataset.feed) { delete form.dataset.market; form.elements.odds.readOnly = false; return; }
   const ev = events.find((e) => e.marketId === form.elements.marketId.value);
   if (!ev) {
+    delete form.dataset.market;
     form.elements.side.innerHTML = '';
-    $('#odds-src').textContent = 'choose a market';
+    form.elements.odds.readOnly = false;
+    $('#odds-src').textContent = 'typed by you (self-reported pick)';
     return;
   }
+  form.dataset.market = '1';
   const keep = form.elements.side.value;
   form.elements.side.innerHTML = ev.options.map((o) => `<option value="${esc(o.side)}">${esc(o.subject)} (${pct(o.prob)})</option>`).join('');
   if (ev.options.some((o) => o.side === keep)) form.elements.side.value = keep;

@@ -98,7 +98,7 @@ label small, .hint { color: var(--muted); font-size: 12px; }
 .seg label:has(input:checked) { border-color: var(--accent); color: var(--accent); }
 .seg input { display: none; }
 form[data-kind=sports] .crypto-only, form[data-kind=crypto] .sports-only { display: none; }
-form:not([data-feed]) .feed-only, form[data-feed] .manual-only { display: none; }
+form:not([data-feed]) .feed-only, form:not([data-market]) .market-only, form[data-market] .manual-only { display: none; }
 .echo { border-top: 1px solid var(--line); margin-top: 10px; padding-top: 10px; font-size: 13px; }
 .echo:empty { display: none; }
 .echo b { color: var(--accent); }

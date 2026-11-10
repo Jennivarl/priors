@@ -16,16 +16,16 @@ Track: **Markets & Sports Prediction** (Total Recall, Tatum x Walrus).
 
 ## What it does
 
-1. **Log a pick, with your reason.** Sports (live bookmaker odds) or crypto (a price call on SUI or WAL).
+1. **Log a pick, with your reason.** Sports or politics (live **Polymarket** prediction-market prices, no key needed) or crypto (a price call on SUI or WAL).
 2. **Sealed on Sui.** The pick is stamped with the latest Sui Mainnet checkpoint (height, digest, time), read through Tatum, and a sha256 commitment of its content is written to Walrus. Exactly what that proves is explained under Architecture.
 3. **Remembered on Walrus.** The pick, your reason, the result and every lesson the coach learns are written to Walrus Memory (Mainnet).
-4. **Settled without trusting you.** Crypto calls settle themselves at the deadline from **onchain pool state** (Cetus SUI/USDC and WAL/SUI pools on Sui, read through Tatum). Sports results are self-reported for now and are labelled *unverified* everywhere.
+4. **Settled without trusting you.** Crypto calls settle themselves at the deadline from **onchain pool state** (Cetus SUI/USDC and WAL/SUI pools on Sui, read through Tatum). Sports and politics picks settle themselves when their **Polymarket market resolves** (resolved onchain through the UMA oracle). The server re-quotes the price itself, so the user cannot type a fake price. Manual picks (no market) still exist, and are labelled *self-reported* everywhere.
 5. **Learns your bias fingerprint**, from results:
    - overall calibration (you say 73%, you hit 43%)
    - per team ("you overrate Arsenal")
    - per category ("you are sharp on tennis, overconfident on NBA")
    - **tilt** ("right after a loss you hit 29% vs 57% and take longer odds")
-   - you vs the market ("when you fight the bookmaker by 10+ points, the market wins")
+   - you vs the market ("when you fight the market by 10+ points, the market wins")
 6. **Learns from how you think.** Walrus **semantic recall** finds past picks whose *reason means the same thing* as your new one ("great form, they're due" matches "Arsenal are flying, they owe us one") and shows how that line of thinking worked out. Walrus **Analyze** extracts facts from your reasoning text.
 7. **Second opinion before you commit.** Your gut, minus what your history says you get wrong, next to the market price.
 8. **Portable.** Wipe the app's local data and rebuild everything from Walrus alone. The same memory can be read by any agent (for example Claude Code through the Walrus Memory MCP server).
@@ -44,7 +44,7 @@ Track: **Markets & Sports Prediction** (Total Recall, Tatum x Walrus).
 ```
 Browser (public/)            Node server (server.js)                   Networks
 -----------------            -----------------------                   --------
-Log pick + reason   ──►  parseDraft → odds feed (lib/odds.js) ──────►  The Odds API (bookmakers)
+Log pick + reason   ──►  parseDraft → market quote (lib/markets.js) ──►  Polymarket (prices + resolutions)
                          getStamp (lib/sui.js) ──────────────────────►  Tatum gRPC → Sui Mainnet checkpoint
                          echoFor: recall similar reasons ───────────►  Walrus Memory relayer (Mainnet)
 Second opinion      ◄──  secondOpinion (lib/coach.js, pure)
@@ -74,8 +74,9 @@ each memory is a human sentence followed by a tagged JSON payload, so it reads w
 
 ## What we traded (honest limits)
 
-- **Sports results are self-reported** and labelled *unverified* in the UI and in memory. Crypto results are verified onchain. Upgrade path in code: add a `ResultSource` (results feed or Sui prediction-market resolution) in [lib/settle.js](lib/settle.js); nothing else changes.
-- **Crypto "market" price is your own odds**, since there is no bookmaker for a one-off price call. Sports odds come from the live feed when `ODDS_API_KEY` is set; otherwise they are typed and labelled as such.
+- **Three result sources, one interface** ([lib/settle.js](lib/settle.js)): onchain price (crypto, verified), Polymarket resolution (sports/politics, verified), self-reported (manual picks, labelled unverified). A Sui-native prediction market can be added as a fourth source without touching anything else.
+- **Polymarket lives on Polygon, not Sui.** It is the deepest public market for sports prices today; Sui prediction markets can replace it through the same interface.
+- **Crypto "market" price is your own odds**, since no market exists for a one-off 3-minute price call. It is labelled as typed odds.
 - **No per-pick Sui transaction.** Picks are time-bounded by a checkpoint digest and a Walrus write, not anchored in their own transaction (that needs a funded wallet and gas per user).
 - **Single user per server.** Each server holds one Walrus delegate key. Multi-user means one delegate key per user (Walrus supports this) and per-user state.
 - **Demo history.** `npm run seed` loads a demo forecaster (events marked "(demo)", illustrative results) through the real API, so every demo pick is still really sealed on Sui and written to Walrus.
@@ -89,7 +90,6 @@ each memory is a human sentence followed by a tagged JSON payload, so it reads w
 - **Node.js 22.23.4+ (22.x), 24.22.1+ (24.x) or 26.12.1+ (26.x).** Check with `node -v`.
 - **A Tatum API key** (free): sign up at https://dashboard.tatum.io and copy the Mainnet key.
 - **A Walrus Memory account** (free): sign in at https://memory.walrus.xyz/dashboard, choose **Connect an app**, create a **delegate key** (save the private key, it is shown once), and copy the **accountId** from the quickstart snippet (step 03). It is *not* your wallet address.
-- Optional: **The Odds API key** (free) from https://the-odds-api.com for live bookmaker odds.
 
 ### 1. Install
 ```bash
@@ -105,7 +105,6 @@ TATUM_API_KEY=your-tatum-key
 MEMWAL_PRIVATE_KEY=your-delegate-private-key
 MEMWAL_ACCOUNT_ID=0x-your-walrus-memory-account-id
 MEMWAL_AGENT_ID=your-delegate-public-key
-ODDS_API_KEY=optional-odds-api-key
 ```
 `.env` is git-ignored. Never commit it.
 
@@ -125,7 +124,7 @@ A Walrus write takes about 20 to 30 seconds. A `401 AUTH_REJECTED` means the acc
 ```bash
 npm test
 ```
-Expected: `pass 15`, `fail 0` (coach logic, onchain price math, settlement rules, input checks, commitments, reasoning echo).
+Expected: `pass 18`, `fail 0` (coach logic, onchain price math, settlement rules for all three sources, input checks, commitments, reasoning echo).
 
 ### 5. Start the app
 ```bash
@@ -165,8 +164,8 @@ lib/coach.js       bias fingerprint, calibration, second opinion, reasoning echo
 lib/memory.js      Walrus Memory: remember, recall, analyze, count, restore
 lib/sui.js         Tatum Sui gRPC client, checkpoint stamp, rate limiting
 lib/oracle.js      onchain SUI / WAL price from Cetus pool objects
-lib/settle.js      result sources: onchain price (verified), self-reported (unverified)
-lib/odds.js        live bookmaker odds (The Odds API)
+lib/settle.js      result sources: onchain price, market resolution (verified), self-reported (unverified)
+lib/markets.js     Polymarket prices and resolutions (public API)
 public/            the web app
 scripts/           connection check and demo seed
 test/              unit tests
