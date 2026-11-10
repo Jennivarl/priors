@@ -1,9 +1,11 @@
-# Gut Check
+# Priors
 
 **A forecasting coach that remembers how *you* are wrong.**
 
-Every other pick tracker asks *"which tipster can I trust?"*. Gut Check asks *"can I trust myself?"*
-You log a pick before the event with your confidence and your reason. Gut Check seals it with the live
+*Your priors are the beliefs you walk in with. Good forecasters update them with evidence. Priors keeps the evidence, so you actually do.*
+
+Every other pick tracker asks *"which tipster can I trust?"*. Priors asks *"can I trust myself?"*
+You log a pick before the event with your confidence and your reason. Priors seals it with the live
 Sui checkpoint (so nobody can claim a pick after the fact), stores it in **Walrus Memory on Mainnet**,
 and learns your blind spots from every result. Before your next pick it pushes back:
 
@@ -68,7 +70,7 @@ each memory is a human sentence followed by a tagged JSON payload, so it reads w
 ## Who it is for, and the business
 
 - **First user:** sports and fantasy players who already log picks (spreadsheets, Discord, notes apps) and want to know *why* they lose.
-- **Problem:** people remember their wins and forget their losses. Gut Check keeps an honest, timestamped record and turns it into specific, personal corrections.
+- **Problem:** people remember their wins and forget their losses. Priors keeps an honest, timestamped record and turns it into specific, personal corrections.
 - **Money:** free for personal use; a paid coach tier (more categories, live odds alerts, weekly bias report); a B2B **safer-gambling** module for operators and tipster platforms: the tilt alarm and "you chase after a loss" signal is the kind of tool operators are increasingly expected to offer.
 - **Ecosystem:** every user is a Walrus Memory account writing to Mainnet, and their bias profile is portable: any agent, app or wallet can read it with the user's permission. Every pick and settlement also reads Sui through Tatum.
 
@@ -93,8 +95,8 @@ each memory is a human sentence followed by a tagged JSON payload, so it reads w
 
 ### 1. Install
 ```bash
-git clone https://github.com/Jennivarl/gut-check.git
-cd gut-check
+git clone https://github.com/Jennivarl/priors.git
+cd priors
 npm install
 ```
 
@@ -130,7 +132,7 @@ Expected: `pass 18`, `fail 0` (coach logic, onchain price math, settlement rules
 ```bash
 npm start
 ```
-Open http://localhost:3000. Expected: the Gut Check page, with an empty fingerprint.
+Open http://localhost:3000. Expected: the Priors page, with an empty fingerprint.
 
 ### 6. Load the demo history (second terminal)
 ```bash

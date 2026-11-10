@@ -79,7 +79,7 @@ function learn() {
   for (const ins of fingerprint(state.picks).insights) {
     if (state.learned[ins.id] === ins.title) continue;
     state.learned[ins.id] = ins.title;
-    writeMemory('lesson', `Gut Check coach learned a lesson about my bias: ${ins.title}. ${ins.detail}`, { kind: 'lesson', insight: ins, at: new Date().toISOString() });
+    writeMemory('lesson', `Priors coach learned a lesson about my bias: ${ins.title}. ${ins.detail}`, { kind: 'lesson', insight: ins, at: new Date().toISOString() });
   }
 }
 
@@ -114,7 +114,7 @@ function applySettlement(pick, s) {
       : `Verified by market resolution: Polymarket market ${s.evidence.marketId} "${s.evidence.question}" resolved ${JSON.stringify(s.evidence.outcomePrices)}.`;
   writeMemory(
     'result',
-    `Gut Check result settled: my pick on ${pick.subject}${pick.event ? ` (${pick.event})` : ''} ${s.status}. I had said ${pct(pick.confidence)}. ${proof}`,
+    `Priors result settled: my pick on ${pick.subject}${pick.event ? ` (${pick.event})` : ''} ${s.status}. I had said ${pct(pick.confidence)}. ${proof}`,
     { kind: 'result', id: pick.id, status: s.status, settledAt: pick.settledAt, verified: s.verified, evidence: s.evidence },
   );
   learn();
@@ -246,7 +246,7 @@ app.post('/api/picks', async (req, res) => {
     state.picks.unshift(pick);
     writeMemory(
       'pick',
-      `Gut Check pick logged: I backed ${pick.subject}${pick.event ? ` in ${pick.event}` : ''} (${pick.category}) at ${pct(pick.confidence)} confidence. ${pick.oddsSource.kind === 'market' ? 'Polymarket' : 'My own typed odds'} implied ${pct(pick.marketProb)} (odds ${pick.odds}).${pick.crypto ? ` ${pick.crypto.asset} was $${pick.crypto.startPrice?.toFixed(4)} onchain when I called it.` : ''} Why: ${pick.reason}. Commitment sha256 ${pick.commitment}, Sui checkpoint digest ${stamp.digest}. Coach said ${pct(opinion.adjusted)}. Sealed at Sui checkpoint ${stamp.checkpoint}.`,
+      `Priors pick logged: I backed ${pick.subject}${pick.event ? ` in ${pick.event}` : ''} (${pick.category}) at ${pct(pick.confidence)} confidence. ${pick.oddsSource.kind === 'market' ? 'Polymarket' : 'My own typed odds'} implied ${pct(pick.marketProb)} (odds ${pick.odds}).${pick.crypto ? ` ${pick.crypto.asset} was $${pick.crypto.startPrice?.toFixed(4)} onchain when I called it.` : ''} Why: ${pick.reason}. Commitment sha256 ${pick.commitment}, Sui checkpoint digest ${stamp.digest}. Coach said ${pct(opinion.adjusted)}. Sealed at Sui checkpoint ${stamp.checkpoint}.`,
       { kind: 'pick', pick },
     );
     writeMemory('reason', `My reason for backing ${pick.subject} (${pick.category}): ${pick.reason}`, { kind: 'reason', pickId: pick.id }, memory.REASONS);
@@ -327,4 +327,4 @@ app.post('/api/restore', async (_req, res) => {
 // The server holds your Walrus delegate key and Tatum key, so it only listens on this computer by default.
 const port = Number(process.env.PORT || 3000);
 const host = process.env.HOST || '127.0.0.1';
-app.listen(port, host, () => console.log(`Gut Check running at http://localhost:${port}`));
+app.listen(port, host, () => console.log(`Priors running at http://localhost:${port}`));
