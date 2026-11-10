@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gut Check</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <h1>Gut Check</h1>
+      <p>The forecasting coach that remembers how <em>you</em> are wrong.</p>
+    </div>
+    <div class="pills">
+      <span class="pill" id="pill-memory"><i class="dot"></i>Walrus Memory · <b id="stored">0</b> stored</span>
+      <span class="pill" id="pill-sui"><i class="dot"></i>Sui Mainnet via Tatum</span>
+    </div>
+  </header>
+
+  <main class="grid">
+    <section class="card log">
+      <h2>Log a pick <small>before the event starts</small></h2>
+      <form id="pick-form" autocomplete="off">
+        <label>Event <input name="event" placeholder="Arsenal vs Chelsea" /></label>
+        <div class="row">
+          <label>Your pick <input name="subject" placeholder="Arsenal" required /></label>
+          <label>Category
+            <input name="category" list="cats" placeholder="Football" required />
+            <datalist id="cats"><option>Football</option><option>Tennis</option><option>NBA</option><option>Elections</option><option>Crypto</option><option>F1</option></datalist>
+          </label>
+        </div>
+        <div class="row">
+          <label>Gut confidence <span class="conf-val" id="conf-val">70%</span>
+            <input type="range" name="confidence" min="51" max="99" value="70" />
+          </label>
+          <label>Bookmaker odds (decimal) <input name="odds" type="number" step="0.01" min="1.01" placeholder="1.85" required /></label>
+        </div>
+
+        <div class="opinion" id="opinion">
+          <div class="nums">
+            <div><span>Your gut</span><b id="o-gut">–</b></div>
+            <div class="arrow">→</div>
+            <div class="coach"><span>Coach, from memory</span><b id="o-adj">–</b></div>
+            <div><span>Market</span><b id="o-mkt">–</b></div>
+          </div>
+          <ul id="o-reasons"></ul>
+          <p class="verdict" id="o-verdict">Fill in the pick to get a second opinion from your own history.</p>
+        </div>
+
+        <button type="submit" id="submit">Seal on Sui &amp; remember</button>
+        <p class="receipt" id="receipt"></p>
+      </form>
+    </section>
+
+    <section class="card fingerprint">
+      <h2>Your bias fingerprint <small id="fp-sub">learned from 0 settled picks</small></h2>
+      <div id="insights" class="insights"></div>
+    </section>
+
+    <section class="card open">
+      <h2>Open picks <small>settle them when the result is in</small></h2>
+      <div id="open-list" class="list"></div>
+      <details class="history">
+        <summary>Settled history</summary>
+        <div id="settled-list" class="list"></div>
+      </details>
+    </section>
+
+    <section class="card calib">
+      <h2>Calibration <small>what you said vs what happened</small></h2>
+      <svg id="calib-chart" viewBox="0 0 320 220" role="img" aria-label="Calibration chart"></svg>
+      <p class="legend"><span class="sw diag"></span>perfectly calibrated <span class="sw you"></span>you</p>
+    </section>
+
+    <section class="card ask">
+      <h2>Ask your past self <small>semantic search over your Walrus Memory</small></h2>
+      <form id="ask-form"><input name="q" placeholder="Why do I keep losing on derbies?" /><button>Recall</button></form>
+      <div id="ask-results" class="list"></div>
+    </section>
+
+    <section class="card timeline">
+      <h2>Memory timeline <small>every write lands on Walrus Mainnet</small></h2>
+      <div id="mem-list" class="list"></div>
+      <div class="restore">
+        <button id="restore" class="ghost">Wipe local data &amp; rebuild from Walrus</button>
+        <span id="restore-msg"></span>
+      </div>
+    </section>
+  </main>
+
+  <footer>Built with Walrus Memory (Mainnet) and Tatum Sui gRPC. Picks are sealed with the live Sui checkpoint, so nobody can claim a pick after the fact.</footer>
+  <script src="app.js" type="module"></script>
+</body>
+</html>
