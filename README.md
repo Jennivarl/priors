@@ -12,6 +12,8 @@ and learns your blind spots from every result. Before your next pick it pushes b
 > Your gut says **80%**. You overrate Arsenal by 41 pts (5 past picks). On Football you run hot. Tilt alarm: your last pick lost.
 > Coach, from memory: **30%**. Market: **51%**. *Corrected for your bias, the market is more right than you. Pass or size down.*
 
+**Live demo:** https://usepriors.vercel.app (read-only: try the coach and "Ask your past self"; run it locally to log your own picks)
+
 Track: **Markets & Sports Prediction** (Total Recall, Tatum x Walrus).
 
 ---
@@ -158,6 +160,9 @@ Expected: "Rebuilt from N memories on Walrus", and the picks, results and finger
 ### 10. Ask your past self
 In **Ask your past self**, type `why do I lose after a bad week?`.
 Expected: memories about chasing losses, ranked by meaning, each with its Walrus blob id.
+
+## Deploying your own (Vercel)
+Set `TATUM_API_KEY`, `MEMWAL_PRIVATE_KEY`, `MEMWAL_ACCOUNT_ID` and `OWNER_TOKEN` as Production environment variables, run `npm run snapshot` to publish your current history to `demo/state.json`, then `vercel deploy --prod`. With `OWNER_TOKEN` set the site is read-only for visitors; enter the passcode in the box at the bottom of the page to log picks. Crypto auto-settlement needs a long-running server (`npm start`), since serverless hosts have no background loop.
 
 ## Project layout
 ```
