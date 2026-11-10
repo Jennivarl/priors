@@ -17,7 +17,7 @@ Track: **Markets & Sports Prediction** (Total Recall, Tatum x Walrus).
 ## What it does
 
 1. **Log a pick, with your reason.** Sports (live bookmaker odds) or crypto (a price call on SUI or WAL).
-2. **Sealed on Sui.** The pick is stamped with the latest Sui Mainnet checkpoint (height, digest, time), read through Tatum. It proves the pick existed before the result.
+2. **Sealed on Sui.** The pick is stamped with the latest Sui Mainnet checkpoint (height, digest, time), read through Tatum, and a sha256 commitment of its content is written to Walrus. Exactly what that proves is explained under Architecture.
 3. **Remembered on Walrus.** The pick, your reason, the result and every lesson the coach learns are written to Walrus Memory (Mainnet).
 4. **Settled without trusting you.** Crypto calls settle themselves at the deadline from **onchain pool state** (Cetus SUI/USDC and WAL/SUI pools on Sui, read through Tatum). Sports results are self-reported for now and are labelled *unverified* everywhere.
 5. **Learns your bias fingerprint**, from results:
@@ -54,6 +54,13 @@ Fingerprint, chart  ◄──  fingerprint / calibration (lib/coach.js)
 "Rebuild from Walrus" ─► restoreAll (lib/memory.js) ─────────────────►  Walrus Memory recall + restore
 ```
 
+**Reasoning echo calibration (real Walrus recall distances, lower = closer in meaning).**
+Query *"I need to win back my losses tonight"*: "Need to win back what I lost on Arsenal" 0.531, "Down this week so I need a big win" 0.546, "I have to make up for the last loss" 0.551, while a stats-based tennis reason scored 0.654 and "great form" reasons 0.71+.
+Query *"Head to head record and serve statistics favour him"*: the three stats-based tennis reasons 0.49–0.52; everything else 0.65+.
+Same line of thinking lands at 0.41–0.55 and unrelated reasoning at 0.65+, so the echo counts matches below **0.6** (`ECHO_MAX_DISTANCE`).
+
+**What the seal proves.** Each pick stores the latest Sui checkpoint height and **digest**, plus a sha256 **commitment** over the pick's content and that digest. A digest cannot be known before its checkpoint exists, so the pick was made *after* that checkpoint. The Walrus memory carrying the commitment shows it existed *by* the time of the write. Editing any field later changes the commitment. (It does not anchor the pick in its own Sui transaction; that would need a funded wallet per user, see trade-offs.)
+
 Memory layout on Walrus (namespace `gut-check`, plus `gut-check-reasons` for reasoning only):
 each memory is a human sentence followed by a tagged JSON payload, so it reads well in any agent
 *and* the app can rebuild its exact state from it.
@@ -69,6 +76,7 @@ each memory is a human sentence followed by a tagged JSON payload, so it reads w
 
 - **Sports results are self-reported** and labelled *unverified* in the UI and in memory. Crypto results are verified onchain. Upgrade path in code: add a `ResultSource` (results feed or Sui prediction-market resolution) in [lib/settle.js](lib/settle.js); nothing else changes.
 - **Crypto "market" price is your own odds**, since there is no bookmaker for a one-off price call. Sports odds come from the live feed when `ODDS_API_KEY` is set; otherwise they are typed and labelled as such.
+- **No per-pick Sui transaction.** Picks are time-bounded by a checkpoint digest and a Walrus write, not anchored in their own transaction (that needs a funded wallet and gas per user).
 - **Single user per server.** Each server holds one Walrus delegate key. Multi-user means one delegate key per user (Walrus supports this) and per-user state.
 - **Demo history.** `npm run seed` loads a demo forecaster (events marked "(demo)", illustrative results) through the real API, so every demo pick is still really sealed on Sui and written to Walrus.
 - **Recall is capped at 100 results per query**, so "rebuild from Walrus" sweeps several queries; fine for hundreds of picks, not tens of thousands.
@@ -117,7 +125,7 @@ A Walrus write takes about 20 to 30 seconds. A `401 AUTH_REJECTED` means the acc
 ```bash
 npm test
 ```
-Expected: `pass 5`, `fail 0`.
+Expected: `pass 15`, `fail 0` (coach logic, onchain price math, settlement rules, input checks, commitments, reasoning echo).
 
 ### 5. Start the app
 ```bash

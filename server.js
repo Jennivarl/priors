@@ -6,7 +6,7 @@ import * as memory from './lib/memory.js';
 import * as store from './lib/store.js';
 import { fingerprint, calibration, secondOpinion, reasoningEcho } from './lib/coach.js';
 import { getPrice } from './lib/oracle.js';
-import * as odds from './lib/odds.js';
+import * as markets from './lib/markets.js';
 import { onchainPrice, selfReported, sourceFor, parseCrypto, commitment } from './lib/settle.js';
 
 const app = express();
@@ -107,9 +107,11 @@ function parseDraft(b) {
 /** Apply a settlement from any ResultSource, remember it on Walrus, and let the coach learn. */
 function applySettlement(pick, s) {
   Object.assign(pick, { status: s.status, settledAt: new Date().toISOString(), verified: s.verified, evidence: s.evidence });
-  const proof = s.verified
-    ? `Verified onchain: ${pick.crypto.asset} was $${s.evidence.usd.toFixed(4)} at Sui checkpoint ${s.evidence.checkpoint} (target ${s.evidence.direction} $${s.evidence.target}).`
-    : 'Self-reported, unverified.';
+  const proof = !s.verified
+    ? 'Self-reported, unverified.'
+    : pick.crypto
+      ? `Verified onchain: ${pick.crypto.asset} was $${s.evidence.usd.toFixed(4)} at Sui checkpoint ${s.evidence.checkpoint} (target ${s.evidence.direction} $${s.evidence.target}).`
+      : `Verified by market resolution: Polymarket market ${s.evidence.marketId} "${s.evidence.question}" resolved ${JSON.stringify(s.evidence.outcomePrices)}.`;
   writeMemory(
     'result',
     `Gut Check result settled: my pick on ${pick.subject}${pick.event ? ` (${pick.event})` : ''} ${s.status}. I had said ${pct(pick.confidence)}. ${proof}`,
@@ -125,9 +127,9 @@ async function autoSettle() {
   if (settling) return;
   settling = true;
   try {
-    for (const pick of state.picks.filter((p) => p.status === 'open' && p.crypto)) {
+    for (const pick of state.picks.filter((p) => p.status === 'open' && (p.crypto || p.market))) {
       try {
-        const s = await onchainPrice.settle(pick);
+        const s = await sourceFor(pick).settle(pick);
         if (s) applySettlement(pick, s);
       } catch (e) {
         console.error(`Auto-settle failed for ${pick.subject}:`, e.message);
@@ -141,7 +143,7 @@ setInterval(autoSettle, 15_000);
 
 // Reasoning echo: ask Walrus Memory which past REASONS mean the same thing as this one,
 // then look up how those picks ended. Semantic recall is what makes this possible.
-const ECHO_MAX_DISTANCE = Number(process.env.ECHO_MAX_DISTANCE || 0.75);
+const ECHO_MAX_DISTANCE = Number(process.env.ECHO_MAX_DISTANCE || 0.6);
 async function echoFor(draft) {
   if (draft.reason.length < 8) return null;
   const hits = await memory.recall(draft.reason, 12, memory.REASONS, ECHO_MAX_DISTANCE);
@@ -186,9 +188,8 @@ app.post('/api/opinion', async (req, res) => {
 });
 
 app.get('/api/events/:category', async (req, res) => {
-  if (!odds.enabled()) return res.json({ enabled: false, events: [] });
   try {
-    res.json({ enabled: true, events: await odds.upcoming(req.params.category) });
+    res.json({ enabled: true, events: await markets.list(req.params.category) });
   } catch (e) {
     res.status(502).json({ error: e.message });
   }
@@ -210,13 +211,23 @@ app.post('/api/picks', async (req, res) => {
     return res.status(400).json({ error: e.message });
   }
   if (draft.reason.length < 8) return res.status(400).json({ error: 'Say why you like this pick (at least a few words). The coach learns from your reasoning.' });
-  // Price source: live bookmaker odds when an event was chosen from the feed, otherwise manual (labelled).
+  // Price source: a fresh prediction-market quote when a market was chosen (the client's number is ignored),
+  // otherwise the user's own typed odds, labelled as such everywhere.
   draft.oddsSource = { kind: 'manual' };
-  if (!draft.crypto && req.body.eventId && odds.enabled()) {
+  if (!draft.crypto && req.body.marketId) {
     try {
-      const live = await odds.priceFor(draft.category, req.body.eventId, draft.subject);
-      Object.assign(draft, { odds: live.odds, marketProb: 1 / live.odds, event: live.event, commence: live.commence });
-      draft.oddsSource = { kind: 'bookmaker', bookmaker: live.bookmaker, eventId: live.eventId };
+      const side = String(req.body.side || 'Yes');
+      const q = await markets.quote(req.body.marketId, side);
+      const prob = q.option.prob;
+      Object.assign(draft, {
+        subject: q.option.subject,
+        event: q.event,
+        odds: Number((1 / prob).toFixed(3)),
+        marketProb: prob,
+        starts: q.starts,
+        market: { marketId: q.marketId, question: q.question, side },
+      });
+      draft.oddsSource = { kind: 'market', name: 'Polymarket', marketId: q.marketId };
     } catch (e) {
       return res.status(400).json({ error: e.message });
     }
@@ -235,7 +246,7 @@ app.post('/api/picks', async (req, res) => {
     state.picks.unshift(pick);
     writeMemory(
       'pick',
-      `Gut Check pick logged: I backed ${pick.subject}${pick.event ? ` in ${pick.event}` : ''} (${pick.category}) at ${pct(pick.confidence)} confidence. ${pick.oddsSource.kind === 'bookmaker' ? `${pick.oddsSource.bookmaker} odds` : 'My own typed odds'} implied ${pct(pick.marketProb)} (odds ${pick.odds}).${pick.crypto ? ` ${pick.crypto.asset} was $${pick.crypto.startPrice?.toFixed(4)} onchain when I called it.` : ''} Why: ${pick.reason}. Commitment sha256 ${pick.commitment}, Sui checkpoint digest ${stamp.digest}. Coach said ${pct(opinion.adjusted)}. Sealed at Sui checkpoint ${stamp.checkpoint}.`,
+      `Gut Check pick logged: I backed ${pick.subject}${pick.event ? ` in ${pick.event}` : ''} (${pick.category}) at ${pct(pick.confidence)} confidence. ${pick.oddsSource.kind === 'market' ? 'Polymarket' : 'My own typed odds'} implied ${pct(pick.marketProb)} (odds ${pick.odds}).${pick.crypto ? ` ${pick.crypto.asset} was $${pick.crypto.startPrice?.toFixed(4)} onchain when I called it.` : ''} Why: ${pick.reason}. Commitment sha256 ${pick.commitment}, Sui checkpoint digest ${stamp.digest}. Coach said ${pct(opinion.adjusted)}. Sealed at Sui checkpoint ${stamp.checkpoint}.`,
       { kind: 'pick', pick },
     );
     writeMemory('reason', `My reason for backing ${pick.subject} (${pick.category}): ${pick.reason}`, { kind: 'reason', pickId: pick.id }, memory.REASONS);

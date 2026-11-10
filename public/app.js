@@ -19,37 +19,44 @@ function formData() {
 
 const form = $('#pick-form');
 
-// ---------- Sports: live bookmaker feed (falls back to typed odds) ----------
+// ---------- Sports & politics: live prediction-market feed (falls back to typed odds) ----------
 let events = [];
 async function loadEvents() {
   const cat = form.elements.category.value;
   try {
     const r = await api(`/api/events/${encodeURIComponent(cat)}`);
     events = r.events || [];
-    if (r.enabled && events.length) {
+    if (events.length) {
       form.dataset.feed = '1';
-      form.elements.eventId.innerHTML = `<option value="">Choose an upcoming event…</option>` +
-        events.map((e) => `<option value="${esc(e.id)}">${esc(e.event)} · ${esc(e.commence.slice(5, 16).replace('T', ' '))} UTC</option>`).join('');
+      form.elements.marketId.innerHTML = `<option value="">Choose a market…</option>` +
+        events.map((e) => `<option value="${esc(e.marketId)}">${esc(e.label === e.event ? e.event : `${e.label} · ${e.event}`)} · ${esc(e.starts.slice(5, 16).replace('T', ' '))} UTC</option>`).join('');
+      form.elements.side.innerHTML = '';
     } else {
       delete form.dataset.feed;
-      $('#odds-src').textContent = r.enabled ? 'no live events in this category, typed by you' : 'typed by you (no odds feed key)';
+      $('#odds-src').textContent = 'no open markets in this category, typed by you';
     }
   } catch (e) {
     delete form.dataset.feed;
-    $('#odds-src').textContent = `typed by you (feed error: ${e.message.slice(0, 60)})`;
+    $('#odds-src').textContent = `typed by you (market feed error: ${e.message.slice(0, 60)})`;
   }
 }
 function applyEventOdds() {
-  const ev = events.find((e) => e.id === form.elements.eventId.value);
-  $('#outcomes').innerHTML = ev ? Object.keys(ev.outcomes).map((o) => `<option>${esc(o)}</option>`).join('') : '';
-  const o = ev?.outcomes[form.elements.subject.value];
-  form.elements.odds.readOnly = Boolean(o);
-  if (o) {
-    form.elements.odds.value = o.price;
-    $('#odds-src').textContent = `best live price: ${o.bookmaker}`;
-  } else if (form.dataset.feed) {
-    $('#odds-src').textContent = ev ? 'pick one of the listed outcomes' : 'choose an event';
+  if (!form.dataset.feed) { form.elements.odds.readOnly = false; return; }
+  const ev = events.find((e) => e.marketId === form.elements.marketId.value);
+  if (!ev) {
+    form.elements.side.innerHTML = '';
+    $('#odds-src').textContent = 'choose a market';
+    return;
   }
+  const keep = form.elements.side.value;
+  form.elements.side.innerHTML = ev.options.map((o) => `<option value="${esc(o.side)}">${esc(o.subject)} (${pct(o.prob)})</option>`).join('');
+  if (ev.options.some((o) => o.side === keep)) form.elements.side.value = keep;
+  const o = ev.options.find((x) => x.side === form.elements.side.value) || ev.options[0];
+  form.elements.subject.value = o.subject;
+  form.elements.event.value = ev.event;
+  form.elements.odds.value = (1 / o.prob).toFixed(2);
+  form.elements.odds.readOnly = true;
+  $('#odds-src').textContent = `live Polymarket price ${pct(o.prob)}`;
 }
 
 // ---------- Crypto: live onchain price ----------
@@ -107,7 +114,7 @@ function refreshOpinion() {
 form.addEventListener('input', (ev) => {
   if (ev.target.name === 'kind') setKind();
   if (ev.target.name === 'category') loadEvents().then(applyEventOdds);
-  if (ev.target.name === 'eventId' || ev.target.name === 'subject') applyEventOdds();
+  if (ev.target.name === 'marketId' || ev.target.name === 'side') applyEventOdds();
   if (ev.target.name === 'asset') { form.elements.target.value = ''; loadPrice(); }
   refreshOpinion();
 });
@@ -150,20 +157,24 @@ function render(v) {
     : `<p class="empty">Nothing learned yet. Settle at least 3 picks and the coach starts finding your blind spots.</p>`;
   known = new Set(fp.insights.map((i) => i.title));
 
-  const priceTag = (p) => (p.oddsSource?.kind === 'bookmaker' ? `${esc(p.oddsSource.bookmaker)} odds` : 'typed odds');
+  const priceTag = (p) => (p.oddsSource?.kind === 'market' ? 'Polymarket price' : 'typed odds');
   const open = v.picks.filter((p) => p.status === 'open');
   $('#open-list').innerHTML = open.length
     ? open.map((p) => `<div class="item"><div><b>${esc(p.subject)}</b> ${p.event ? `· ${esc(p.event)}` : ''} <span class="tag">${esc(p.category)}</span>
         <div class="meta">gut ${pct(p.confidence)} · coach ${pct(p.coach.adjusted)} · market ${pct(p.marketProb)} (${priceTag(p)}) · sealed #${esc(p.stamp?.checkpoint)}</div></div>
         <div class="acts">${p.crypto
           ? `<span class="tag verified">settles onchain ${esc(p.crypto.deadline.slice(11, 19))} UTC</span>`
-          : `<button class="small win" data-settle="won" data-id="${p.id}">Won</button><button class="small loss" data-settle="lost" data-id="${p.id}">Lost</button>`}</div></div>`).join('')
+          : p.market
+            ? `<span class="tag verified">settles on market resolution</span>`
+            : `<button class="small win" data-settle="won" data-id="${p.id}">Won</button><button class="small loss" data-settle="lost" data-id="${p.id}">Lost</button>`}</div></div>`).join('')
     : `<p class="empty">No open picks.</p>`;
 
+  const how = (p) => (!p.verified ? 'self-reported' : p.crypto ? 'verified onchain' : 'market-resolved');
+  const proof = (p) => (!p.verified ? '' : p.crypto ? ` · settled at $${p.evidence.usd.toFixed(4)}, checkpoint #${esc(p.evidence.checkpoint)}` : ` · Polymarket market ${esc(p.evidence.marketId)}`);
   $('#settled-list').innerHTML = v.picks
     .filter((p) => p.status !== 'open')
-    .map((p) => `<div class="item"><div><span class="tag ${p.status}">${p.status}</span><span class="tag ${p.verified ? 'verified' : 'unverified'}">${p.verified ? 'verified onchain' : 'self-reported'}</span><b>${esc(p.subject)}</b> ${p.event ? `· ${esc(p.event)}` : ''}
-        <div class="meta">gut ${pct(p.confidence)} · market ${pct(p.marketProb)} · sealed #${esc(p.stamp?.checkpoint)}${p.verified ? ` · settled at $${p.evidence.usd.toFixed(4)}, checkpoint #${esc(p.evidence.checkpoint)}` : ''}</div></div></div>`)
+    .map((p) => `<div class="item"><div><span class="tag ${p.status}">${p.status}</span><span class="tag ${p.verified ? 'verified' : 'unverified'}">${how(p)}</span><b>${esc(p.subject)}</b> ${p.event ? `· ${esc(p.event)}` : ''}
+        <div class="meta">gut ${pct(p.confidence)} · market ${pct(p.marketProb)} · sealed #${esc(p.stamp?.checkpoint)}${proof(p)}</div></div></div>`)
     .join('');
   if (open.some((p) => p.crypto)) { clearTimeout(window.__pollT); window.__pollT = setTimeout(poll, 8000); }
 

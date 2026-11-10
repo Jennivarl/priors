@@ -80,3 +80,35 @@ test('reasoning echo: past reasoning that lost pulls the second opinion down', (
   assert.ok(o.reasons.some((r) => r.includes('argued like this 3 times')));
   assert.equal(reasoningEcho([]), null);
 });
+
+import { makeMarketResolution } from '../lib/settle.js';
+import { toQuote } from '../lib/markets.js';
+
+const market = (over) => ({ marketId: '1', question: 'Will Arsenal win?', outcomes: ['Yes', 'No'], prices: [1, 0], closed: true, resolution: 'resolved', ...over });
+const resolve = (m) => makeMarketResolution(async () => m);
+const backing = (side) => ({ market: { marketId: '1', side } });
+
+test('market picks settle only once the market is closed and resolved', async () => {
+  assert.equal(await resolve(market({ closed: false })).settle(backing('Yes')), null);
+  assert.equal(await resolve(market({ resolution: 'proposed' })).settle(backing('Yes')), null);
+  assert.equal(await resolve(market({ prices: [0.5, 0.5] })).settle(backing('Yes')), null); // disputed / 50-50
+});
+
+test('market resolution decides won/lost for either side, with evidence', async () => {
+  const yes = await resolve(market()).settle(backing('Yes'));
+  assert.equal(yes.status, 'won');
+  assert.equal(yes.verified, true);
+  assert.equal(yes.evidence.marketId, '1');
+  assert.equal((await resolve(market()).settle(backing('No'))).status, 'lost');
+  const named = market({ outcomes: ['Sinner', 'Alcaraz'], prices: [0, 1] });
+  assert.equal((await resolve(named).settle(backing('Alcaraz'))).status, 'won');
+  assert.equal((await resolve(named).settle(backing('Sinner'))).status, 'lost');
+});
+
+test('Polymarket markets become backable options (Yes/No or named outcomes)', () => {
+  const yn = toQuote({ id: 7, question: 'Will Arsenal win on 2026-11-14?', groupItemTitle: 'Arsenal', outcomes: '["Yes", "No"]', outcomePrices: '["0.62", "0.38"]', gameStartTime: '2026-11-14 15:00:00+00' });
+  assert.deepEqual(yn.options.map((o) => o.subject), ['Arsenal', 'Not Arsenal']);
+  assert.equal(yn.starts, '2026-11-14T15:00:00.000Z');
+  const named = toQuote({ id: 8, question: 'Sinner vs Alcaraz', outcomes: '["Sinner", "Alcaraz"]', outcomePrices: '["0.4", "0.6"]', endDate: '2026-11-15T12:00:00Z' });
+  assert.deepEqual(named.options.map((o) => [o.side, o.prob]), [['Sinner', 0.4], ['Alcaraz', 0.6]]);
+});

@@ -35,12 +35,15 @@
             <label>Category
               <select name="category"><option>Football</option><option>Tennis</option><option>NBA</option><option>NFL</option><option>Elections</option></select>
             </label>
-            <label class="feed-only">Live event (bookmaker feed)
-              <select name="eventId"><option value="">Loading events…</option></select>
+            <label class="feed-only">You back
+              <select name="side"></select>
             </label>
           </div>
+          <label class="feed-only">Live market (Polymarket, settles on resolution)
+            <select name="marketId"><option value="">Loading markets…</option></select>
+          </label>
           <label class="manual-only">Event <input name="event" placeholder="Arsenal vs Chelsea" /></label>
-          <label>Your pick <input name="subject" list="outcomes" placeholder="Arsenal" /><datalist id="outcomes"></datalist></label>
+          <label class="manual-only">Your pick <input name="subject" placeholder="Arsenal" /></label>
         </div>
 
         <div class="crypto-only row">
