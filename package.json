@@ -1,26 +1,34 @@
 {
   "name": "priors",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A forecasting coach that remembers how you are wrong. Picks sealed on Sui via Tatum, memory on Walrus.",
+  "main": "server.js",
   "scripts": {
-    "test": "node --test test/coach.test.js test/settle.test.js",
+    "test": "node --test test/coach.test.js test/settle.test.js test/wallet.test.js",
     "start": "node server.js",
     "seed": "node scripts/seed.js",
     "check": "node scripts/smoke.js",
     "live-calls": "node scripts/live-calls.js",
-    "snapshot": "node scripts/snapshot.js"
+    "snapshot": "node scripts/snapshot.js",
+    "build": "esbuild client/wallet.js --bundle --format=esm --platform=browser --minify --target=es2022 --outfile=public/vendor/wallet.js",
+    "prestart": "npm run build"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "varl999",
+  "license": "MIT",
   "type": "module",
   "dependencies": {
     "@grpc/grpc-js": "^1.14.7",
     "@mysten-incubation/memwal": "^0.1.14",
     "@mysten/sui": "^2.39.1",
+    "@mysten/wallet-standard": "^0.21.38",
     "@protobuf-ts/grpc-transport": "^2.11.1",
     "dotenv": "^18.0.10",
     "express": "^5.3.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  },
+  "engines": {
+    "node": ">=22"
   }
 }

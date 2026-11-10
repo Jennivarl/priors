@@ -18,21 +18,71 @@
         <svg class="mark" viewBox="0 0 20 20" aria-hidden="true"><rect x="1.4" y="1.4" width="17.2" height="17.2" rx="4.8" fill="#FDFBF7" stroke="#1F1B16" stroke-width="0.8"/><path d="M6.4 5.2v9.6" stroke="#7B7266" stroke-width="1.6"/><path d="M4 11.6 8.8 8.4" stroke="#FF6B4A" stroke-width="1"/><path d="M13.2 5.2v9.6" stroke="#1F1B16" stroke-width="1.6"/></svg>
         <span>Priors</span>
       </a>
-      <div class="status">
-        <span class="stat-line"><i class="dot" id="sui-dot"></i>Sui Mainnet <span class="mono" id="sui-cp">via Tatum</span></span>
-        <span class="stat-line"><i class="dot" id="mem-dot"></i>Walrus Memory <span class="mono"><span id="stored">0</span> memories</span></span>
+      <div class="bar-right">
+        <div class="status">
+          <span class="stat-line"><i class="dot" id="sui-dot"></i>Sui Mainnet <span class="mono" id="sui-cp">via Tatum</span></span>
+          <span class="stat-line"><i class="dot" id="mem-dot"></i>Walrus Memory <span class="mono"><span id="stored">0</span> memories</span></span>
+        </div>
+        <button type="button" class="btn primary-sm" id="wallet-btn">Connect wallet</button>
+        <div class="acct">
+          <button type="button" class="btn quiet small" id="account-btn" hidden aria-haspopup="true">
+            <i class="dot ok"></i><span class="mono" id="account-addr"></span>
+          </button>
+          <div class="menu" id="account-menu" hidden>
+            <p class="menu-label">Your record is in Walrus Memory account</p>
+            <p class="mono menu-id" id="account-full"></p>
+            <a class="menu-item" href="https://memory.walrus.xyz/dashboard" target="_blank" rel="noopener">Manage or revoke keys on Walrus</a>
+            <button type="button" class="menu-item" id="disconnect">Disconnect this browser</button>
+          </div>
+        </div>
       </div>
     </div>
   </header>
 
   <div class="notice" id="demo-banner" hidden>
-    Read-only demo of a real record. Try the coach or ask your past self. To log your own picks, run Priors locally
+    <span>This is a demo record. Connect a Sui wallet to keep your own, in your own Walrus Memory</span>
+    <button type="button" class="link" id="banner-connect">Connect wallet</button>
   </div>
+
+  <dialog class="connect" id="connect" aria-labelledby="connect-h">
+    <div class="connect-head">
+      <h2 id="connect-h">Connect your wallet</h2>
+      <button type="button" class="btn quiet small" data-close aria-label="Close">Close</button>
+    </div>
+
+    <div data-pane="choose">
+      <p class="lede">Priors keeps your picks in your own Walrus Memory account. Your wallet approves a key for Priors that can read and write those memories. It cannot move funds, and you can revoke it at any time</p>
+      <ul class="wallets" id="wallet-list"></ul>
+      <button type="button" class="link" id="show-key-form">I already have a Walrus Memory delegate key</button>
+    </div>
+
+    <div data-pane="progress" hidden>
+      <ol class="steps">
+        <li data-step="connect" data-state="waiting"><span class="s-name">Connect wallet</span><span class="note"></span></li>
+        <li data-step="account" data-state="waiting"><span class="s-name">Find or create your Walrus Memory</span><span class="note"></span></li>
+        <li data-step="key" data-state="waiting"><span class="s-name">Approve a key for Priors</span><span class="note"></span></li>
+        <li data-step="check" data-state="waiting"><span class="s-name">Check the key with Walrus</span><span class="note"></span></li>
+      </ol>
+      <button type="button" class="link" data-back>Back</button>
+    </div>
+
+    <form data-pane="key" id="key-form" hidden autocomplete="off">
+      <p class="lede">On memory.walrus.xyz, choose Connect an app. Copy the accountId from the quickstart and a delegate private key. The key stays in this browser</p>
+      <label class="field">Account ID <input name="account" placeholder="0x…" spellcheck="false" /></label>
+      <label class="field">Delegate private key <input name="key" type="password" placeholder="64 characters" spellcheck="false" /></label>
+      <div class="row-actions">
+        <button type="button" class="link" data-back>Back</button>
+        <button type="submit" class="btn primary-sm">Use this key</button>
+      </div>
+    </form>
+
+    <p class="form-error" id="connect-error" hidden role="alert"></p>
+  </dialog>
 
   <main class="page">
     <section class="head">
       <div>
-        <h1>Your record</h1>
+        <h1 id="head-title">Your record</h1>
         <p class="sub" id="head-sub">The coach that remembers how you are wrong</p>
       </div>
       <dl class="stats" id="stats">

@@ -9,12 +9,22 @@ You log a pick before the event with your confidence and your reason. Priors sea
 Sui checkpoint (so nobody can claim a pick after the fact), stores it in **Walrus Memory on Mainnet**,
 and learns your blind spots from every result. Before your next pick it pushes back:
 
-> Your gut says **80%**. You overrate Arsenal by 41 pts (5 past picks). On Football you run hot. Tilt alarm: your last pick lost.
-> Coach, from memory: **30%**. Market: **51%**. *Corrected for your bias, the market is more right than you. Pass or size down.*
+> Your gut says **80%**. You overrate Arsenal by 41 pts (5 past picks). On Football you run hot. Walrus found 5 past picks where you argued the same way, and 2 won.
+> Coach, from your record: **24%**. Market: **51%**. *Corrected for your bias, the market is more right than you. Pass or size down.*
 
-**Live demo:** https://usepriors.vercel.app (read-only: try the coach and "Ask your past self"; run it locally to log your own picks)
+**Live app:** https://usepriors.vercel.app. Connect a Sui wallet to keep your own record in your own Walrus Memory, or browse the demo record without signing in.
 
 Track: **Markets & Sports Prediction** (Total Recall, Tatum x Walrus).
+
+## Use it on the live site
+
+1. Install a Sui wallet such as [Slush](https://slush.app) and hold a little SUI for gas (0.01 SUI covers setup).
+2. Open https://usepriors.vercel.app and click **Connect wallet**.
+3. Approve in your wallet: Priors finds your Walrus Memory account or creates it (one transaction), then adds a delegate key for Priors to it (one transaction). The key can read and write your memories only; it cannot move funds, and you can revoke it at any time on memory.walrus.xyz.
+4. Log a pick. It is sealed on Sui and written to **your** Walrus Memory. Crypto calls settle themselves while the page is open; Polymarket picks settle when their market resolves.
+5. Open the site on another device, connect the same wallet, and click **Rebuild from Walrus** to get your record back.
+
+Already have a Walrus Memory delegate key (for example from signing in with Google on memory.walrus.xyz)? Choose **I already have a Walrus Memory delegate key** in the connect dialog instead.
 
 ---
 
@@ -25,7 +35,7 @@ Track: **Markets & Sports Prediction** (Total Recall, Tatum x Walrus).
 3. **Remembered on Walrus.** The pick, your reason, the result and every lesson the coach learns are written to Walrus Memory (Mainnet).
 4. **Settled without trusting you.** Crypto calls settle themselves at the deadline from **onchain pool state** (Cetus SUI/USDC and WAL/SUI pools on Sui, read through Tatum). Sports and politics picks settle themselves when their **Polymarket market resolves** (resolved onchain through the UMA oracle). The server re-quotes the price itself, so the user cannot type a fake price. Manual picks (no market) still exist, and are labelled *self-reported* everywhere.
 5. **Learns your bias fingerprint**, from results:
-   - overall calibration (you say 73%, you hit 43%)
+   - overall calibration (on the demo record: you say 71%, 50% happens)
    - per team ("you overrate Arsenal")
    - per category ("you are sharp on tennis, overconfident on NBA")
    - **tilt** ("right after a loss you hit 29% vs 57% and take longer odds")
@@ -33,13 +43,14 @@ Track: **Markets & Sports Prediction** (Total Recall, Tatum x Walrus).
 6. **Learns from how you think.** Walrus **semantic recall** finds past picks whose *reason means the same thing* as your new one ("great form, they're due" matches "Arsenal are flying, they owe us one") and shows how that line of thinking worked out. Walrus **Analyze** extracts facts from your reasoning text.
 7. **Second opinion before you commit.** Your gut, minus what your history says you get wrong, next to the market price.
 8. **Portable.** Wipe the app's local data and rebuild everything from Walrus alone. The same memory can be read by any agent (for example Claude Code through the Walrus Memory MCP server).
+9. **Yours, per wallet.** Anyone can sign in with a Sui wallet. Each person's picks go into their own Walrus Memory account, through a delegate key their wallet approves. Priors never sees the wallet's own key.
 
 ## How it maps to the judging criteria
 
 | Criterion (weight) | Where to see it |
 |---|---|
 | Walrus + Tatum integration (30%) | Walrus Memory is the core, not storage: semantic recall of your *reasoning* drives the coach ([server.js](server.js) `echoFor`, [lib/coach.js](lib/coach.js) `reasoningEcho`), Analyze extracts facts, lessons are memories, "rebuild from Walrus" restores the whole app ([lib/memory.js](lib/memory.js)). Tatum Sui gRPC stamps every pick and reads onchain pool state to settle crypto picks ([lib/sui.js](lib/sui.js), [lib/oracle.js](lib/oracle.js)). |
-| Technical quality (30%) | Pure, tested coach logic ([test/coach.test.js](test/coach.test.js)); result sources behind one interface ([lib/settle.js](lib/settle.js)); Tatum rate limits handled (3 rps, retry on 429); Walrus write pool with retries and visible status; clear error messages. |
+| Technical quality (30%) | Pure, tested coach logic shared by server and browser ([lib/coach.js](lib/coach.js)); result sources behind one interface ([lib/settle.js](lib/settle.js)); wallet sign-in on the Walrus Memory account contract with signed pick receipts ([lib/walrus-account.js](lib/walrus-account.js), [lib/receipt.js](lib/receipt.js)); Tatum rate limits handled (3 rps, retry on 429); idempotent Walrus writes with visible status; 26 unit tests ([test/](test/)). |
 | Creativity (20%) | Turns the credibility idea inward: the app scores *you*, including your reasoning patterns and tilt. |
 | Presentation (20%) | This README, the live app, and the demo video. |
 
@@ -65,9 +76,9 @@ Same line of thinking lands at 0.41–0.55 and unrelated reasoning at 0.65+, so 
 
 **What the seal proves.** Each pick stores the latest Sui checkpoint height and **digest**, plus a sha256 **commitment** over the pick's content and that digest. A digest cannot be known before its checkpoint exists, so the pick was made *after* that checkpoint. The Walrus memory carrying the commitment shows it existed *by* the time of the write. Editing any field later changes the commitment. (It does not anchor the pick in its own Sui transaction; that would need a funded wallet per user, see trade-offs.)
 
-Memory layout on Walrus (namespace `gut-check`, plus `gut-check-reasons` for reasoning only):
-each memory is a human sentence followed by a tagged JSON payload, so it reads well in any agent
-*and* the app can rebuild its exact state from it.
+**Wallet sign-in.** The Walrus Memory contract (package `0xe7c16f…d7f5`) keeps an `AccountRegistry` whose table maps each wallet address to its one account. Priors derives the table entry from the address and reads it through Tatum, so a returning user is found directly. A new user's wallet signs `account::create_account`, then `account::add_delegate_key` for an Ed25519 key generated in the browser. The browser keeps that delegate key and sends it per request over HTTPS; the server checks it is authorised on the account onchain, uses it for that request, and never stores it. A wallet user's record lives in their browser and their own Walrus Memory; the coach runs in the browser from the same [lib/coach.js](lib/coach.js). Because the browser holds the record, the server signs every pick it seals (an HMAC over the pick's commitment), and settlement only accepts picks with a valid receipt, so a pick edited in the browser cannot be settled.
+
+Memory layout on Walrus: the demo record uses namespace `gut-check` (plus `gut-check-reasons`); wallet users write to `priors` (plus `priors-reasons`) in their own account. Each memory is a human sentence followed by a tagged JSON payload, so it reads well in any agent *and* the app can rebuild its exact state from it.
 
 ## Who it is for, and the business
 
@@ -82,7 +93,8 @@ each memory is a human sentence followed by a tagged JSON payload, so it reads w
 - **Polymarket lives on Polygon, not Sui.** It is the deepest public market for sports prices today; Sui prediction markets can replace it through the same interface.
 - **Crypto "market" price is your own odds**, since no market exists for a one-off 3-minute price call. It is labelled as typed odds.
 - **No per-pick Sui transaction.** Picks are time-bounded by a checkpoint digest and a Walrus write, not anchored in their own transaction (that needs a funded wallet and gas per user).
-- **Single user per server.** Each server holds one Walrus delegate key. Multi-user means one delegate key per user (Walrus supports this) and per-user state.
+- **Wallet users settle while the page is open.** Their record lives in their browser, so crypto calls and market picks settle the next time they open Priors, not in the background. The local app (`npm start`) settles its own record in the background.
+- **The delegate key lives in the browser's storage.** It can only read and write that user's memories, and the user can revoke it on memory.walrus.xyz at any time.
 - **Demo history.** `npm run seed` loads a demo forecaster (events marked "(demo)", illustrative results) through the real API, so every demo pick is still really sealed on Sui and written to Walrus.
 - **Recall is capped at 100 results per query**, so "rebuild from Walrus" sweeps several queries; fine for hundreds of picks, not tens of thousands.
 
@@ -128,7 +140,7 @@ A Walrus write takes about 20 to 30 seconds. A `401 AUTH_REJECTED` means the acc
 ```bash
 npm test
 ```
-Expected: `pass 18`, `fail 0` (coach logic, onchain price math, settlement rules for all three sources, input checks, commitments, reasoning echo).
+Expected: `pass 26`, `fail 0` (coach logic, onchain price math, settlement rules for all three sources, input checks, commitments, pick receipts, Walrus account parsing, rebuilding a record from memories, reasoning echo).
 
 ### 5. Start the app
 ```bash
@@ -162,20 +174,26 @@ In **Ask your past self**, type `why do I lose after a bad week` and click **Rec
 Expected: memories about chasing losses, ranked by meaning, each with its Walrus blob id.
 
 ## Deploying your own (Vercel)
-Set `TATUM_API_KEY`, `MEMWAL_PRIVATE_KEY`, `MEMWAL_ACCOUNT_ID` and `OWNER_TOKEN` as Production environment variables, run `npm run snapshot` to publish your current history to `demo/state.json`, then `vercel deploy --prod`. With `OWNER_TOKEN` set the site is read-only for visitors; enter the passcode in the box at the bottom of the page to log picks. Crypto auto-settlement needs a long-running server (`npm start`), since serverless hosts have no background loop.
+Set `TATUM_API_KEY`, `MEMWAL_PRIVATE_KEY`, `MEMWAL_ACCOUNT_ID` and `OWNER_TOKEN` as Production environment variables, run `npm run snapshot` to publish your current history to `demo/state.json`, then `vercel deploy --prod` (Vercel runs `npm run build`, which bundles the wallet sign-in). With `OWNER_TOKEN` set the demo record is read-only for visitors, who can connect their own wallet instead; enter the passcode in the box at the bottom of the page to log picks on the demo record. The demo record's background settlement needs a long-running server (`npm start`), since serverless hosts have no background loop.
 
 ## Project layout
 ```
-server.js          HTTP API, write pool, auto-settlement loop
-lib/coach.js       bias fingerprint, calibration, second opinion, reasoning echo (pure, tested)
-lib/memory.js      Walrus Memory: remember, recall, analyze, count, restore
-lib/sui.js         Tatum Sui gRPC client, checkpoint stamp, rate limiting
-lib/oracle.js      onchain SUI / WAL price from Cetus pool objects
-lib/settle.js      result sources: onchain price, market resolution (verified), self-reported (unverified)
-lib/markets.js     Polymarket prices and resolutions (public API)
-public/            the web app
-scripts/           connection check and demo seed
-test/              unit tests
+server.js               HTTP API: demo record, wallet users (/api/u), write pool, settlement loop
+api/index.js            Vercel entry (the same Express app)
+lib/coach.js            bias fingerprint, calibration, second opinion, reasoning echo (pure, runs in the browser too)
+lib/picks.js            sealing a pick: draft checks, market quote, Sui stamp, commitment, memory sentences
+lib/memory.js           Walrus Memory per account: remember, recall, analyze, jobs, count, restore
+lib/walrus-account.js   Walrus Memory accounts onchain: wallet lookup, delegate keys, transaction results
+lib/receipt.js          server receipts for picks held in the browser
+lib/settle.js           result sources: onchain price, market resolution (verified), self-reported (unverified)
+lib/markets.js          Polymarket prices and resolutions (public API)
+lib/oracle.js           onchain SUI / WAL price from Cetus pool objects
+lib/sui.js              Tatum Sui gRPC client, checkpoint stamp, rate limiting
+lib/store.js            the demo record on disk, rebuilding a record from memories
+client/wallet.js        wallet sign-in bundle (built to public/vendor/ by npm run build)
+public/                 the web app
+scripts/                connection check, demo seed, real onchain test calls, demo snapshot
+test/                   unit tests
 ```
 
 ## License

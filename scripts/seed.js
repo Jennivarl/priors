@@ -4,7 +4,7 @@
 // The demo forecaster is an Arsenal fan who argues from "form" and "they're due", is sharp on tennis
 // when reasoning from stats, and chases after losses.
 // Run with the server already running:  npm run seed
-const BASE = process.env.GUTCHECK_URL || 'http://localhost:3000';
+const BASE = process.env.PRIORS_URL || 'http://localhost:3000';
 
 const history = [
   ['Arsenal vs Brighton (demo)', 'Arsenal', 'Football', 80, 1.7, 'won', 'Arsenal are on great form and the home crowd will carry them'],

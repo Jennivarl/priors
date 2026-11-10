@@ -2,7 +2,7 @@
 // (Cetus on Sui Mainnet via Tatum). Nobody, including the user, decides these outcomes.
 // Two reasoning styles are mixed on purpose (data-driven vs hype), so the coach can learn which one works.
 // Run with the server running:  npm run live-calls
-const BASE = process.env.GUTCHECK_URL || 'http://localhost:3000';
+const BASE = process.env.PRIORS_URL || 'http://localhost:3000';
 
 const calls = [
   ['SUI', 'above', 1.0005, 3, 72, 1.9, 'SUI always pumps when my timeline is bullish, it is due a move'],

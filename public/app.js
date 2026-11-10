@@ -1,26 +1,244 @@
+import { fingerprint, calibration, secondOpinion, reasoningEcho } from './coach.js';
+
 const $ = (s) => document.querySelector(s);
 const pct = (x) => `${Math.round(x * 100)}%`;
 const pts = (x) => `${x > 0 ? '+' : x < 0 ? '−' : ''}${Math.abs(Math.round(x * 100))} pts`;
 const short = (s) => (s ? `${s.slice(0, 8)}…${s.slice(-6)}` : '');
+const shortAddr = (s) => (s ? `${s.slice(0, 6)}…${s.slice(-4)}` : '');
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 const nf = new Intl.NumberFormat('en-GB');
 const day = (iso) => new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 const SUISCAN = 'https://suiscan.xyz/mainnet/checkpoint/';
 const form = $('#pick-form');
 
-let ownerToken = '';
-try { ownerToken = localStorage.getItem('priors-owner') || ''; } catch { /* storage blocked */ }
+const store = {
+  get(k) {
+    try {
+      return JSON.parse(localStorage.getItem(k) || 'null');
+    } catch {
+      return null;
+    }
+  },
+  set(k, v) {
+    try {
+      localStorage.setItem(k, JSON.stringify(v));
+    } catch {
+      /* storage blocked: the session lasts until the tab closes */
+    }
+  },
+  del(k) {
+    try {
+      localStorage.removeItem(k);
+    } catch {
+      /* storage blocked */
+    }
+  },
+};
 
-async function api(path, body) {
-  const headers = { 'Content-Type': 'application/json', ...(ownerToken ? { 'x-owner-token': ownerToken } : {}) };
+let ownerToken = store.get('priors-owner') || '';
+// A wallet session: { address, accountId, key, publicKey, via }. The key is the delegate key the
+// user's wallet authorised for Priors. It can read and write their memories, never move funds.
+let session = store.get('priors-session');
+
+async function request(path, body, extraHeaders = {}) {
+  const headers = { 'Content-Type': 'application/json', ...extraHeaders };
   const res = await fetch(path, body ? { method: 'POST', headers, body: JSON.stringify(body) } : { headers });
-  const json = await res.json();
-  if (!res.ok) throw new Error(json.error || res.statusText);
+  const json = await res.json().catch(() => ({}));
+  if (!res.ok) throw Object.assign(new Error(json.error || res.statusText), { status: res.status });
   return json;
 }
+const api = (path, body) => request(path, body, ownerToken ? { 'x-owner-token': ownerToken } : {});
+const userHeaders = (s = session) => ({ 'x-memwal-key': s.key, 'x-memwal-account': s.accountId });
+const uapi = (path, body) => request(`/api/u${path}`, body, userHeaders());
 const formData = () => Object.fromEntries(new FormData(form).entries());
 
-// ---------- Sports and politics: live Polymarket feed, typed odds as the fallback ----------
+// ======================================================================================
+// Records: whose picks are on screen
+// ======================================================================================
+// Operator record: lives on the server (the local app, or the read-only demo when hosted).
+const operator = {
+  readOnly: false,
+  async view() {
+    const v = await api('/api/state');
+    this.readOnly = v.readOnly;
+    return v;
+  },
+  opinion: (d) => api('/api/opinion', d),
+  async seal(d) {
+    const r = await api('/api/picks', d);
+    return { pick: r.pick, view: r };
+  },
+  async settle(id, result) {
+    return api(`/api/picks/${id}/settle`, { result });
+  },
+  recall: (query) => api('/api/recall', { query }),
+  async restore() {
+    const r = await api('/api/restore', {});
+    return { restored: r.restored, view: r };
+  },
+  count: async () => (await api('/api/memory-count')).count,
+};
+
+// Wallet record: lives in this browser and in the user's own Walrus Memory, so it can be rebuilt anywhere.
+const wallet = {
+  key: () => `priors-record-${session.accountId}`,
+  load() {
+    return { picks: [], memories: [], learned: {}, ...(store.get(this.key()) || {}) };
+  },
+  save(s) {
+    store.set(this.key(), s);
+  },
+  async view() {
+    const s = this.load();
+    return {
+      picks: s.picks,
+      memories: s.memories.slice(0, 60),
+      fingerprint: fingerprint(s.picks),
+      calibration: calibration(s.picks),
+      stored: s.memories.filter((m) => m.status === 'stored').length,
+      readOnly: false,
+    };
+  },
+  async opinion(d) {
+    const s = this.load();
+    const draft = draftOf(d);
+    let echo = null;
+    let echoError;
+    if (draft.reason.length >= 8) {
+      try {
+        const hits = await uapi('/echo', { reason: draft.reason });
+        const byId = new Map(s.picks.map((p) => [p.id, p]));
+        const matches = hits
+          .map((h) => ({ pick: byId.get(h.pickId), distance: h.distance }))
+          .filter((m) => m.pick && (m.pick.status === 'won' || m.pick.status === 'lost'))
+          .map((m) => ({ ...m, reason: m.pick.reason }));
+        echo = reasoningEcho(matches);
+      } catch (e) {
+        echoError = e.message;
+      }
+    }
+    return { ...secondOpinion(s.picks, draft, echo), echoError };
+  },
+  async seal(d) {
+    const o = await this.opinion(d);
+    const r = await uapi('/picks', { ...d, coach: { adjusted: o.adjusted, verdict: o.verdict } });
+    const s = this.load();
+    s.picks.unshift(r.pick);
+    addJobs(s, r.jobs);
+    if (r.facts?.length) s.memories.unshift({ id: crypto.randomUUID(), kind: 'analyze', sentence: `Walrus Analyze extracted ${r.facts.length} fact(s): ${r.facts.join(' · ')}`, status: 'stored', at: new Date().toISOString() });
+    this.save(s);
+    return { pick: r.pick, view: await this.view() };
+  },
+  async settle(id, result) {
+    const s = this.load();
+    const pick = s.picks.find((p) => p.id === id);
+    if (!pick) throw new Error('Unknown pick.');
+    const r = await uapi('/settle', { pick, result });
+    if (!r.pending) await this.applySettled(r);
+    return this.view();
+  },
+  async applySettled(r) {
+    const s = this.load();
+    const i = s.picks.findIndex((p) => p.id === r.pick.id);
+    if (i < 0) return;
+    s.picks[i] = r.pick;
+    addJobs(s, r.jobs);
+    const changed = fingerprint(s.picks).insights.filter((ins) => s.learned[ins.id] !== ins.title);
+    this.save(s);
+    if (changed.length) {
+      const l = await uapi('/lessons', { lessons: changed }).catch(() => null);
+      const s2 = this.load();
+      for (const ins of changed) s2.learned[ins.id] = ins.title;
+      if (l) addJobs(s2, l.jobs);
+      this.save(s2);
+    }
+  },
+  recall: (query) => uapi('/recall', { query }),
+  async restore() {
+    const r = await uapi('/restore', {});
+    this.save(r.state);
+    return { restored: r.restored, view: await this.view() };
+  },
+  count: async () => (await uapi('/count')).count,
+};
+
+const record = () => (session ? wallet : operator);
+
+function addJobs(s, jobs = []) {
+  for (const j of jobs) s.memories.unshift({ id: j.jobId, jobId: j.jobId, kind: j.kind, sentence: j.sentence, status: 'pending', at: new Date().toISOString() });
+}
+
+/** The same draft the server builds, so the coach can run in the browser for wallet users. */
+function draftOf(d) {
+  const odds = Number(d.odds);
+  const confidence = Number(d.confidence) / 100;
+  const crypto = d.kind === 'crypto';
+  return {
+    subject: crypto ? `${d.asset} ${d.direction} $${d.target}` : String(d.subject || '').trim(),
+    category: crypto ? 'Crypto' : String(d.category || '').trim(),
+    reason: String(d.reason || '').trim(),
+    odds,
+    confidence,
+    marketProb: odds > 1 ? 1 / odds : 0.5,
+  };
+}
+
+// Background work for wallet users: memory jobs finishing, picks settling, while the page is open.
+async function pollJobs() {
+  if (!session) return;
+  const s = wallet.load();
+  const pending = s.memories.filter((m) => m.status === 'pending' && m.jobId).slice(0, 40);
+  if (!pending.length) return;
+  try {
+    const res = await uapi('/jobs', { ids: pending.map((m) => m.jobId) });
+    const s2 = wallet.load();
+    for (const r of res) {
+      const m = s2.memories.find((x) => x.jobId === r.id);
+      if (!m) continue;
+      if (r.status === 'done') Object.assign(m, { status: 'stored', blob_id: r.blob_id });
+      if (r.status === 'failed' || r.status === 'not_found') Object.assign(m, { status: 'failed', error: r.error || r.status });
+    }
+    wallet.save(s2);
+    render(await wallet.view());
+  } catch {
+    /* try again on the next tick */
+  }
+}
+
+const lastMarketCheck = new Map();
+async function settleDue() {
+  if (!session) return;
+  const now = Date.now();
+  const due = wallet.load().picks.filter((p) => {
+    if (p.status !== 'open') return false;
+    if (p.crypto) return new Date(p.crypto.deadline).getTime() <= now;
+    if (p.market) return now - (lastMarketCheck.get(p.id) || 0) > 5 * 60_000;
+    return false;
+  });
+  let changed = false;
+  for (const p of due) {
+    if (p.market) lastMarketCheck.set(p.id, now);
+    try {
+      const r = await uapi('/settle', { pick: p });
+      if (!r.pending) {
+        await wallet.applySettled(r);
+        changed = true;
+      }
+    } catch {
+      /* the chain or the market may be slow; next tick retries */
+    }
+  }
+  if (changed) render(await wallet.view());
+}
+setInterval(() => {
+  pollJobs();
+  settleDue();
+}, 4000);
+
+// ======================================================================================
+// Form: sports and politics (Polymarket), crypto (onchain price), the live second opinion
+// ======================================================================================
 let events = [];
 async function loadEvents() {
   const cat = form.elements.category.value;
@@ -37,14 +255,18 @@ async function loadEvents() {
       delete form.dataset.feed;
       $('#odds-src').textContent = 'no open markets here, typed by you';
     }
-  } catch (e) {
+  } catch {
     delete form.dataset.feed;
     $('#odds-src').textContent = 'market feed unavailable, typed by you';
   }
 }
 
 function applyEventOdds() {
-  if (!form.dataset.feed) { delete form.dataset.market; form.elements.odds.readOnly = false; return; }
+  if (!form.dataset.feed) {
+    delete form.dataset.market;
+    form.elements.odds.readOnly = false;
+    return;
+  }
   const ev = events.find((e) => e.marketId === form.elements.marketId.value);
   if (!ev) {
     delete form.dataset.market;
@@ -65,7 +287,6 @@ function applyEventOdds() {
   $('#odds-src').textContent = `live Polymarket price, ${pct(o.prob)}`;
 }
 
-// ---------- Crypto: live onchain price ----------
 async function loadPrice() {
   const asset = form.elements.asset.value;
   $('#live-price').textContent = `Reading ${asset} from Sui`;
@@ -89,15 +310,12 @@ function setKind() {
   }
 }
 
-// ---------- The correction: second opinion before you commit ----------
 function placeRule(gut, coach, market) {
-  const rule = $('#o-rule');
-  rule.classList.add('on');
+  $('#o-rule').classList.add('on');
   $('#r-gut').style.left = `${gut * 100}%`;
   $('#r-coach').style.left = `${coach * 100}%`;
   $('#r-mkt').style.left = `${market * 100}%`;
-  const lo = Math.min(gut, coach);
-  $('#r-span').style.left = `${lo * 100}%`;
+  $('#r-span').style.left = `${Math.min(gut, coach) * 100}%`;
   $('#r-span').style.width = `${Math.abs(gut - coach) * 100}%`;
 }
 
@@ -112,9 +330,8 @@ function refreshOpinion() {
     if (!ready || !(Number(d.odds) > 1)) return;
     $('#o-verdict').textContent = 'Checking your record on Walrus';
     try {
-      const o = await api('/api/opinion', d);
-      const corrected = Math.abs(o.adjusted - o.gut) >= 0.01;
-      $('#opinion').classList.toggle('has', corrected);
+      const o = await record().opinion(d);
+      $('#opinion').classList.toggle('has', Math.abs(o.adjusted - o.gut) >= 0.01);
       $('#o-adj').textContent = pct(o.adjusted);
       $('#o-mkt').textContent = pct(o.market);
       placeRule(o.gut, o.adjusted, o.market);
@@ -132,7 +349,9 @@ function refreshOpinion() {
         : e
           ? `<span class="head-line">Walrus found ${e.n} past pick${e.n === 1 ? '' : 's'} where you argued the same way</span>` +
             e.examples.map((x) => `<div class="qr"><span class="txt">“${esc(x.reason)}” · ${esc(x.subject)}</span><span class="m"><span class="l">${x.status}</span> · ${Math.round(x.similarity * 100)}% alike</span></div>`).join('')
-          : d.reason?.length >= 8 ? '<span class="head-line">Walrus recall: no past reasoning like this yet</span>' : '';
+          : d.reason?.length >= 8
+            ? '<span class="head-line">Walrus recall: no past reasoning like this yet</span>'
+            : '';
       $('#o-verdict').textContent = o.verdict;
     } catch (err) {
       $('#o-verdict').textContent = err.message;
@@ -146,7 +365,10 @@ document.addEventListener('input', (ev) => {
   if (t.name === 'kind') setKind();
   if (t.name === 'category') loadEvents().then(applyEventOdds);
   if (t.name === 'marketId' || t.name === 'side') applyEventOdds();
-  if (t.name === 'asset') { form.elements.target.value = ''; loadPrice(); }
+  if (t.name === 'asset') {
+    form.elements.target.value = '';
+    loadPrice();
+  }
   refreshOpinion();
 });
 
@@ -157,10 +379,10 @@ form.addEventListener('submit', async (ev) => {
   btn.disabled = true;
   label.textContent = 'Sealing on Sui';
   try {
-    const r = await api('/api/picks', formData());
-    const s = r.pick.stamp;
-    $('#receipt').innerHTML = `Sealed at checkpoint <a href="${SUISCAN}${s.checkpoint}" target="_blank" rel="noopener">${nf.format(s.checkpoint)}</a> · ${esc(s.timestamp.slice(11, 19))} UTC · commitment ${esc(short(r.pick.commitment))} · writing to Walrus`;
-    render(r);
+    const { pick, view } = await record().seal(formData());
+    const s = pick.stamp;
+    $('#receipt').innerHTML = `Sealed at checkpoint <a href="${SUISCAN}${s.checkpoint}" target="_blank" rel="noopener">${nf.format(s.checkpoint)}</a> · ${esc(s.timestamp.slice(11, 19))} UTC · commitment ${esc(short(pick.commitment))} · writing to Walrus`;
+    render(view);
     ['event', 'subject', 'reason', 'target'].forEach((n) => (form.elements[n].value = ''));
     if (!form.elements.odds.readOnly) form.elements.odds.value = '';
     if (form.dataset.kind === 'crypto') loadPrice();
@@ -172,10 +394,16 @@ form.addEventListener('submit', async (ev) => {
   }
 });
 
-// ---------- Render ----------
+// ======================================================================================
+// Render
+// ======================================================================================
 const how = (p) => (!p.verified ? 'self-reported' : p.crypto ? 'verified onchain' : 'market resolved');
 const proof = (p) => (!p.verified ? '' : p.crypto ? ` · settled at $${p.evidence.usd.toFixed(4)}, checkpoint ${nf.format(p.evidence.checkpoint)}` : ` · Polymarket ${esc(p.evidence.marketId)}`);
-const cleanMemory = (t) => { const x = String(t).replace(/^(Gut Check|Priors)\s+(coach\s+)?/i, ''); return x.charAt(0).toUpperCase() + x.slice(1); };
+// The first memories were written under the app's working name, so both prefixes are trimmed.
+const cleanMemory = (t) => {
+  const x = String(t).replace(/^(Gut Check|Priors)\s+(coach\s+)?/i, '');
+  return x.charAt(0).toUpperCase() + x.slice(1);
+};
 const gutToCoach = (p) => `<span class="cmp-figs"><span class="pen struck">${pct(p.confidence)}</span> <span class="to">${pct(p.coach?.adjusted ?? p.confidence)}</span></span>`;
 
 function renderStats(v) {
@@ -187,15 +415,28 @@ function renderStats(v) {
   $('#st-hit').textContent = done.length ? pct(hit) : '–';
   $('#st-gap').innerHTML = done.length ? `<span class="${hit < said ? 'bad' : ''}">${pts(hit - said)}</span> vs what you said` : 'hit rate';
   $('#st-ver').textContent = done.length ? String(done.filter((p) => p.verified).length) : '–';
-  $('#st-ver-of').textContent = done.length ? `of ${done.length} settled` : 'settled by chain or market';
+  $('#st-ver-of').textContent = done.length ? `of ${done.length} settled` : 'by chain or market';
   $('#st-open').textContent = String(open.length);
   const first = v.picks.map((p) => p.createdAt).sort()[0];
-  $('#head-sub').textContent = first ? `${v.picks.length} picks sealed on Sui since ${day(first)}` : 'The coach that remembers how you are wrong';
+  const whose = session ? 'Your record' : operator.readOnly ? 'Demo record' : 'Your record';
+  $('#head-title').textContent = whose;
+  $('#head-sub').textContent = first ? `${v.picks.length} picks sealed on Sui since ${day(first)}` : session ? 'Log your first pick below' : 'The coach that remembers how you are wrong';
+}
+
+function renderWho() {
+  const demo = !session && operator.readOnly;
+  $('#demo-banner').hidden = !demo || Boolean(ownerToken);
+  $('#owner-box').hidden = !demo;
+  $('#wallet-btn').hidden = Boolean(session);
+  $('#account-btn').hidden = !session;
+  if (session) $('#account-addr').textContent = shortAddr(session.address || session.accountId);
+  $('#restore-msg').textContent = session
+    ? 'Your record lives in this browser and in your Walrus Memory. Rebuild brings it back on any device'
+    : 'Every pick, reason, result and lesson is a memory on Walrus Mainnet';
 }
 
 function render(v) {
-  $('#demo-banner').hidden = !v.readOnly || Boolean(ownerToken);
-  $('#owner-box').hidden = !v.readOnly;
+  renderWho();
   renderStats(v);
 
   const fp = v.fingerprint;
@@ -205,7 +446,7 @@ function render(v) {
     ? fp.insights
         .map((i) => {
           const figure = i.kind === 'market' ? `${Math.round((0.5 - i.bias) * 100)}% right` : pts(i.bias);
-          return `<li class="insight"><h3>${esc(i.title)}</h3><span class="pts">${figure}</span><p>${esc(i.detail.replace(/.$/, ''))}</p>
+          return `<li class="insight"><h3>${esc(i.title)}</h3><span class="pts">${figure}</span><p>${esc(i.detail.replace(/\.$/, ''))}</p>
             <div class="bar"><i style="width:${Math.round((Math.abs(i.bias) / maxBias) * 100)}%"></i></div></li>`;
         })
         .join('')
@@ -215,40 +456,51 @@ function render(v) {
   $('#open-count').textContent = open.length ? `${open.length} open` : '';
   $('#open-list').innerHTML = open.length
     ? open
-        .map((p) => `<li class="row"><span class="t">${esc(p.subject)}</span>
-          <span class="r">${gutToCoach(p)}${p.crypto
-            ? `<span class="wait">settles ${esc(p.crypto.deadline.slice(11, 16))} UTC</span>`
-            : p.market
-              ? `<span class="wait">on resolution</span>`
-              : `<button class="btn quiet small" data-settle="won" data-id="${p.id}">Won</button><button class="btn quiet small" data-settle="lost" data-id="${p.id}">Lost</button>`}</span>
+        .map(
+          (p) => `<li class="row"><span class="t">${esc(p.subject)}</span>
+          <span class="r">${gutToCoach(p)}${
+            p.crypto
+              ? `<span class="wait">settles ${esc(p.crypto.deadline.slice(11, 16))} UTC</span>`
+              : p.market
+                ? `<span class="wait">on resolution</span>`
+                : `<button class="btn quiet small" data-settle="won" data-id="${p.id}">Won</button><button class="btn quiet small" data-settle="lost" data-id="${p.id}">Lost</button>`
+          }</span>
           <span class="s">${esc(p.event || p.category)}</span>
-          <span class="m">market ${pct(p.marketProb)} · ${p.oddsSource?.kind === 'market' ? 'Polymarket price' : 'typed odds'} · checkpoint ${nf.format(p.stamp?.checkpoint || 0)}</span></li>`)
+          <span class="m">market ${pct(p.marketProb)} · ${p.oddsSource?.kind === 'market' ? 'Polymarket price' : 'typed odds'} · checkpoint ${nf.format(p.stamp?.checkpoint || 0)}</span></li>`,
+        )
         .join('')
     : `<li class="empty">No open picks</li>`;
 
   const settled = v.picks.filter((p) => p.status !== 'open');
   $('#settled-count').textContent = String(settled.length);
   $('#settled-list').innerHTML = settled
-    .map((p) => `<li class="row"><span class="t">${esc(p.subject)}</span>
+    .map(
+      (p) => `<li class="row"><span class="t">${esc(p.subject)}</span>
       <span class="r"><span class="result ${p.status}">${p.status}</span></span>
       <span class="s">${esc(p.event || p.category)}</span>
-      <span class="m">said ${pct(p.confidence)} · market ${pct(p.marketProb)} · ${how(p)}${proof(p)}</span></li>`)
+      <span class="m">said ${pct(p.confidence)} · market ${pct(p.marketProb)} · ${how(p)}${proof(p)}</span></li>`,
+    )
     .join('');
-  if (open.some((p) => p.crypto)) { clearTimeout(window.__pollT); window.__pollT = setTimeout(poll, 8000); }
 
   $('#mem-list').innerHTML = v.memories.length
     ? v.memories
-        .map((m) => `<li class="row"><span class="kind k-${esc(m.kind)}">${esc(m.kind)}</span><span class="s">${esc(cleanMemory(m.sentence))}</span>
-          <span class="m">${m.status === 'stored' ? (m.blob_id ? `blob ${esc(short(m.blob_id))}` : 'stored') : m.status === 'failed' ? `failed · ${esc(m.error)}` : 'writing to Walrus'}</span></li>`)
+        .map(
+          (m) => `<li class="row"><span class="kind k-${esc(m.kind)}">${esc(m.kind)}</span><span class="s">${esc(cleanMemory(m.sentence))}</span>
+          <span class="m">${m.status === 'stored' ? (m.blob_id ? `blob ${esc(short(m.blob_id))}` : 'stored') : m.status === 'failed' ? `failed · ${esc(m.error)}` : 'writing to Walrus'}</span></li>`,
+        )
         .join('')
     : `<li class="empty">No memories yet</li>`;
 
   drawCalibration(v.calibration);
-  if (v.memories.some((m) => m.status === 'pending')) setTimeout(poll, 2500);
+
+  if (!session) {
+    clearTimeout(window.__pollT);
+    if (open.some((p) => p.crypto) || v.memories.some((m) => m.status === 'pending')) window.__pollT = setTimeout(poll, 4000);
+  }
 }
 
 // Main chart: what you said (x) against what happened (y). Each band gets a red-pen stroke from the
-// perfect-calibration line down (or up) to what really happened. Points grow with the number of picks.
+// perfect-calibration line to what really happened. Points grow with the number of picks.
 function drawCalibration(buckets) {
   const W = 760, H = 340, L = 48, R = 24, T = 24, B = 40;
   const x = (p) => L + ((p - 0.5) / 0.5) * (W - L - R);
@@ -260,15 +512,13 @@ function drawCalibration(buckets) {
   svg += `<line class="diag" x1="${x(0.5)}" y1="${y(0.5)}" x2="${x(1)}" y2="${y(1)}"/>`;
   const rows = [];
   if (buckets.length) {
-    const pts = buckets.map((b) => ({ cx: x(b.conf), cy: y(b.hit), dy: y(b.conf), over: b.hit < b.conf, b }));
-    svg += pts.map((p) => `<line class="stroke ${p.over ? '' : 'under'} ${p.b.n < 3 ? 'thin' : ''}" x1="${p.cx}" y1="${p.dy}" x2="${p.cx}" y2="${p.cy}"/>`).join('');
-    svg += pts
+    const marks = buckets.map((b) => ({ cx: x(b.conf), cy: y(b.hit), dy: y(b.conf), over: b.hit < b.conf, b }));
+    svg += marks.map((p) => `<line class="stroke ${p.over ? '' : 'under'} ${p.b.n < 3 ? 'thin' : ''}" x1="${p.cx}" y1="${p.dy}" x2="${p.cx}" y2="${p.cy}"/>`).join('');
+    svg += marks
       .map((p) => `<circle class="pt ${p.over ? '' : 'under'}" cx="${p.cx}" cy="${p.cy}" r="${4 + Math.min(4, p.b.n / 2)}"><title>Said ${pct(p.b.conf)}, happened ${pct(p.b.hit)} · ${p.b.n} picks</title></circle><text class="n" x="${p.cx + 12}" y="${p.cy + 4}">${p.b.n}</text>`)
       .join('');
-    const heavy = pts.filter((p) => p.b.n >= 3 && p.over);
-    const lead = heavy.sort((a, b) => (b.b.conf - b.b.hit) * Math.sqrt(b.b.n) - (a.b.conf - a.b.hit) * Math.sqrt(a.b.n))[0];
+    const lead = marks.filter((p) => p.b.n >= 3 && p.over).sort((a, b) => (b.b.conf - b.b.hit) * Math.sqrt(b.b.n) - (a.b.conf - a.b.hit) * Math.sqrt(a.b.n))[0];
     if (lead && lead.b.conf - lead.b.hit > 0.1) {
-      // Note sits low in the plot, right of the band it explains, with a short leader from the point.
       const ny = y(0.07);
       const nx = Math.min(lead.cx + 12, W - R - 210);
       svg += `<line class="lead-line" x1="${lead.cx}" y1="${lead.cy + 8}" x2="${lead.cx}" y2="${ny - 4}"/>`;
@@ -282,6 +532,7 @@ function drawCalibration(buckets) {
     $('#cal-lede').textContent = `Across ${all.n} settled picks you said ${pct(all.c / all.n)} on average and ${pct(all.h / all.n)} happened`;
   } else {
     svg += `<text class="axis" x="${W / 2}" y="${H / 2}" text-anchor="middle">Settle picks to draw your curve</text>`;
+    $('#cal-lede').textContent = 'What you said against what happened, per 10 point band';
   }
   $('#calib-chart').innerHTML = svg;
   $('#bands').innerHTML = rows.join('') || '<tr><td colspan="4" class="empty">No settled picks yet</td></tr>';
@@ -292,7 +543,7 @@ document.addEventListener('click', async (ev) => {
   if (!b) return;
   b.disabled = true;
   try {
-    render(await api(`/api/picks/${b.dataset.id}/settle`, { result: b.dataset.settle }));
+    render(await record().settle(b.dataset.id, b.dataset.settle));
     refreshOpinion();
   } catch (e) {
     $('#open-count').textContent = e.message;
@@ -306,9 +557,9 @@ $('#ask-form').addEventListener('submit', async (ev) => {
   if (!q) return;
   $('#ask-results').innerHTML = `<li class="empty">Recalling from Walrus</li>`;
   try {
-    const hits = await api('/api/recall', { query: q });
+    const hits = await record().recall(q);
     $('#ask-results').innerHTML = hits.length
-      ? hits.map((h) => `<li class="row"><span class="s quote">${esc(h.text)}</span><span class="m">${Math.round((1 - h.distance) * 100)}% match · blob ${esc(short(h.blob_id))}</span></li>`).join('')
+      ? hits.map((h) => `<li class="row"><span class="s quote">${esc(cleanMemory(h.text))}</span><span class="m">${Math.round((1 - h.distance) * 100)}% match · blob ${esc(short(h.blob_id))}</span></li>`).join('')
       : `<li class="empty">Nothing in memory matches that yet</li>`;
   } catch (e) {
     $('#ask-results').innerHTML = `<li class="empty">${esc(e.message)}</li>`;
@@ -318,19 +569,18 @@ $('#ask-form').addEventListener('submit', async (ev) => {
 $('#ask-suggest').addEventListener('click', (ev) => {
   const c = ev.target.closest('[data-q]');
   if (!c) return;
-  const f = $('#ask-form');
-  f.q.value = c.dataset.q;
-  f.requestSubmit();
+  $('#ask-form').q.value = c.dataset.q;
+  $('#ask-form').requestSubmit();
 });
 
 $('#restore').addEventListener('click', async () => {
   const btn = $('#restore');
   btn.disabled = true;
-  $('#restore-msg').textContent = 'Wiping local data and rebuilding from Walrus Memory';
+  $('#restore-msg').textContent = 'Rebuilding your record from Walrus Memory';
   try {
-    const r = await api('/api/restore', {});
+    const r = await record().restore();
+    render(r.view);
     $('#restore-msg').textContent = `Rebuilt from ${r.restored} memories on Walrus`;
-    render(r);
   } catch (e) {
     $('#restore-msg').textContent = e.message;
   } finally {
@@ -340,19 +590,23 @@ $('#restore').addEventListener('click', async () => {
 
 $('#owner-save').addEventListener('click', () => {
   ownerToken = $('#owner-token').value.trim();
-  try { localStorage.setItem('priors-owner', ownerToken); } catch { /* storage blocked */ }
+  store.set('priors-owner', ownerToken);
   $('#owner-msg').textContent = ownerToken ? 'Saved' : 'Cleared';
   poll();
 });
 
 async function poll() {
-  render(await api('/api/state'));
+  try {
+    render(await record().view());
+  } catch (e) {
+    $('#head-sub').textContent = e.message;
+  }
 }
 
 async function header() {
+  $('#mem-dot').className = 'dot';
   try {
-    const r = await api('/api/memory-count');
-    $('#stored').textContent = nf.format(r.count);
+    $('#stored').textContent = nf.format(await record().count());
     $('#mem-dot').classList.add('ok');
   } catch {
     $('#mem-dot').classList.add('bad');
@@ -360,17 +614,193 @@ async function header() {
   try {
     const p = await api('/api/price/SUI');
     $('#sui-cp').textContent = `checkpoint ${nf.format(p.checkpoint)}`;
-    $('#sui-dot').classList.add('ok');
+    $('#sui-dot').className = 'dot ok';
   } catch {
-    $('#sui-dot').classList.add('bad');
+    $('#sui-dot').className = 'dot bad';
   }
 }
+
+// ======================================================================================
+// Connect wallet
+// ======================================================================================
+// 1. Connect a Sui wallet. 2. Find the wallet's Walrus Memory account, or create it (one wallet
+// signature). 3. Make a delegate key in this browser and add it to the account (one signature).
+// 4. Check the key with Walrus. The wallet never shares its own key with Priors.
+const dlg = $('#connect');
+let walletLib;
+
+function stepState(id, state, note = '') {
+  const li = dlg.querySelector(`[data-step="${id}"]`);
+  if (!li) return;
+  li.dataset.state = state;
+  li.querySelector('.note').textContent = note;
+}
+
+function showPane(name) {
+  for (const p of dlg.querySelectorAll('[data-pane]')) p.hidden = p.dataset.pane !== name;
+}
+
+function dialogError(message) {
+  $('#connect-error').textContent = message;
+  $('#connect-error').hidden = !message;
+}
+
+async function openConnect() {
+  dialogError('');
+  showPane('choose');
+  dlg.showModal();
+  $('#wallet-list').innerHTML = '<li class="empty">Looking for Sui wallets</li>';
+  try {
+    walletLib ??= await import('./vendor/wallet.js');
+    const draw = (list) => {
+      $('#wallet-list').innerHTML = list.length
+        ? list.map((w, i) => `<li><button type="button" class="wallet" data-wallet="${i}">${w.icon ? `<img src="${esc(w.icon)}" alt="" width="24" height="24" />` : ''}<span>${esc(w.name)}</span></button></li>`).join('')
+        : '<li class="empty">No Sui wallet found in this browser. Install <a href="https://slush.app" target="_blank" rel="noopener">Slush</a>, then reload this page, or use an existing Walrus key below</li>';
+      dlg.wallets = list;
+    };
+    draw(walletLib.listWallets(draw));
+  } catch (e) {
+    $('#wallet-list').innerHTML = `<li class="empty">${esc(e.message)}</li>`;
+  }
+}
+
+/** A key that was just added onchain can take a few seconds to reach Walrus, so fresh keys get retries. */
+async function checkSession(candidate, { fresh = false } = {}) {
+  const attempts = fresh ? 10 : 1;
+  for (let attempt = 1; ; attempt++) {
+    try {
+      return await request('/api/u/session', {}, userHeaders(candidate));
+    } catch (e) {
+      if (!fresh || ![401, 425].includes(e.status) || attempt >= attempts) throw e;
+      await wait(2000);
+    }
+  }
+}
+
+async function startSession(s) {
+  session = s;
+  store.set('priors-session', s);
+  store.set(`priors-key-${s.accountId}`, { key: s.key, publicKey: s.publicKey || null });
+  dlg.close();
+  $('#ask-results').innerHTML = '';
+  await poll();
+  header();
+  refreshOpinion();
+}
+
+async function connectWallet(w) {
+  showPane('progress');
+  dialogError('');
+  for (const id of ['connect', 'account', 'key', 'check']) stepState(id, 'waiting');
+  try {
+    stepState('connect', 'active', `Approve in ${w.name}`);
+    const signer = await walletLib.connect(w);
+    stepState('connect', 'done', shortAddr(signer.address));
+
+    const cfg = await request('/api/walrus/config');
+    const suiClient = { waitForTransaction: ({ digest }) => request(`/api/sui/tx/${digest}`) };
+    let { accountId, delegateKeys = [] } = await request(`/api/walrus/account/${signer.address}`);
+    if (accountId) {
+      stepState('account', 'done', `Found ${shortAddr(accountId)}`);
+    } else {
+      stepState('account', 'active', 'Approve in your wallet. Creating it needs a little SUI for gas');
+      const created = await walletLib.createAccount({ packageId: cfg.packageId, registryId: cfg.registryId, walletSigner: signer, suiClient });
+      accountId = created.accountId || (await request(`/api/walrus/account/${signer.address}`)).accountId;
+      if (!accountId) throw new Error('The account was created but could not be found yet. Try again in a moment.');
+      stepState('account', 'done', `Created ${shortAddr(accountId)}`);
+    }
+
+    // Reuse the key this browser already holds for this account, if it is still authorised onchain.
+    const kept = store.get(`priors-key-${accountId}`);
+    if (kept?.key && (!kept.publicKey || delegateKeys.includes(kept.publicKey))) {
+      const candidate = { address: signer.address, accountId, key: kept.key, publicKey: kept.publicKey, via: 'wallet' };
+      stepState('key', 'done', 'This browser already has a Priors key');
+      stepState('check', 'active', 'Checking with Walrus');
+      try {
+        const ok = await checkSession(candidate);
+        stepState('check', 'done');
+        return startSession({ ...candidate, publicKey: ok.publicKey });
+      } catch {
+        store.del(`priors-key-${accountId}`);
+        stepState('check', 'waiting');
+      }
+    }
+
+    stepState('key', 'active', 'Approve in your wallet. The key can read and write memories only');
+    const dk = await walletLib.generateDelegateKey();
+    await walletLib.addDelegateKey({ packageId: cfg.packageId, registryId: cfg.registryId, accountId, publicKey: dk.publicKey, label: cfg.delegateLabel, walletSigner: signer, suiClient });
+    stepState('key', 'done');
+
+    const candidate = { address: signer.address, accountId, key: dk.privateKey, via: 'wallet' };
+    stepState('check', 'active', 'Checking with Walrus');
+    const ok = await checkSession(candidate, { fresh: true });
+    stepState('check', 'done');
+    await startSession({ ...candidate, publicKey: ok.publicKey });
+  } catch (e) {
+    const active = dlg.querySelector('[data-state="active"]');
+    if (active) stepState(active.dataset.step, 'error');
+    dialogError(/reject|denied|cancel/i.test(e.message) ? 'You declined in your wallet. Nothing was changed.' : e.message);
+  }
+}
+
+async function useExistingKey(ev) {
+  ev.preventDefault();
+  dialogError('');
+  const f = ev.target;
+  const candidate = { accountId: f.account.value.trim().toLowerCase(), key: f.key.value.trim().toLowerCase().replace(/^0x/, ''), via: 'key' };
+  if (!/^0x[0-9a-f]{64}$/.test(candidate.accountId) || !/^[0-9a-f]{64}$/.test(candidate.key)) {
+    return dialogError('The account ID starts with 0x and has 64 characters after it. The delegate key is 64 characters.');
+  }
+  const btn = f.querySelector('button[type=submit]');
+  btn.disabled = true;
+  try {
+    const ok = await checkSession(candidate);
+    f.reset();
+    await startSession({ ...candidate, address: ok.owner, publicKey: ok.publicKey });
+  } catch (e) {
+    dialogError(e.message);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function disconnect() {
+  session = null;
+  store.del('priors-session');
+  $('#account-menu').hidden = true;
+  $('#ask-results').innerHTML = '';
+  poll().then(header);
+  refreshOpinion();
+}
+
+$('#wallet-btn').addEventListener('click', openConnect);
+$('#banner-connect').addEventListener('click', openConnect);
+$('#wallet-list').addEventListener('click', (ev) => {
+  const b = ev.target.closest('[data-wallet]');
+  if (b) connectWallet(dlg.wallets[Number(b.dataset.wallet)]);
+});
+$('#key-form').addEventListener('submit', useExistingKey);
+$('#show-key-form').addEventListener('click', () => showPane('key'));
+for (const b of dlg.querySelectorAll('[data-back]')) b.addEventListener('click', () => showPane('choose'));
+for (const b of dlg.querySelectorAll('[data-close]')) b.addEventListener('click', () => dlg.close());
+$('#account-btn').addEventListener('click', () => {
+  const m = $('#account-menu');
+  m.hidden = !m.hidden;
+  if (!m.hidden) $('#account-full').textContent = session.accountId;
+});
+$('#disconnect').addEventListener('click', disconnect);
+document.addEventListener('click', (ev) => {
+  if (!ev.target.closest('#account-menu, #account-btn')) $('#account-menu').hidden = true;
+});
 
 setKind();
 poll().then(() => {
   refreshOpinion();
   header();
-  // Show live Walrus recall to every visitor: run the first example question once on load.
+  // Run the first example question once on load, so every visitor sees live Walrus recall.
   const first = $('#ask-suggest [data-q]');
-  if (first) { $('#ask-form').q.value = first.dataset.q; $('#ask-form').requestSubmit(); }
+  if (first && (session ? wallet.load().picks.length : true)) {
+    $('#ask-form').q.value = first.dataset.q;
+    $('#ask-form').requestSubmit();
+  }
 });
