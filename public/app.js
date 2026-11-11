@@ -780,7 +780,10 @@ async function useExistingKey(ev) {
   }
 }
 
+// Disconnecting removes every copy of the delegate key from this browser. Reconnecting the same
+// wallet approves a fresh key, so nothing usable is left behind on a shared computer.
 function disconnect() {
+  if (session) store.del(`priors-key-${session.accountId}`);
   session = null;
   store.del('priors-session');
   $('#account-menu').hidden = true;

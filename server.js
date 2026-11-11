@@ -15,6 +15,8 @@ import { WALRUS_MEMORY, accountIdFor, getAccount, waitForTransaction, normalizeA
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
+// On Vercel the platform's proxy sets X-Forwarded-For to the real client, so rate limits apply per visitor.
+if (process.env.VERCEL) app.set('trust proxy', 1);
 app.use(express.json({ limit: '20kb' }));
 app.use(express.static(path.join(ROOT, 'public')));
 // The coach is pure, so the browser runs the same code for wallet users.
@@ -29,24 +31,53 @@ const fail = (res, e) => res.status(e.status || 502).json({ error: e.message });
 const OWNER_TOKEN = process.env.OWNER_TOKEN || '';
 const READ_ONLY = Boolean(OWNER_TOKEN);
 const sameToken = (a, b) => a.length === b.length && crypto.timingSafeEqual(Buffer.from(a), Buffer.from(b));
+
+// Sliding-window counters per visitor, pruned so the map stays small.
+const windows = new Map();
+function tooMany(key, limit, windowMs) {
+  const now = Date.now();
+  const h = (windows.get(key) || []).filter((t) => now - t < windowMs);
+  if (windows.size > 5000) for (const [k, v] of windows) if (!v.some((t) => now - t < windowMs)) windows.delete(k);
+  if (h.length >= limit) {
+    windows.set(key, h);
+    return true;
+  }
+  h.push(now);
+  windows.set(key, h);
+  return false;
+}
+
+// Wrong passcodes are limited per visitor, so the owner passcode cannot be guessed by brute force.
+const OWNER_FAILURES = { limit: 5, windowMs: 10 * 60_000 };
 function ownerOnly(req, res, next) {
   if (!READ_ONLY) return next();
   const t = String(req.get('x-owner-token') || '');
-  if (t && sameToken(t, OWNER_TOKEN)) return next();
-  res.status(403).json({ error: 'This is the demo record. Connect your wallet to keep your own.' });
+  if (!t) return res.status(403).json({ error: 'This is the sample record. Connect your wallet to keep your own.' });
+  const failKey = `owner-fail:${req.ip}`;
+  const recent = (windows.get(failKey) || []).filter((x) => Date.now() - x < OWNER_FAILURES.windowMs);
+  if (recent.length >= OWNER_FAILURES.limit) return res.status(429).json({ error: 'Too many wrong passcodes. Try again later.' });
+  if (sameToken(t, OWNER_TOKEN)) return next();
+  tooMany(failKey, Infinity, OWNER_FAILURES.windowMs);
+  res.status(403).json({ error: 'Wrong owner passcode.' });
 }
 
-// Per-instance limit on endpoints that spend Walrus or Tatum quota.
-const hits = new Map();
+// Per-visitor limit on endpoints that spend Walrus or Tatum quota.
 const rateLimit = (perMinute) => (req, res, next) => {
-  const key = `${req.ip}:${req.path}`;
-  const now = Date.now();
-  const h = (hits.get(key) || []).filter((t) => now - t < 60_000);
-  if (h.length >= perMinute) return res.status(429).json({ error: 'Too many requests. Try again in a minute.' });
-  h.push(now);
-  hits.set(key, h);
+  if (tooMany(`${req.ip}:${req.path}`, perMinute, 60_000)) return res.status(429).json({ error: 'Too many requests. Try again in a minute.' });
   next();
 };
+
+// Live prices are shared by every visitor for a few seconds, so page loads cannot drain the Tatum quota.
+// Settlement reads a fresh price directly.
+const priceCache = new Map();
+function cachedPrice(asset) {
+  const hit = priceCache.get(asset);
+  if (hit && Date.now() - hit.at < 5000) return hit.value;
+  const value = getPrice(asset);
+  priceCache.set(asset, { at: Date.now(), value });
+  value.catch(() => priceCache.delete(asset));
+  return value;
+}
 
 // ======================================================================================
 // Operator record: the local app (npm start) and the public demo
@@ -264,7 +295,7 @@ app.post('/api/restore', ownerOnly, async (_req, res) => {
 // ======================================================================================
 // Shared, read-only market and chain data
 // ======================================================================================
-app.get('/api/events/:category', async (req, res) => {
+app.get('/api/events/:category', rateLimit(30), async (req, res) => {
   try {
     res.json({ enabled: true, events: await markets.list(req.params.category) });
   } catch (e) {
@@ -272,9 +303,9 @@ app.get('/api/events/:category', async (req, res) => {
   }
 });
 
-app.get('/api/price/:asset', async (req, res) => {
+app.get('/api/price/:asset', rateLimit(30), async (req, res) => {
   try {
-    res.json(await getPrice(req.params.asset.toUpperCase()));
+    res.json(await cachedPrice(req.params.asset.toUpperCase()));
   } catch (e) {
     fail(res, e);
   }
@@ -319,15 +350,35 @@ function walletUser(req, res, next) {
 const u = express.Router();
 u.use(walletUser);
 
-// Confirms the delegate key is authorised on that account onchain.
+// Is this delegate key authorised on that account onchain? Cached briefly per key, so a signed-in
+// user's picks cost no extra lookups, while made-up credentials are refused before any Tatum call.
+const authorised = new Map();
+const NOT_AUTHORISED = 'This key is not authorised on that Walrus Memory account.';
+async function authorisedKey(space) {
+  const publicKey = await memory.publicKeyHex(space);
+  const id = `${space.creds.accountId}:${publicKey}`;
+  const hit = authorised.get(id);
+  if (hit && Date.now() - hit.at < 10 * 60_000) return hit.value;
+  let account;
+  try {
+    account = await getAccount(space.creds.accountId);
+  } catch (e) {
+    if (e.code === 'NOT_FOUND' || /not a Walrus Memory account/.test(e.message)) return null;
+    throw e;
+  }
+  const key = account.delegateKeys.find((k) => k.publicKey === publicKey);
+  if (!key || !account.active || account.quarantined) return null;
+  const value = { account, key, publicKey };
+  authorised.set(id, { at: Date.now(), value });
+  if (authorised.size > 1000) authorised.delete(authorised.keys().next().value);
+  return value;
+}
+
 u.post('/session', rateLimit(20), async (req, res) => {
   try {
-    const account = await getAccount(req.space.creds.accountId);
-    const publicKey = await memory.publicKeyHex(req.space);
-    const key = account.delegateKeys.find((k) => k.publicKey === publicKey);
-    if (!key || !account.active || account.quarantined) {
-      return res.status(401).json({ error: 'This key is not authorised on that Walrus Memory account.' });
-    }
+    const ok = await authorisedKey(req.space);
+    if (!ok) return res.status(401).json({ error: NOT_AUTHORISED });
+    const { account, key, publicKey } = ok;
     // The key is onchain; make sure the Walrus relayer accepts it too (it can lag a few seconds).
     let memories;
     try {
@@ -346,6 +397,7 @@ const toJob = async (space, kind, sentence, payload, opts) => ({ kind, sentence,
 
 u.post('/picks', rateLimit(20), async (req, res) => {
   try {
+    if (!(await authorisedKey(req.space))) return res.status(401).json({ error: NOT_AUTHORISED });
     const c = req.body.coach || {};
     const adjusted = Number(c.adjusted);
     const coach = { adjusted: adjusted >= 0 && adjusted <= 1 ? adjusted : 0.5, verdict: String(c.verdict || '').slice(0, 200) };
