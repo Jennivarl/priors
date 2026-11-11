@@ -21,7 +21,7 @@
         "side": "Yes"
       },
       "createdAt": "2026-11-10T14:49:41.621Z",
-      "status": "open",
+      "status": "won",
       "stamp": {
         "network": "mainnet",
         "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
@@ -33,7 +33,19 @@
         "adjusted": 0.39222222222222225,
         "verdict": "Corrected for your bias, the market is more right than you. Pass or size down."
       },
-      "commitment": "b6ad629f3950890e4994b065e5c88dd6e0d16eae7cfca1556f6582140223fae9"
+      "commitment": "b6ad629f3950890e4994b065e5c88dd6e0d16eae7cfca1556f6582140223fae9",
+      "settledAt": "2026-11-11T00:17:34.114Z",
+      "verified": true,
+      "evidence": {
+        "source": "Polymarket resolution (UMA oracle)",
+        "marketId": "6322669",
+        "question": "Will Real Madrid CF Femenino win on 2026-11-10?",
+        "outcomePrices": [
+          1,
+          0
+        ],
+        "resolution": "resolved"
+      }
     },
     {
       "id": "a75f8a03-d3d7-482a-ac16-8e588b0061f9",
@@ -956,6 +968,52 @@
   ],
   "memories": [
     {
+      "id": "0916f439-67b1-454b-bf3c-4838f083ea71",
+      "kind": "lesson",
+      "sentence": "Priors coach learned a lesson about my bias: You are overconfident on Crypto. Crypto: confidence 69% vs hit rate 60% (10 picks).",
+      "payload": {
+        "kind": "lesson",
+        "insight": {
+          "id": "category:Crypto",
+          "kind": "category",
+          "key": "Crypto",
+          "title": "You are overconfident on Crypto",
+          "detail": "Crypto: confidence 69% vs hit rate 60% (10 picks).",
+          "bias": 0.08899999999999997,
+          "n": 10
+        },
+        "at": "2026-11-11T00:17:34.122Z"
+      },
+      "reasons": false,
+      "status": "pending",
+      "at": "2026-11-11T00:17:34.122Z"
+    },
+    {
+      "id": "10b9298d-1aee-4376-ac82-6727fc0f3d47",
+      "kind": "result",
+      "sentence": "Priors result settled: my pick on Real Madrid CF Femenino (Will Real Madrid CF Femenino win on 2026-11-10?) won. I had said 70%. Verified by market resolution: Polymarket market 6322669 \"Will Real Madrid CF Femenino win on 2026-11-10?\" resolved [1,0].",
+      "payload": {
+        "kind": "result",
+        "id": "528a3bf1-c10e-4f5c-8bbd-5084509227dc",
+        "status": "won",
+        "settledAt": "2026-11-11T00:17:34.114Z",
+        "verified": true,
+        "evidence": {
+          "source": "Polymarket resolution (UMA oracle)",
+          "marketId": "6322669",
+          "question": "Will Real Madrid CF Femenino win on 2026-11-10?",
+          "outcomePrices": [
+            1,
+            0
+          ],
+          "resolution": "resolved"
+        }
+      },
+      "reasons": false,
+      "status": "pending",
+      "at": "2026-11-11T00:17:34.115Z"
+    },
+    {
       "id": "iKsovPZigCe6y2s-wqRsl_M9dq7cA7UpTFAqsrL0xaU",
       "kind": "pick",
       "sentence": "Gut Check pick logged: I backed Real Madrid CF Femenino in Will Real Madrid CF Femenino win on 2026-11-10? (Football) at 70% confidence. Polymarket implied 70% (odds 1.439). Why: Home side has won 8 of the last 10 at home and the market underrates them. Commitment sha256 b6ad629f3950890e4994b065e5c88dd6e0d16eae7cfca1556f6582140223fae9, Sui checkpoint digest HcfqMkHdmZbwrDseYfPveRx1cZLSvWzoDCzp3CuEfdco. Coach said 39%. Sealed at Sui checkpoint 343748796.",
@@ -1449,7 +1507,7 @@
     "category:Football": "You are overconfident on Football",
     "overall": "You are overconfident",
     "tilt": "You chase after a loss",
-    "category:Crypto": "You are sharp on Crypto",
+    "category:Crypto": "You are overconfident on Crypto",
     "category:NBA": "You are overconfident on NBA",
     "category:Tennis": "You undersell yourself on Tennis",
     "subject:Arsenal": "You overrate Arsenal"

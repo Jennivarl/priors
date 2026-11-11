@@ -372,8 +372,14 @@ document.addEventListener('input', (ev) => {
   refreshOpinion();
 });
 
+// Signed-out visitors on the hosted site see the sample record: they can try the coach on it,
+// and sealing a pick of their own starts with connecting a wallet.
+const isSample = () => !session && operator.readOnly && !ownerToken;
+const sealLabel = () => (isSample() ? 'Connect wallet to seal your pick' : 'Seal on Sui and remember');
+
 form.addEventListener('submit', async (ev) => {
   ev.preventDefault();
+  if (isSample()) return openConnect();
   const btn = $('#submit');
   const label = btn.querySelector('span');
   btn.disabled = true;
@@ -390,7 +396,7 @@ form.addEventListener('submit', async (ev) => {
     $('#receipt').textContent = e.message;
   } finally {
     btn.disabled = false;
-    label.textContent = 'Seal on Sui and remember';
+    label.textContent = sealLabel();
   }
 });
 
@@ -418,15 +424,25 @@ function renderStats(v) {
   $('#st-ver-of').textContent = done.length ? `of ${done.length} settled` : 'by chain or market';
   $('#st-open').textContent = String(open.length);
   const first = v.picks.map((p) => p.createdAt).sort()[0];
-  const whose = session ? 'Your record' : operator.readOnly ? 'Demo record' : 'Your record';
-  $('#head-title').textContent = whose;
-  $('#head-sub').textContent = first ? `${v.picks.length} picks sealed on Sui since ${day(first)}` : session ? 'Log your first pick below' : 'The coach that remembers how you are wrong';
+  const sample = isSample();
+  $('#head-title').textContent = sample ? 'Sample record' : 'Your record';
+  $('#head-sub').textContent = first
+    ? `${sample ? 'A sample forecaster · ' : ''}${v.picks.length} picks sealed on Sui since ${day(first)}`
+    : session
+      ? 'Log your first pick below'
+      : 'The coach that remembers how you are wrong';
+  if (sample) {
+    const lessons = v.fingerprint.insights.length;
+    $('#intro-facts').textContent = `${v.picks.length} picks sealed on Sui, ${done.filter((p) => p.verified).length} results settled onchain, ${lessons} lessons kept in Walrus Memory`;
+  }
 }
 
 function renderWho() {
   const demo = !session && operator.readOnly;
-  $('#demo-banner').hidden = !demo || Boolean(ownerToken);
+  $('#demo-banner').hidden = !isSample();
   $('#owner-box').hidden = !demo;
+  $('#coach-label').textContent = isSample() ? 'Coach, from the sample record' : 'Coach, from your record';
+  $('#submit span').textContent = sealLabel();
   $('#wallet-btn').hidden = Boolean(session);
   $('#account-btn').hidden = !session;
   if (session) $('#account-addr').textContent = shortAddr(session.address || session.accountId);

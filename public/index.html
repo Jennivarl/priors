@@ -39,10 +39,16 @@
     </div>
   </header>
 
-  <div class="notice" id="demo-banner" hidden>
-    <span>This is a demo record. Connect a Sui wallet to keep your own, in your own Walrus Memory</span>
-    <button type="button" class="link" id="banner-connect">Connect wallet</button>
-  </div>
+  <section class="intro" id="demo-banner" hidden aria-labelledby="intro-h">
+    <div class="intro-text">
+      <h2 id="intro-h">A forecasting coach that remembers how you are wrong</h2>
+      <p>You are looking at a <b>sample forecaster's record</b>: <span id="intro-facts">real picks sealed on Sui, results settled by the chain and Polymarket, lessons kept in Walrus Memory</span>. Try the coach on it below, or connect a Sui wallet to start your own record in your own Walrus Memory.</p>
+    </div>
+    <div class="intro-actions">
+      <button type="button" class="btn primary" id="banner-connect">Connect wallet to start yours</button>
+      <a class="link" href="#log-h">Try the coach on the sample</a>
+    </div>
+  </section>
 
   <dialog class="connect" id="connect" aria-labelledby="connect-h">
     <div class="connect-head">
@@ -153,7 +159,7 @@
               <span class="num gut"><span class="pen" id="o-gut">70%</span></span>
             </div>
             <div class="fig lead">
-              <span class="lbl"><i class="k k-coach"></i>Coach, from your record</span>
+              <span class="lbl"><i class="k k-coach"></i><span id="coach-label">Coach, from your record</span></span>
               <span class="num coach" id="o-adj">–</span>
             </div>
             <div class="fig">

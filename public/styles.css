@@ -41,8 +41,12 @@ a { color: inherit; }
 .dot.ok { background: var(--win); }
 .dot.bad { background: var(--pen); }
 
-.notice { max-width: 1440px; margin: 16px auto 0; padding: 0 32px; color: var(--text-2); font-size: 13px; }
-.notice::before { content: ''; display: inline-block; width: 6px; height: 6px; margin-right: 8px; border-radius: 50%; background: var(--muted); vertical-align: middle; }
+.intro { max-width: 1376px; margin: 24px auto 0; padding: 24px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px 48px; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: 16px; }
+.intro h2 { font-size: 22px; line-height: 30px; font-weight: 500; }
+.intro p { margin-top: 8px; max-width: 72ch; color: var(--text-2); font-size: 14px; line-height: 22px; }
+.intro p b { color: var(--text); font-weight: 500; }
+.intro-actions { display: grid; gap: 12px; justify-items: center; }
+.intro-actions .btn.primary { width: auto; padding: 0 20px; }
 
 /* ---------- Page ---------- */
 .page { max-width: 1440px; margin: 0 auto; padding: 32px 32px 48px; display: grid; gap: 16px; }
@@ -262,7 +266,6 @@ form:not([data-feed]) .feed-only, form:not([data-market]) .market-only, form[dat
 .menu-item:hover { background: var(--raised); }
 .link { padding: 0; border: 0; background: none; color: var(--text); font: 500 13px/20px var(--sans); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--line-2); cursor: pointer; }
 .link:hover { text-decoration-color: var(--text-2); }
-.notice:not([hidden]) { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 
 .connect { width: min(480px, calc(100vw - 32px)); padding: 24px; background: var(--card); color: var(--text); border: 1px solid var(--line-2); border-radius: 16px; box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5); }
 .connect::backdrop { background: rgba(8, 8, 9, 0.7); }
@@ -299,7 +302,9 @@ form:not([data-feed]) .feed-only, form:not([data-market]) .market-only, form[dat
 @media (max-width: 640px) {
   .bar-in { padding: 0 16px; }
   .status { display: none; }
-  .notice, .page, .foot { padding-left: 16px; padding-right: 16px; }
+  .page, .foot { padding-left: 16px; padding-right: 16px; }
+  .intro { margin: 16px 16px 0; padding: 20px; grid-template-columns: 1fr; }
+  .intro-actions { justify-items: start; }
   .page { padding-top: 24px; }
   .head h1 { font-size: 28px; line-height: 36px; }
   .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
