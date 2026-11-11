@@ -81,7 +81,7 @@ test('reasoning echo: past reasoning that lost pulls the second opinion down', (
   assert.equal(reasoningEcho([]), null);
 });
 
-import { makeMarketResolution } from '../lib/settle.js';
+import { makeMarketResolution, settleOpenMarkets } from '../lib/settle.js';
 import { toQuote } from '../lib/markets.js';
 
 const market = (over) => ({ marketId: '1', question: 'Will Arsenal win?', outcomes: ['Yes', 'No'], prices: [1, 0], closed: true, resolution: 'resolved', ...over });
@@ -103,6 +103,20 @@ test('market resolution decides won/lost for either side, with evidence', async 
   const named = market({ outcomes: ['Sinner', 'Alcaraz'], prices: [0, 1] });
   assert.equal((await resolve(named).settle(backing('Alcaraz'))).status, 'won');
   assert.equal((await resolve(named).settle(backing('Sinner'))).status, 'lost');
+});
+
+test('read-only hosts settle finished market picks on read, and leave the rest open', async () => {
+  const picks = [
+    { status: 'open', market: { marketId: '1', side: 'Yes' } },
+    { status: 'open', market: { marketId: '2', side: 'Yes' } },
+    { status: 'open', crypto: { asset: 'SUI' } },
+    { status: 'won', market: { marketId: '1', side: 'Yes' } },
+  ];
+  const source = makeMarketResolution(async (id) => (id === '1' ? market() : market({ closed: false })));
+  assert.equal(await settleOpenMarkets(picks, source), 1);
+  assert.equal(picks[0].status, 'won');
+  assert.equal(picks[0].verified, true);
+  assert.deepEqual(picks.slice(1, 3).map((p) => p.status), ['open', 'open']);
 });
 
 test('Polymarket markets become backable options (Yes/No or named outcomes)', () => {

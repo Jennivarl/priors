@@ -9,7 +9,7 @@ import * as receipt from './lib/receipt.js';
 import { fingerprint, calibration, secondOpinion, reasoningEcho } from './lib/coach.js';
 import { getPrice } from './lib/oracle.js';
 import * as markets from './lib/markets.js';
-import { selfReported, sourceFor } from './lib/settle.js';
+import { selfReported, sourceFor, settleOpenMarkets } from './lib/settle.js';
 import { parseDraft, sealPick, pickSentence, reasonSentence, analyzeText, resultSentence, resultPayload, lessonSentence } from './lib/picks.js';
 import { WALRUS_MEMORY, accountIdFor, getAccount, waitForTransaction, normalizeAddress } from './lib/walrus-account.js';
 
@@ -211,7 +211,19 @@ const view = () => ({
   stored: state.memories.filter((m) => m.status === 'stored').length,
 });
 
-app.get('/api/state', (_req, res) => res.json({ ...view(), readOnly: READ_ONLY }));
+// On Vercel the sample record is a fixed snapshot: check Polymarket for finished games when it is read
+// (at most once a minute per instance, never holding the page more than 4 s).
+let lastMarketCheck = 0;
+async function refreshSample() {
+  if (!process.env.VERCEL || Date.now() - lastMarketCheck < 60_000) return;
+  lastMarketCheck = Date.now();
+  await Promise.race([settleOpenMarkets(state.picks).catch(() => 0), new Promise((r) => setTimeout(r, 4000))]);
+}
+
+app.get('/api/state', async (_req, res) => {
+  await refreshSample();
+  res.json({ ...view(), readOnly: READ_ONLY });
+});
 
 app.post('/api/opinion', rateLimit(20), async (req, res) => {
   try {
