@@ -629,7 +629,7 @@ async function header() {
   }
   try {
     const p = await api('/api/price/SUI');
-    $('#sui-cp').textContent = `checkpoint ${nf.format(p.checkpoint)}`;
+    $('#sui-cp').textContent = `#${nf.format(p.checkpoint)}`;
     $('#sui-dot').className = 'dot ok';
   } catch {
     $('#sui-dot').className = 'dot bad';
