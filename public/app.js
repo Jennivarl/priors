@@ -77,7 +77,6 @@ const operator = {
     const r = await api('/api/restore', {});
     return { restored: r.restored, view: r };
   },
-  count: async () => (await api('/api/memory-count')).count,
 };
 
 // Wallet record: lives in this browser and in the user's own Walrus Memory, so it can be rebuilt anywhere.
@@ -160,7 +159,6 @@ const wallet = {
     this.save(r.state);
     return { restored: r.restored, view: await this.view() };
   },
-  count: async () => (await uapi('/count')).count,
 };
 
 const record = () => (session ? wallet : operator);
@@ -619,23 +617,6 @@ async function poll() {
   }
 }
 
-async function header() {
-  $('#mem-dot').className = 'dot';
-  try {
-    $('#stored').textContent = nf.format(await record().count());
-    $('#mem-dot').classList.add('ok');
-  } catch {
-    $('#mem-dot').classList.add('bad');
-  }
-  try {
-    const p = await api('/api/price/SUI');
-    $('#sui-cp').textContent = `#${nf.format(p.checkpoint)}`;
-    $('#sui-dot').className = 'dot ok';
-  } catch {
-    $('#sui-dot').className = 'dot bad';
-  }
-}
-
 // ======================================================================================
 // Connect wallet
 // ======================================================================================
@@ -703,7 +684,6 @@ async function startSession(s) {
   dlg.close();
   $('#ask-results').innerHTML = '';
   await poll();
-  header();
   refreshOpinion();
 }
 
@@ -791,7 +771,7 @@ function disconnect() {
   store.del('priors-session');
   $('#account-menu').hidden = true;
   $('#ask-results').innerHTML = '';
-  poll().then(header);
+  poll();
   refreshOpinion();
 }
 
@@ -818,7 +798,6 @@ document.addEventListener('click', (ev) => {
 setKind();
 poll().then(() => {
   refreshOpinion();
-  header();
   // Run the first example question once on load, so every visitor sees live Walrus recall.
   const first = $('#ask-suggest [data-q]');
   if (first && (session ? wallet.load().picks.length : true)) {

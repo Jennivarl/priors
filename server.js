@@ -271,14 +271,6 @@ app.post('/api/recall', rateLimit(20), async (req, res) => {
   }
 });
 
-app.get('/api/memory-count', async (_req, res) => {
-  try {
-    res.json({ count: await memory.countMemories(OWNER) });
-  } catch (e) {
-    fail(res, e);
-  }
-});
-
 // Wipe local state and rebuild the whole record from Walrus Memory alone.
 app.post('/api/restore', ownerOnly, async (_req, res) => {
   try {
@@ -487,14 +479,6 @@ u.post('/restore', rateLimit(6), async (req, res) => {
   try {
     const mems = await memory.restoreAll(req.space);
     res.json({ restored: mems.length, state: store.fromMemories(mems) });
-  } catch (e) {
-    fail(res, e);
-  }
-});
-
-u.get('/count', rateLimit(20), async (req, res) => {
-  try {
-    res.json({ count: await memory.countMemories(req.space) });
   } catch (e) {
     fail(res, e);
   }
