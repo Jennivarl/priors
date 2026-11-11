@@ -102,25 +102,41 @@ Memory layout on Walrus: the demo record uses namespace `gut-check` (plus `gut-c
 
 ## How to Test
 
-### Quickest way: run it locally with your own wallet (about 5 minutes)
-You only need Node.js, a free Tatum key, and a Sui wallet (for example Slush). Your wallet creates your own Walrus Memory account, so no Walrus key is needed on the server.
-```bash
-git clone https://github.com/Jennivarl/priors.git
-cd priors
-npm install
-```
-Create a file called `.env` in the project folder with one line:
-```
-TATUM_API_KEY=your-tatum-key
-```
-Then start it:
-```bash
-npm start
-```
-Open http://localhost:3000, click **Connect wallet**, choose your wallet and approve twice (create your Walrus Memory, then the key for Priors). Mainnet needs about 0.01 SUI for gas; to try it for free, use testnet instead (step 11 below).
-Expected: the connect dialog's four steps turn into ticks, the page shows **Your record**, and a pick you seal shows a green **Sealed** box, then `blob …` lines in the Memory timeline once Walrus has stored it.
+### Quick test: run it on your computer with your own wallet (about 5 minutes)
 
-The full walkthrough below also covers the operator's own record, the demo history and every feature. It needs a Walrus Memory key as well.
+**You need**
+- Node.js 22 or newer (check with `node -v`)
+- A free Tatum API key from https://dashboard.tatum.io (copy the Mainnet key)
+- A Sui wallet, for example [Slush](https://slush.app), with about 0.01 SUI for gas (or free test SUI, see step 11 below)
+
+**Steps**
+1. Download the code:
+   ```bash
+   git clone https://github.com/Jennivarl/priors.git
+   cd priors
+   ```
+2. Install it:
+   ```bash
+   npm install
+   ```
+3. In the `priors` folder, create a file named `.env` with this one line, using your own key:
+   ```
+   TATUM_API_KEY=your-tatum-key
+   ```
+4. Start Priors:
+   ```bash
+   npm start
+   ```
+   Expected: `Priors running at http://localhost:3000`
+5. Open http://localhost:3000 in your browser.
+6. Click the orange **Connect wallet** button and choose your wallet.
+7. Approve in your wallet when it asks: first to create your Walrus Memory account, then to add a key for Priors. Expected: the four steps in the dialog turn into ticks and the page shows **Your record**.
+8. Log a pick: fill in the event, your pick, the odds and why you like it, then click **Seal on Sui and remember**. Expected: a green **Sealed** box.
+9. Scroll to **Memory timeline**. Expected: within about 30 seconds the new lines show `blob …`, which means Walrus has stored them.
+
+No Walrus key is needed on the server: your wallet creates your own Walrus Memory account. The full walkthrough below also covers the operator's own record, the demo history and every feature, and needs a Walrus Memory key as well.
+
+*Note: the live site is newly hosted on Vercel, so the Slush wallet may flag usepriors.vercel.app as unsafe. If that happens, try another Sui wallet that does not flag it, or run Priors on your own computer with `npm start` as above.*
 
 ### What you need
 - **Node.js 22.23.4+ (22.x), 24.22.1+ (24.x) or 26.12.1+ (26.x).** Check with `node -v`.
