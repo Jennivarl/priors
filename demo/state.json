@@ -1,6 +1,672 @@
 {
   "picks": [
     {
+      "id": "5b2deb92-3d0a-4f41-98a7-1fd2f3fc17ec",
+      "subject": "Aryna Sabalenka",
+      "category": "Tennis",
+      "event": "WTA Finals, Group B: Aryna Sabalenka vs Mirra Andreeva",
+      "reason": "Sabalenka is world number one, she has to win this, Andreeva is just a kid",
+      "odds": 1.98,
+      "confidence": 0.66,
+      "marketProb": 0.505,
+      "oddsSource": {
+        "kind": "market",
+        "name": "Polymarket",
+        "marketId": "6835457"
+      },
+      "starts": "2026-11-11T21:30:00.000Z",
+      "market": {
+        "marketId": "6835457",
+        "question": "WTA Finals, Group B: Aryna Sabalenka vs Mirra Andreeva",
+        "side": "Aryna Sabalenka"
+      },
+      "createdAt": "2026-11-11T03:23:44.155Z",
+      "status": "open",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343936022",
+        "timestamp": "2026-11-11T03:23:41.223Z",
+        "digest": "6dP7go3xS8kJMkW5s5Hbe2ShpekaD44P9hYFEYGJiYAM"
+      },
+      "coach": {
+        "adjusted": 0.7712500000000001,
+        "verdict": "Your edge survives the correction: 77% vs market 51%."
+      },
+      "commitment": "c8c5f58e17c05ef2388db6f2ed696b6d77302b2f7a55bff8fc4a3b50ebc759c8",
+      "facts": [
+        "User is backing Aryna Sabalenka in the WTA Finals, Group B against Mirra Andreeva",
+        "Aryna Sabalenka is the world number one",
+        "User believes Sabalenka has to win against Andreeva, who is described as just a kid"
+      ]
+    },
+    {
+      "id": "b4e713e0-5b75-4f88-9602-52c938d7b9ff",
+      "subject": "Taylor Fritz",
+      "category": "Tennis",
+      "event": "BNP Paribas Nordic Open: Taylor Fritz vs Cameron Norrie",
+      "reason": "Fritz serves big indoors and leads the head to head, price is about right",
+      "odds": 1.342,
+      "confidence": 0.74,
+      "marketProb": 0.745,
+      "oddsSource": {
+        "kind": "market",
+        "name": "Polymarket",
+        "marketId": "6911444"
+      },
+      "starts": "2026-11-11T13:30:00.000Z",
+      "market": {
+        "marketId": "6911444",
+        "question": "BNP Paribas Nordic Open: Taylor Fritz vs Cameron Norrie",
+        "side": "Taylor Fritz"
+      },
+      "createdAt": "2026-11-11T03:23:41.651Z",
+      "status": "open",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343936013",
+        "timestamp": "2026-11-11T03:23:39.042Z",
+        "digest": "2kbZnUhEwBphGBn26wiCm784tDuGwxCgSSKsR3p6eG9P"
+      },
+      "coach": {
+        "adjusted": 0.8512500000000001,
+        "verdict": "Your edge survives the correction: 85% vs market 75%."
+      },
+      "commitment": "d15b584e44f841bf3b4787494c83054774646a3175a3abf2f4ae93b50ba3ad8b",
+      "facts": [
+        "User is backing Taylor Fritz in the BNP Paribas Nordic Open against Cameron Norrie",
+        "Taylor Fritz serves big indoors",
+        "Taylor Fritz leads the head-to-head against Cameron Norrie",
+        "The price for the match is about right"
+      ]
+    },
+    {
+      "id": "707dfdf9-2eba-4bc2-9e6c-8141c1538e24",
+      "subject": "Celtics",
+      "category": "NBA",
+      "event": "Celtics vs. Raptors",
+      "reason": "Celtics have the better net rating and rest edge, 67% is close to fair",
+      "odds": 1.481,
+      "confidence": 0.64,
+      "marketProb": 0.675,
+      "oddsSource": {
+        "kind": "market",
+        "name": "Polymarket",
+        "marketId": "6428659"
+      },
+      "starts": "2026-11-12T00:00:00.000Z",
+      "market": {
+        "marketId": "6428659",
+        "question": "Celtics vs. Raptors",
+        "side": "Celtics"
+      },
+      "createdAt": "2026-11-11T03:23:39.351Z",
+      "status": "open",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343936003",
+        "timestamp": "2026-11-11T03:23:36.577Z",
+        "digest": "ECYvrUfBGWUqA9dk93wGWsVpeHLLwdzKAGvyyNa3hqjN"
+      },
+      "coach": {
+        "adjusted": 0.26166666666666666,
+        "verdict": "Corrected for your bias, the market is more right than you. Pass or size down."
+      },
+      "commitment": "b679771136a3c341cbb6ac28d11ca32a9106e9a35f198f936c38aadee669d94f",
+      "facts": [
+        "User is backing the Celtics in the Celtics vs. Raptors game because the Celtics have a better net rating and rest edge, and believes 67% is close to fair."
+      ]
+    },
+    {
+      "id": "b40a48d2-73d4-4b39-8827-7757675525d7",
+      "subject": "Lakers",
+      "category": "NBA",
+      "event": "Lakers vs. Bucks",
+      "reason": "Lakers are the Lakers, LeBron era energy, cannot lose at home to this Bucks side",
+      "odds": 1.13,
+      "confidence": 0.93,
+      "marketProb": 0.885,
+      "oddsSource": {
+        "kind": "market",
+        "name": "Polymarket",
+        "marketId": "6428662"
+      },
+      "starts": "2026-11-12T01:00:00.000Z",
+      "market": {
+        "marketId": "6428662",
+        "question": "Lakers vs. Bucks",
+        "side": "Lakers"
+      },
+      "createdAt": "2026-11-11T03:23:37.144Z",
+      "status": "open",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343935994",
+        "timestamp": "2026-11-11T03:23:34.370Z",
+        "digest": "C5x8ydtkGPgt7eSQjvSz9UBxQt6oXsj3yYYPv1q8nzAT"
+      },
+      "coach": {
+        "adjusted": 0.5516666666666667,
+        "verdict": "Corrected for your bias, the market is more right than you. Pass or size down."
+      },
+      "commitment": "6d9e5e4927746719a51ea950b2c974d985fc34f77e205c2e71a1f9ae99336d88",
+      "facts": [
+        "User is backing the Lakers in the Lakers vs. Bucks game because of the LeBron era energy and believes they cannot lose at home to the Bucks."
+      ]
+    },
+    {
+      "id": "89661fbb-a1cb-498f-8790-fe7d35865bfa",
+      "subject": "England",
+      "category": "Football",
+      "event": "Will England win on 2026-11-12?",
+      "reason": "England are unbeaten at Wembley this cycle and always win these, easy",
+      "odds": 1.274,
+      "confidence": 0.85,
+      "marketProb": 0.785,
+      "oddsSource": {
+        "kind": "market",
+        "name": "Polymarket",
+        "marketId": "6415232"
+      },
+      "starts": "2026-11-12T19:45:00.000Z",
+      "market": {
+        "marketId": "6415232",
+        "question": "Will England win on 2026-11-12?",
+        "side": "Yes"
+      },
+      "createdAt": "2026-11-11T03:23:34.786Z",
+      "status": "open",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343935985",
+        "timestamp": "2026-11-11T03:23:32.255Z",
+        "digest": "GSZ99vFxhBXAsB6VeqSySS8vA3ztn8MFMrgsRhDUpukx"
+      },
+      "coach": {
+        "adjusted": 0.603,
+        "verdict": "Corrected for your bias, the market is more right than you. Pass or size down."
+      },
+      "commitment": "577bd35ac13f801747252cc34a41f044120d129fe3da75b0973a11b2a292ad1d",
+      "facts": [
+        "User is backing England to win on 12 November 2026",
+        "England is unbeaten at Wembley in this cycle",
+        "England always wins at Wembley in these matches"
+      ]
+    },
+    {
+      "id": "e954021d-c219-4ecc-95b2-475f387f572a",
+      "subject": "Sport Lisboa e Benfica",
+      "category": "Football",
+      "event": "Will Sport Lisboa e Benfica win on 2026-11-11?",
+      "reason": "Benfica at home are far stronger than Austria Wien, market looks fair to slightly low",
+      "odds": 1.709,
+      "confidence": 0.68,
+      "marketProb": 0.585,
+      "oddsSource": {
+        "kind": "market",
+        "name": "Polymarket",
+        "marketId": "6361793"
+      },
+      "starts": "2026-11-11T20:00:00.000Z",
+      "market": {
+        "marketId": "6361793",
+        "question": "Will Sport Lisboa e Benfica win on 2026-11-11?",
+        "side": "Yes"
+      },
+      "createdAt": "2026-11-11T03:23:32.639Z",
+      "status": "open",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343935973",
+        "timestamp": "2026-11-11T03:23:29.323Z",
+        "digest": "9Nactt2edNzQMk1mrFyRUXR53pPw1h9AcZe1ZkwASwMC"
+      },
+      "coach": {
+        "adjusted": 0.4330000000000001,
+        "verdict": "Corrected for your bias, the market is more right than you. Pass or size down."
+      },
+      "commitment": "a47c37b01944e10af5b6fbe9207bc4ab2cade031d444c75120374d5556fec16d",
+      "facts": [
+        "User is backing Sport Lisboa e Benfica to win on 11 November 2026.",
+        "User believes Benfica at home are far stronger than Austria Wien.",
+        "User thinks the market looks fair to slightly low for the match."
+      ]
+    },
+    {
+      "id": "c1e68f6d-04b3-4a31-962e-f32cae592171",
+      "subject": "WAL below $0.028228",
+      "category": "Crypto",
+      "event": "by 03:28 UTC",
+      "reason": "A 0.4% move in 6 minutes is outside normal range for this pool",
+      "odds": 1.7,
+      "confidence": 0.61,
+      "marketProb": 0.5882352941176471,
+      "crypto": {
+        "asset": "WAL",
+        "direction": "below",
+        "target": 0.028228,
+        "deadline": "2026-11-11T03:28:41.681Z",
+        "startPrice": 0.02811595392826773
+      },
+      "oddsSource": {
+        "kind": "manual",
+        "note": "your own price for this crypto call"
+      },
+      "createdAt": "2026-11-11T03:22:44.262Z",
+      "status": "won",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343935777",
+        "timestamp": "2026-11-11T03:22:41.159Z",
+        "digest": "8vPQfuZjjeGr5mRPFHSHwCQ8VZEK8XgLVqiT13b5sTU7"
+      },
+      "coach": {
+        "adjusted": 0.6765384615384615,
+        "verdict": "Your edge survives the correction: 68% vs market 59%."
+      },
+      "commitment": "2be947cb63897948ea138ea3fdcef069ffd0ac39dd5a77dd21f643caf6bd2b81",
+      "facts": [
+        "User is backing WAL below $0.028228 by 03:28 UTC",
+        "A 0.4% move in 6 minutes is outside the normal range for this pool"
+      ],
+      "settledAt": "2026-11-11T03:28:43.557Z",
+      "verified": true,
+      "evidence": {
+        "asset": "WAL",
+        "usd": 0.02811595392826773,
+        "pools": [
+          "0xb8d7d9e66a60c239e7a60110efcf8de6c705580ed924d0dde141f4a0e2c90105",
+          "0x72f5c6eef73d77de271886219a2543e7c29a33de19a6c69c5cf1899f729c3f17"
+        ],
+        "checkpoint": "343937250",
+        "timestamp": "2026-11-11T03:28:42.405Z",
+        "source": "Cetus pool state on Sui Mainnet, read via Tatum gRPC",
+        "target": 0.028228,
+        "direction": "below"
+      }
+    },
+    {
+      "id": "1c1d9afc-5af3-443a-a3e9-340f1a2fee17",
+      "subject": "WAL above $0.028144",
+      "category": "Crypto",
+      "event": "by 03:28 UTC",
+      "reason": "Big week for Walrus, it has to go up",
+      "odds": 2,
+      "confidence": 0.74,
+      "marketProb": 0.5,
+      "crypto": {
+        "asset": "WAL",
+        "direction": "above",
+        "target": 0.028144,
+        "deadline": "2026-11-11T03:28:38.473Z",
+        "startPrice": 0.02811595392826773
+      },
+      "oddsSource": {
+        "kind": "manual",
+        "note": "your own price for this crypto call"
+      },
+      "createdAt": "2026-11-11T03:22:41.654Z",
+      "status": "lost",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343935765",
+        "timestamp": "2026-11-11T03:22:38.182Z",
+        "digest": "7fCppy9bQJN4a14ZkzKJdLP4P73XxUzPFKxjzQowQjQ3"
+      },
+      "coach": {
+        "adjusted": 0.6955384615384615,
+        "verdict": "Your edge survives the correction: 70% vs market 50%."
+      },
+      "commitment": "c683d001f4f7f7809f12d12094b90b562a49a367a575ed48e7a37ea8521781ed",
+      "facts": [
+        "User is backing WAL above $0.028144 by 03:28 UTC",
+        "User believes it is a big week for Walrus and that it has to go up"
+      ],
+      "settledAt": "2026-11-11T03:28:45.100Z",
+      "verified": true,
+      "evidence": {
+        "asset": "WAL",
+        "usd": 0.02811595392826773,
+        "pools": [
+          "0xb8d7d9e66a60c239e7a60110efcf8de6c705580ed924d0dde141f4a0e2c90105",
+          "0x72f5c6eef73d77de271886219a2543e7c29a33de19a6c69c5cf1899f729c3f17"
+        ],
+        "checkpoint": "343937257",
+        "timestamp": "2026-11-11T03:28:44.038Z",
+        "source": "Cetus pool state on Sui Mainnet, read via Tatum gRPC",
+        "target": 0.028144,
+        "direction": "above"
+      }
+    },
+    {
+      "id": "dd43aa71-a5ba-4c58-a64f-97dd58c9d84e",
+      "subject": "SUI below $0.83438",
+      "category": "Crypto",
+      "event": "by 03:27 UTC",
+      "reason": "Short window and low volatility, price should stay under a 0.2% move",
+      "odds": 1.75,
+      "confidence": 0.63,
+      "marketProb": 0.5714285714285714,
+      "crypto": {
+        "asset": "SUI",
+        "direction": "below",
+        "target": 0.83438,
+        "deadline": "2026-11-11T03:27:34.595Z",
+        "startPrice": 0.83271298752375
+      },
+      "oddsSource": {
+        "kind": "manual",
+        "note": "your own price for this crypto call"
+      },
+      "createdAt": "2026-11-11T03:22:37.128Z",
+      "status": "won",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343935748",
+        "timestamp": "2026-11-11T03:22:34.035Z",
+        "digest": "E8DcoNW92SBK58nxtZWNn956RPbLR1K8xyyL8XgfsJLN"
+      },
+      "coach": {
+        "adjusted": 0.6965384615384616,
+        "verdict": "Your edge survives the correction: 70% vs market 57%."
+      },
+      "commitment": "dbaa33099f9823a528eaf7296f26c949d170f206d7278c394d2a5620611d9aad",
+      "facts": [
+        "User is backing SUI below $0.83438 by 03:27 UTC due to a short window and low volatility.",
+        "User expects the price to stay under a 0.2% move."
+      ],
+      "settledAt": "2026-11-11T03:27:43.699Z",
+      "verified": true,
+      "evidence": {
+        "asset": "SUI",
+        "usd": 0.83271298752375,
+        "pools": [
+          "0xb8d7d9e66a60c239e7a60110efcf8de6c705580ed924d0dde141f4a0e2c90105"
+        ],
+        "checkpoint": "343937006",
+        "timestamp": "2026-11-11T03:27:42.527Z",
+        "source": "Cetus pool state on Sui Mainnet, read via Tatum gRPC",
+        "target": 0.83438,
+        "direction": "below"
+      }
+    },
+    {
+      "id": "6fa51a7b-3319-462d-b966-15e012f1a180",
+      "subject": "SUI above $0.83355",
+      "category": "Crypto",
+      "event": "by 03:27 UTC",
+      "reason": "Feels like breakout time, momentum is building, it owes us",
+      "odds": 2,
+      "confidence": 0.78,
+      "marketProb": 0.5,
+      "crypto": {
+        "asset": "SUI",
+        "direction": "above",
+        "target": 0.83355,
+        "deadline": "2026-11-11T03:27:31.678Z",
+        "startPrice": 0.83271298752375
+      },
+      "oddsSource": {
+        "kind": "manual",
+        "note": "your own price for this crypto call"
+      },
+      "createdAt": "2026-11-11T03:22:34.571Z",
+      "status": "lost",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343935737",
+        "timestamp": "2026-11-11T03:22:31.393Z",
+        "digest": "G2yoNgwUW4b5zSwhd5Md4snaJ3QQnLH6JzaytuvMVbY1"
+      },
+      "coach": {
+        "adjusted": 0.7115384615384616,
+        "verdict": "Your edge survives the correction: 71% vs market 50%."
+      },
+      "commitment": "b17adfedb7d816e86c62b1b3361d301132c266f76b50b6cc81635275a4e55998",
+      "facts": [
+        "User is backing SUI above $0.83355 by 03:27 UTC because they feel it is breakout time and momentum is building."
+      ],
+      "settledAt": "2026-11-11T03:27:44.859Z",
+      "verified": true,
+      "evidence": {
+        "asset": "SUI",
+        "usd": 0.83271298752375,
+        "pools": [
+          "0xb8d7d9e66a60c239e7a60110efcf8de6c705580ed924d0dde141f4a0e2c90105"
+        ],
+        "checkpoint": "343937011",
+        "timestamp": "2026-11-11T03:27:43.742Z",
+        "source": "Cetus pool state on Sui Mainnet, read via Tatum gRPC",
+        "target": 0.83355,
+        "direction": "above"
+      }
+    },
+    {
+      "id": "def38cf1-d420-472e-8f60-1a30181b970f",
+      "subject": "WAL below $0.0282",
+      "category": "Crypto",
+      "event": "by 03:26 UTC",
+      "reason": "WAL rarely moves 0.3% in a few minutes, mean reversion favours under",
+      "odds": 1.7,
+      "confidence": 0.62,
+      "marketProb": 0.5882352941176471,
+      "crypto": {
+        "asset": "WAL",
+        "direction": "below",
+        "target": 0.0282,
+        "deadline": "2026-11-11T03:26:27.815Z",
+        "startPrice": 0.02811595392826773
+      },
+      "oddsSource": {
+        "kind": "manual",
+        "note": "your own price for this crypto call"
+      },
+      "createdAt": "2026-11-11T03:22:30.724Z",
+      "status": "won",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343935721",
+        "timestamp": "2026-11-11T03:22:27.377Z",
+        "digest": "5oMnA1eLaMzv59GyKHxLP7jfTMR8jvaDks7ADVkUW2E4"
+      },
+      "coach": {
+        "adjusted": 0.6301384615384615,
+        "verdict": "Your edge survives the correction: 63% vs market 59%."
+      },
+      "commitment": "ce0773454319245b32d351dc6eb5186257340404e025864db66302c2aa0612ec",
+      "facts": [
+        "User is backing WAL below $0.0282 by 03:26 UTC",
+        "User believes WAL rarely moves 0.3% in a few minutes",
+        "User thinks mean reversion favors under"
+      ],
+      "settledAt": "2026-11-11T03:26:43.727Z",
+      "verified": true,
+      "evidence": {
+        "asset": "WAL",
+        "usd": 0.02811595392826773,
+        "pools": [
+          "0xb8d7d9e66a60c239e7a60110efcf8de6c705580ed924d0dde141f4a0e2c90105",
+          "0x72f5c6eef73d77de271886219a2543e7c29a33de19a6c69c5cf1899f729c3f17"
+        ],
+        "checkpoint": "343936763",
+        "timestamp": "2026-11-11T03:26:42.663Z",
+        "source": "Cetus pool state on Sui Mainnet, read via Tatum gRPC",
+        "target": 0.0282,
+        "direction": "below"
+      }
+    },
+    {
+      "id": "bfde9b07-907a-43dd-b524-5ea6dbf22668",
+      "subject": "WAL above $0.02813",
+      "category": "Crypto",
+      "event": "by 03:26 UTC",
+      "reason": "WAL is going to rip, everyone is talking about Walrus today",
+      "odds": 1.9,
+      "confidence": 0.75,
+      "marketProb": 0.5263157894736842,
+      "crypto": {
+        "asset": "WAL",
+        "direction": "above",
+        "target": 0.02813,
+        "deadline": "2026-11-11T03:26:25.459Z",
+        "startPrice": 0.02811595392826773
+      },
+      "oddsSource": {
+        "kind": "manual",
+        "note": "your own price for this crypto call"
+      },
+      "createdAt": "2026-11-11T03:22:27.793Z",
+      "status": "lost",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343935712",
+        "timestamp": "2026-11-11T03:22:25.189Z",
+        "digest": "AjfxCbZ8uESDXsw3pF9btaZjmY5Hpdb6HyUEzx36QVf"
+      },
+      "coach": {
+        "adjusted": 0.7055384615384616,
+        "verdict": "Your edge survives the correction: 71% vs market 53%."
+      },
+      "commitment": "ed62811668ca9678c029c00c8d36a66b5ae9005b9c6da9babe2cb50c93bf2ae5",
+      "facts": [
+        "User is backing WAL above $0.02813 by 03:26 UTC",
+        "User believes WAL is going to rip",
+        "User mentioned that everyone is talking about Walrus today"
+      ],
+      "settledAt": "2026-11-11T03:26:28.834Z",
+      "verified": true,
+      "evidence": {
+        "asset": "WAL",
+        "usd": 0.02811595392826773,
+        "pools": [
+          "0xb8d7d9e66a60c239e7a60110efcf8de6c705580ed924d0dde141f4a0e2c90105",
+          "0x72f5c6eef73d77de271886219a2543e7c29a33de19a6c69c5cf1899f729c3f17"
+        ],
+        "checkpoint": "343936701",
+        "timestamp": "2026-11-11T03:26:27.386Z",
+        "source": "Cetus pool state on Sui Mainnet, read via Tatum gRPC",
+        "target": 0.02813,
+        "direction": "above"
+      }
+    },
+    {
+      "id": "b37c50ef-e474-4cdb-9934-43336d7b75f3",
+      "subject": "SUI below $0.83396",
+      "category": "Crypto",
+      "event": "by 03:25 UTC",
+      "reason": "Spot is flat and liquidity is deep, a 0.15% jump in 3 minutes is unlikely",
+      "odds": 1.8,
+      "confidence": 0.64,
+      "marketProb": 0.5555555555555556,
+      "crypto": {
+        "asset": "SUI",
+        "direction": "below",
+        "target": 0.83396,
+        "deadline": "2026-11-11T03:25:21.843Z",
+        "startPrice": 0.83271298752375
+      },
+      "oddsSource": {
+        "kind": "manual",
+        "note": "your own price for this crypto call"
+      },
+      "createdAt": "2026-11-11T03:22:24.122Z",
+      "status": "won",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343935697",
+        "timestamp": "2026-11-11T03:22:21.479Z",
+        "digest": "7iyzbiXn3C6LMpNSiwV7kuRxsbz3254K7XepSYiM3pgS"
+      },
+      "coach": {
+        "adjusted": 0.7065384615384616,
+        "verdict": "Your edge survives the correction: 71% vs market 56%."
+      },
+      "commitment": "2b2b046a3a0d209340d182ecf8fa989ecc46bd17f996576aae441b1d1a7ad7cb",
+      "facts": [
+        "User is backing SUI below $0.83396 by 03:25 UTC because Spot is flat and liquidity is deep, and a 0.15% jump in 3 minutes is unlikely."
+      ],
+      "settledAt": "2026-11-11T03:25:28.246Z",
+      "verified": true,
+      "evidence": {
+        "asset": "SUI",
+        "usd": 0.83271298752375,
+        "pools": [
+          "0xb8d7d9e66a60c239e7a60110efcf8de6c705580ed924d0dde141f4a0e2c90105"
+        ],
+        "checkpoint": "343936453",
+        "timestamp": "2026-11-11T03:25:27.100Z",
+        "source": "Cetus pool state on Sui Mainnet, read via Tatum gRPC",
+        "target": 0.83396,
+        "direction": "below"
+      }
+    },
+    {
+      "id": "352122f6-12af-4d2d-bc74-77da2b43998e",
+      "subject": "SUI above $0.83313",
+      "category": "Crypto",
+      "event": "by 03:25 UTC",
+      "reason": "SUI always pumps when my timeline is bullish, it is due a move",
+      "odds": 1.9,
+      "confidence": 0.72,
+      "marketProb": 0.5263157894736842,
+      "crypto": {
+        "asset": "SUI",
+        "direction": "above",
+        "target": 0.83313,
+        "deadline": "2026-11-11T03:25:16.753Z",
+        "startPrice": 0.83271298752375
+      },
+      "oddsSource": {
+        "kind": "manual",
+        "note": "your own price for this crypto call"
+      },
+      "createdAt": "2026-11-11T03:22:20.867Z",
+      "status": "lost",
+      "stamp": {
+        "network": "mainnet",
+        "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+        "checkpoint": "343935681",
+        "timestamp": "2026-11-11T03:22:17.498Z",
+        "digest": "A4q1cjkafqnSBq9ca5q1Vkjsc8Wv6qbpWvgaEErthnrC"
+      },
+      "coach": {
+        "adjusted": 0.5735384615384614,
+        "verdict": "Your edge survives the correction: 57% vs market 53%."
+      },
+      "commitment": "3abf991a2e9aa09ecab2833b95484bab812f1e580a2f04270e83aebef8db321e",
+      "facts": [
+        "User is backing SUI above $0.83313 by 03:25 UTC",
+        "User believes SUI always pumps when their timeline is bullish",
+        "User thinks SUI is due for a move"
+      ],
+      "settledAt": "2026-11-11T03:25:29.398Z",
+      "verified": true,
+      "evidence": {
+        "asset": "SUI",
+        "usd": 0.83271298752375,
+        "pools": [
+          "0xb8d7d9e66a60c239e7a60110efcf8de6c705580ed924d0dde141f4a0e2c90105"
+        ],
+        "checkpoint": "343936458",
+        "timestamp": "2026-11-11T03:25:28.248Z",
+        "source": "Cetus pool state on Sui Mainnet, read via Tatum gRPC",
+        "target": 0.83313,
+        "direction": "above"
+      }
+    },
+    {
       "id": "528a3bf1-c10e-4f5c-8bbd-5084509227dc",
       "subject": "Real Madrid CF Femenino",
       "category": "Football",
@@ -967,6 +1633,446 @@
     }
   ],
   "memories": [
+    {
+      "id": "cb7c5a52-a93d-47cf-887a-6ae24b617691",
+      "kind": "result",
+      "sentence": "Priors result settled: my pick on WAL above $0.028144 (by 03:28 UTC) lost. I had said 74%. Verified onchain: WAL was $0.0281 at Sui checkpoint 343937257 (target above $0.028144).",
+      "reasons": false,
+      "status": "stored",
+      "at": "2026-11-11T03:28:45.100Z",
+      "blob_id": "iANk7JnHUnK9nO0Q4qLA4yYFryJuofc8UffPy3365k8"
+    },
+    {
+      "id": "dc2ada07-e98d-4d03-8621-53aea4357db1",
+      "kind": "result",
+      "sentence": "Priors result settled: my pick on WAL below $0.028228 (by 03:28 UTC) won. I had said 61%. Verified onchain: WAL was $0.0281 at Sui checkpoint 343937250 (target below $0.028228).",
+      "reasons": false,
+      "status": "stored",
+      "at": "2026-11-11T03:28:43.557Z",
+      "blob_id": "jg2oOQfvEKw24sbI3bTtHF0_wJNJovL4DAB1EtpwmZ8"
+    },
+    {
+      "id": "0fccdd1a-c889-4dd4-954a-67321fd16ac5",
+      "kind": "result",
+      "sentence": "Priors result settled: my pick on SUI above $0.83355 (by 03:27 UTC) lost. I had said 78%. Verified onchain: SUI was $0.8327 at Sui checkpoint 343937011 (target above $0.83355).",
+      "reasons": false,
+      "status": "stored",
+      "at": "2026-11-11T03:27:44.860Z",
+      "blob_id": "uPsh1uR8YMBGhfk0aW8z_2283jfA7qqzjHoAqYUQHTc"
+    },
+    {
+      "id": "0b1a1e16-5ac4-47d1-b8bc-73550b0a27a5",
+      "kind": "result",
+      "sentence": "Priors result settled: my pick on SUI below $0.83438 (by 03:27 UTC) won. I had said 63%. Verified onchain: SUI was $0.8327 at Sui checkpoint 343937006 (target below $0.83438).",
+      "reasons": false,
+      "status": "stored",
+      "at": "2026-11-11T03:27:43.699Z",
+      "blob_id": "AXDXIuyBQZcSyvZUXzKPXMaX7t_emWlQdNQfLCw9AV8"
+    },
+    {
+      "id": "f9d2a3c1-17d2-4b9f-a4eb-58d8e4ba0068",
+      "kind": "result",
+      "sentence": "Priors result settled: my pick on WAL below $0.0282 (by 03:26 UTC) won. I had said 62%. Verified onchain: WAL was $0.0281 at Sui checkpoint 343936763 (target below $0.0282).",
+      "reasons": false,
+      "status": "stored",
+      "at": "2026-11-11T03:26:43.727Z",
+      "blob_id": "-0cVbAAuKGQfzg29NUAvFfxj9f-sclmVak50YdZIjpY"
+    },
+    {
+      "id": "c6b278ca-7553-4ad8-aa00-c6594e703bc3",
+      "kind": "result",
+      "sentence": "Priors result settled: my pick on WAL above $0.02813 (by 03:26 UTC) lost. I had said 75%. Verified onchain: WAL was $0.0281 at Sui checkpoint 343936701 (target above $0.02813).",
+      "reasons": false,
+      "status": "stored",
+      "at": "2026-11-11T03:26:28.834Z",
+      "blob_id": "g88-VAJG1uFtUxvdH9BZYfUx70hQyP8-WQ5eVjxK8C8"
+    },
+    {
+      "id": "758255b9-7c2e-40af-b239-8a1d627fcafc",
+      "kind": "analyze",
+      "sentence": "Walrus Analyze extracted 3 fact(s): User is backing Aryna Sabalenka in the WTA Finals, Group B against Mirra Andreeva · Aryna Sabalenka is the world number one · User believes Sabalenka has to win against Andreeva, who is described as just a kid",
+      "status": "stored",
+      "at": "2026-11-11T03:25:50.943Z"
+    },
+    {
+      "id": "926ad475-4758-453e-bbdf-749290756fd5",
+      "kind": "analyze",
+      "sentence": "Walrus Analyze extracted 4 fact(s): User is backing Taylor Fritz in the BNP Paribas Nordic Open against Cameron Norrie · Taylor Fritz serves big indoors · Taylor Fritz leads the head-to-head against Cameron Norrie · The price for the match is about right",
+      "status": "stored",
+      "at": "2026-11-11T03:25:36.566Z"
+    },
+    {
+      "id": "6e910250-6896-4b84-9b48-235d7184d986",
+      "kind": "lesson",
+      "sentence": "Priors coach learned a lesson about my bias: You are overconfident on Crypto. Crypto: confidence 69% vs hit rate 58% (12 picks).",
+      "reasons": false,
+      "status": "stored",
+      "at": "2026-11-11T03:25:29.402Z",
+      "blob_id": "ihB4Jpkmg1FTAxVwOWiiIEDzyWPJh56wZNi3CcCniSc"
+    },
+    {
+      "id": "0c97f1a3-5e4f-4a76-b024-889274e6d7fb",
+      "kind": "result",
+      "sentence": "Priors result settled: my pick on SUI above $0.83313 (by 03:25 UTC) lost. I had said 72%. Verified onchain: SUI was $0.8327 at Sui checkpoint 343936458 (target above $0.83313).",
+      "reasons": false,
+      "status": "stored",
+      "at": "2026-11-11T03:25:29.398Z",
+      "blob_id": "Ztra41tgMP5lF8H__lA41C8wTWT6rYDnrbmwwjvmnh8"
+    },
+    {
+      "id": "f91c8d5f-1b49-486f-a55d-ad089d527bbf",
+      "kind": "lesson",
+      "sentence": "Priors coach learned a lesson about my bias: You are sharp on Crypto. Crypto: confidence 68% vs hit rate 64% (11 picks).",
+      "reasons": false,
+      "status": "stored",
+      "at": "2026-11-11T03:25:28.251Z",
+      "blob_id": "o-GpA9evbcjI1ryWq7dxshCSZZGxI0m4l4xNbEdi_84"
+    },
+    {
+      "id": "4fee8511-c19e-4522-a86c-b1ec82226280",
+      "kind": "result",
+      "sentence": "Priors result settled: my pick on SUI below $0.83396 (by 03:25 UTC) won. I had said 64%. Verified onchain: SUI was $0.8327 at Sui checkpoint 343936453 (target below $0.83396).",
+      "reasons": false,
+      "status": "stored",
+      "at": "2026-11-11T03:25:28.246Z",
+      "blob_id": "1GL_fgNeaxGoxmLoLUGFJ5ntg0Q5C7eYpq_A7SemX2Y"
+    },
+    {
+      "id": "2a6b8950-705f-489d-8eb6-57883982e854",
+      "kind": "analyze",
+      "sentence": "Walrus Analyze extracted 1 fact(s): User is backing the Celtics in the Celtics vs. Raptors game because the Celtics have a better net rating and rest edge, and believes 67% is close to fair.",
+      "status": "stored",
+      "at": "2026-11-11T03:25:27.152Z"
+    },
+    {
+      "id": "ac12aa56-231f-44c9-85d4-5a1e8b309d46",
+      "kind": "analyze",
+      "sentence": "Walrus Analyze extracted 1 fact(s): User is backing the Lakers in the Lakers vs. Bucks game because of the LeBron era energy and believes they cannot lose at home to the Bucks.",
+      "status": "stored",
+      "at": "2026-11-11T03:25:08.706Z"
+    },
+    {
+      "id": "df5a1f71-8b3a-4490-84ab-4cc1e13de3be",
+      "kind": "analyze",
+      "sentence": "Walrus Analyze extracted 3 fact(s): User is backing England to win on 12 November 2026 · England is unbeaten at Wembley in this cycle · England always wins at Wembley in these matches",
+      "status": "stored",
+      "at": "2026-11-11T03:24:45.820Z"
+    },
+    {
+      "id": "28d57223-1b5e-49f9-a4d5-a0c286ce0927",
+      "kind": "analyze",
+      "sentence": "Walrus Analyze extracted 3 fact(s): User is backing Sport Lisboa e Benfica to win on 11 November 2026. · User believes Benfica at home are far stronger than Austria Wien. · User thinks the market looks fair to slightly low for the match.",
+      "status": "stored",
+      "at": "2026-11-11T03:24:42.180Z"
+    },
+    {
+      "id": "1f359756-63f0-4f78-9c72-bb3c700af4f7",
+      "kind": "analyze",
+      "sentence": "Walrus Analyze extracted 2 fact(s): User is backing WAL below $0.028228 by 03:28 UTC · A 0.4% move in 6 minutes is outside the normal range for this pool",
+      "status": "stored",
+      "at": "2026-11-11T03:24:21.043Z"
+    },
+    {
+      "id": "937239e2-8fbf-4def-96ca-19a813dbbb97",
+      "kind": "analyze",
+      "sentence": "Walrus Analyze extracted 2 fact(s): User is backing WAL above $0.028144 by 03:28 UTC · User believes it is a big week for Walrus and that it has to go up",
+      "status": "stored",
+      "at": "2026-11-11T03:23:58.344Z"
+    },
+    {
+      "id": "09a29a1c-3c87-465e-8cda-1e7f10c351de",
+      "kind": "analyze",
+      "sentence": "Walrus Analyze extracted 2 fact(s): User is backing SUI below $0.83438 by 03:27 UTC due to a short window and low volatility. · User expects the price to stay under a 0.2% move.",
+      "status": "stored",
+      "at": "2026-11-11T03:23:54.320Z"
+    },
+    {
+      "id": "6d726bda-9b4e-4daf-91e8-bcd89fbe4ae1",
+      "kind": "reason",
+      "sentence": "My reason for backing Aryna Sabalenka (Tennis): Sabalenka is world number one, she has to win this, Andreeva is just a kid",
+      "reasons": true,
+      "status": "stored",
+      "at": "2026-11-11T03:23:44.159Z",
+      "blob_id": "KWvqq_fwiJcN2hJU5cgCkOcID-G0_NMdHp0edjQZyZk"
+    },
+    {
+      "id": "7c41cd00-3274-4372-ba4a-9e38bda7f308",
+      "kind": "pick",
+      "sentence": "Priors pick logged: I backed Aryna Sabalenka in WTA Finals, Group B: Aryna Sabalenka vs Mirra Andreeva (Tennis) at 66% confidence. Polymarket implied 51% (odds 1.98). Why: Sabalenka is world number one, she has to win this, Andreeva is just a kid. Commitment sha256 c8c5f58e17c05ef2388db6f2ed696b6d77302b2f7a55bff8fc4a3b50ebc759c8, Sui checkpoint digest 6dP7go3xS8kJMkW5s5Hbe2ShpekaD44P9hYFEYGJiYAM. Coach said 77%. Sealed at Sui checkpoint 343936022.",
+      "reasons": false,
+      "status": "stored",
+      "at": "2026-11-11T03:23:44.155Z",
+      "blob_id": "jd9fEstE2i1NjZQbSZvNj4XnCZ2N7BjNcDfMlZQxQuo"
+    },
+    {
+      "id": "5f83951c-03aa-40ea-b52b-7ddb13999ab9",
+      "kind": "reason",
+      "sentence": "My reason for backing Taylor Fritz (Tennis): Fritz serves big indoors and leads the head to head, price is about right",
+      "reasons": true,
+      "status": "stored",
+      "at": "2026-11-11T03:23:41.655Z",
+      "blob_id": "XtG5376g-kOrkG7NmQBp1sO7ZpIso2754hA8v0e02KA"
+    },
+    {
+      "id": "33f89306-f6a7-49e8-834e-9ca1b67395dd",
+      "kind": "pick",
+      "sentence": "Priors pick logged: I backed Taylor Fritz in BNP Paribas Nordic Open: Taylor Fritz vs Cameron Norrie (Tennis) at 74% confidence. Polymarket implied 75% (odds 1.342). Why: Fritz serves big indoors and leads the head to head, price is about right. Commitment sha256 d15b584e44f841bf3b4787494c83054774646a3175a3abf2f4ae93b50ba3ad8b, Sui checkpoint digest 2kbZnUhEwBphGBn26wiCm784tDuGwxCgSSKsR3p6eG9P. Coach said 85%. Sealed at Sui checkpoint 343936013.",
+      "reasons": false,
+      "status": "stored",
+      "at": "2026-11-11T03:23:41.651Z",
+      "blob_id": "WWGxzb1AifLcN-5ZJ52tOB-g_q4uIgXjIIFjJrkRkxo"
+    },
+    {
+      "id": "ddb3fb5a-fd51-4931-bf2d-2d1189a63c5c",
+      "kind": "reason",
+      "sentence": "My reason for backing Celtics (NBA): Celtics have the better net rating and rest edge, 67% is close to fair",
+      "reasons": true,
+      "status": "stored",
+      "at": "2026-11-11T03:23:39.354Z",
+      "blob_id": "a-Eu0XzsVIqONBtJcKvHTnbclqhp2PapKAxzRsREkAw"
+    },
+    {
+      "id": "dbaf5bc4-92c6-42dc-923b-9c0f782987bc",
+      "kind": "pick",
+      "sentence": "Priors pick logged: I backed Celtics in Celtics vs. Raptors (NBA) at 64% confidence. Polymarket implied 68% (odds 1.481). Why: Celtics have the better net rating and rest edge, 67% is close to fair. Commitment sha256 b679771136a3c341cbb6ac28d11ca32a9106e9a35f198f936c38aadee669d94f, Sui checkpoint digest ECYvrUfBGWUqA9dk93wGWsVpeHLLwdzKAGvyyNa3hqjN. Coach said 26%. Sealed at Sui checkpoint 343936003.",
+      "reasons": false,
+      "status": "stored",
+      "at": "2026-11-11T03:23:39.351Z",
+      "blob_id": "_pPiq9_1PxC_-hitHPSIM0sz4kuHCueFSuXhbsIMe8g"
+    },
+    {
+      "id": "1a433a03-f044-4870-b136-4dec62dfe9bb",
+      "kind": "reason",
+      "sentence": "My reason for backing Lakers (NBA): Lakers are the Lakers, LeBron era energy, cannot lose at home to this Bucks side",
+      "reasons": true,
+      "status": "stored",
+      "at": "2026-11-11T03:23:37.148Z",
+      "blob_id": "ZfnPce5V0KJg1yN2xn3APFeS_TdoXyjt233WRofFgw8"
+    },
+    {
+      "id": "78f17dd1-d4f3-4461-ab8e-6d5afd515e73",
+      "kind": "pick",
+      "sentence": "Priors pick logged: I backed Lakers in Lakers vs. Bucks (NBA) at 93% confidence. Polymarket implied 89% (odds 1.13). Why: Lakers are the Lakers, LeBron era energy, cannot lose at home to this Bucks side. Commitment sha256 6d9e5e4927746719a51ea950b2c974d985fc34f77e205c2e71a1f9ae99336d88, Sui checkpoint digest C5x8ydtkGPgt7eSQjvSz9UBxQt6oXsj3yYYPv1q8nzAT. Coach said 55%. Sealed at Sui checkpoint 343935994.",
+      "reasons": false,
+      "status": "stored",
+      "at": "2026-11-11T03:23:37.145Z",
+      "blob_id": "NZxOFJsUSsRuY8dERmMIbantEvL7MW3umwaOuPrh20I"
+    },
+    {
+      "id": "41d0c29a-caf4-4362-9ffd-07fa8f98fb50",
+      "kind": "reason",
+      "sentence": "My reason for backing England (Football): England are unbeaten at Wembley this cycle and always win these, easy",
+      "reasons": true,
+      "status": "stored",
+      "at": "2026-11-11T03:23:34.788Z",
+      "blob_id": "g1HJSIeoQRAL9jHyGLTshwG-qAbiI9g9jTX2wOpGLSg"
+    },
+    {
+      "id": "1416416d-ef2c-4055-9727-08896c78af10",
+      "kind": "pick",
+      "sentence": "Priors pick logged: I backed England in Will England win on 2026-11-12? (Football) at 85% confidence. Polymarket implied 79% (odds 1.274). Why: England are unbeaten at Wembley this cycle and always win these, easy. Commitment sha256 577bd35ac13f801747252cc34a41f044120d129fe3da75b0973a11b2a292ad1d, Sui checkpoint digest GSZ99vFxhBXAsB6VeqSySS8vA3ztn8MFMrgsRhDUpukx. Coach said 60%. Sealed at Sui checkpoint 343935985.",
+      "reasons": false,
+      "status": "stored",
+      "at": "2026-11-11T03:23:34.786Z",
+      "blob_id": "mnuP-d0mdo1Ju9vog2gqLGMEJCZwVALWfYi7CdBHcHY"
+    },
+    {
+      "id": "6e7fb601-c185-4049-bc62-8a690c350001",
+      "kind": "analyze",
+      "sentence": "Walrus Analyze extracted 1 fact(s): User is backing SUI above $0.83355 by 03:27 UTC because they feel it is breakout time and momentum is building.",
+      "status": "stored",
+      "at": "2026-11-11T03:23:33.092Z"
+    },
+    {
+      "id": "b294623d-d1b7-444d-8cde-1f0ca5c1c4d8",
+      "kind": "reason",
+      "sentence": "My reason for backing Sport Lisboa e Benfica (Football): Benfica at home are far stronger than Austria Wien, market looks fair to slightly low",
+      "reasons": true,
+      "status": "stored",
+      "at": "2026-11-11T03:23:32.641Z",
+      "blob_id": "E-M3AAdwByx7ulxeXHfBsUPB0BYuVpnjEi70egtNfsw"
+    },
+    {
+      "id": "58849e70-7cbe-4d44-8e4f-3093bb72ca6e",
+      "kind": "pick",
+      "sentence": "Priors pick logged: I backed Sport Lisboa e Benfica in Will Sport Lisboa e Benfica win on 2026-11-11? (Football) at 68% confidence. Polymarket implied 59% (odds 1.709). Why: Benfica at home are far stronger than Austria Wien, market looks fair to slightly low. Commitment sha256 a47c37b01944e10af5b6fbe9207bc4ab2cade031d444c75120374d5556fec16d, Sui checkpoint digest 9Nactt2edNzQMk1mrFyRUXR53pPw1h9AcZe1ZkwASwMC. Coach said 43%. Sealed at Sui checkpoint 343935973.",
+      "reasons": false,
+      "status": "stored",
+      "at": "2026-11-11T03:23:32.639Z",
+      "blob_id": "vBJk2LcQqflIBYdTUDq5-tB3OGM4lIouVklEjgC8kdw"
+    },
+    {
+      "id": "86f834ae-6515-4f3c-aecf-af85057bd85e",
+      "kind": "analyze",
+      "sentence": "Walrus Analyze extracted 3 fact(s): User is backing WAL below $0.0282 by 03:26 UTC · User believes WAL rarely moves 0.3% in a few minutes · User thinks mean reversion favors under",
+      "status": "stored",
+      "at": "2026-11-11T03:23:14.655Z"
+    },
+    {
+      "id": "197c9975-3eee-42b1-881b-765e2430c27a",
+      "kind": "analyze",
+      "sentence": "Walrus Analyze extracted 3 fact(s): User is backing WAL above $0.02813 by 03:26 UTC · User believes WAL is going to rip · User mentioned that everyone is talking about Walrus today",
+      "status": "stored",
+      "at": "2026-11-11T03:23:09.590Z"
+    },
+    {
+      "id": "fce4f216-777c-49b0-bfeb-48cc58c4b8bd",
+      "kind": "analyze",
+      "sentence": "Walrus Analyze extracted 1 fact(s): User is backing SUI below $0.83396 by 03:25 UTC because Spot is flat and liquidity is deep, and a 0.15% jump in 3 minutes is unlikely.",
+      "status": "stored",
+      "at": "2026-11-11T03:22:49.165Z"
+    },
+    {
+      "id": "e3c66e4b-ade9-4516-88d4-044c5b40dbb9",
+      "kind": "reason",
+      "sentence": "My reason for backing WAL below $0.028228 (Crypto): A 0.4% move in 6 minutes is outside normal range for this pool",
+      "reasons": true,
+      "status": "stored",
+      "at": "2026-11-11T03:22:44.265Z",
+      "blob_id": "bjDZD7RbRwX7d1k1AhDfCYNI4dk3PbFjhVrbdStTUcM"
+    },
+    {
+      "id": "3b40cfe0-8560-4669-b099-b74fc7a1aa66",
+      "kind": "pick",
+      "sentence": "Priors pick logged: I backed WAL below $0.028228 in by 03:28 UTC (Crypto) at 61% confidence. My own typed odds implied 59% (odds 1.7). WAL was $0.0281 onchain when I called it. Why: A 0.4% move in 6 minutes is outside normal range for this pool. Commitment sha256 2be947cb63897948ea138ea3fdcef069ffd0ac39dd5a77dd21f643caf6bd2b81, Sui checkpoint digest 8vPQfuZjjeGr5mRPFHSHwCQ8VZEK8XgLVqiT13b5sTU7. Coach said 68%. Sealed at Sui checkpoint 343935777.",
+      "reasons": false,
+      "status": "stored",
+      "at": "2026-11-11T03:22:44.262Z",
+      "blob_id": "MqIJ4o-5DXKZwPfhr9jZY7MsXdsJop3gjjP3zOCMhvI"
+    },
+    {
+      "id": "75b2a253-0ec3-43a0-bbce-4b90e9e12a33",
+      "kind": "reason",
+      "sentence": "My reason for backing WAL above $0.028144 (Crypto): Big week for Walrus, it has to go up",
+      "reasons": true,
+      "status": "stored",
+      "at": "2026-11-11T03:22:41.658Z",
+      "blob_id": "SkEz-4nDvo1fxqaIJlBZsmtN0slr2u5kcELEJxae1VM"
+    },
+    {
+      "id": "19dd3227-7187-47e4-847d-b41fc38eb02f",
+      "kind": "pick",
+      "sentence": "Priors pick logged: I backed WAL above $0.028144 in by 03:28 UTC (Crypto) at 74% confidence. My own typed odds implied 50% (odds 2). WAL was $0.0281 onchain when I called it. Why: Big week for Walrus, it has to go up. Commitment sha256 c683d001f4f7f7809f12d12094b90b562a49a367a575ed48e7a37ea8521781ed, Sui checkpoint digest 7fCppy9bQJN4a14ZkzKJdLP4P73XxUzPFKxjzQowQjQ3. Coach said 70%. Sealed at Sui checkpoint 343935765.",
+      "reasons": false,
+      "status": "stored",
+      "at": "2026-11-11T03:22:41.654Z",
+      "blob_id": "RX5_4vnlVZgpWGzMxixZOQNuX_ofAYzGCSBhJ-nW2tM"
+    },
+    {
+      "id": "2acc86a6-2f81-491c-9af4-8e6cd20fb348",
+      "kind": "reason",
+      "sentence": "My reason for backing SUI below $0.83438 (Crypto): Short window and low volatility, price should stay under a 0.2% move",
+      "reasons": true,
+      "status": "stored",
+      "at": "2026-11-11T03:22:37.131Z",
+      "blob_id": "ht3E-IUA3GI6J3UQe6RTtuHMehQ25TMhtanUY1IhnA0"
+    },
+    {
+      "id": "a625b763-5fb9-4a59-9c17-22ed0d1c2f5b",
+      "kind": "pick",
+      "sentence": "Priors pick logged: I backed SUI below $0.83438 in by 03:27 UTC (Crypto) at 63% confidence. My own typed odds implied 57% (odds 1.75). SUI was $0.8327 onchain when I called it. Why: Short window and low volatility, price should stay under a 0.2% move. Commitment sha256 dbaa33099f9823a528eaf7296f26c949d170f206d7278c394d2a5620611d9aad, Sui checkpoint digest E8DcoNW92SBK58nxtZWNn956RPbLR1K8xyyL8XgfsJLN. Coach said 70%. Sealed at Sui checkpoint 343935748.",
+      "reasons": false,
+      "status": "stored",
+      "at": "2026-11-11T03:22:37.128Z",
+      "blob_id": "DqOrpL0v0g5c4be1P56g1ookRo6wHRvLq78uVzGPVXA"
+    },
+    {
+      "id": "6c8ca8b0-7ce6-437b-b738-335438f1b725",
+      "kind": "reason",
+      "sentence": "My reason for backing SUI above $0.83355 (Crypto): Feels like breakout time, momentum is building, it owes us",
+      "reasons": true,
+      "status": "stored",
+      "at": "2026-11-11T03:22:34.574Z",
+      "blob_id": "gzMaDeJwEQnmPEGn6kZnuGk_A3boZpJi4ewBQ_wOf5M"
+    },
+    {
+      "id": "bce8db8c-3bae-421f-8189-1a48b4d5aa4f",
+      "kind": "pick",
+      "sentence": "Priors pick logged: I backed SUI above $0.83355 in by 03:27 UTC (Crypto) at 78% confidence. My own typed odds implied 50% (odds 2). SUI was $0.8327 onchain when I called it. Why: Feels like breakout time, momentum is building, it owes us. Commitment sha256 b17adfedb7d816e86c62b1b3361d301132c266f76b50b6cc81635275a4e55998, Sui checkpoint digest G2yoNgwUW4b5zSwhd5Md4snaJ3QQnLH6JzaytuvMVbY1. Coach said 71%. Sealed at Sui checkpoint 343935737.",
+      "reasons": false,
+      "status": "stored",
+      "at": "2026-11-11T03:22:34.572Z",
+      "blob_id": "wLW-5srQb5qxuXuutC5q5f_PTxFplSRuVBrIBuGFHRg"
+    },
+    {
+      "id": "bd987ca0-b29d-4b1d-9b47-4edab1f1e6f8",
+      "kind": "reason",
+      "sentence": "My reason for backing WAL below $0.0282 (Crypto): WAL rarely moves 0.3% in a few minutes, mean reversion favours under",
+      "reasons": true,
+      "status": "stored",
+      "at": "2026-11-11T03:22:30.727Z",
+      "blob_id": "dL4huQ-lwWa9XHOXCblDmAFgrALwESkwH-L-bz3yTQk"
+    },
+    {
+      "id": "3af1db1c-e13b-4595-b307-2307a1012c2f",
+      "kind": "pick",
+      "sentence": "Priors pick logged: I backed WAL below $0.0282 in by 03:26 UTC (Crypto) at 62% confidence. My own typed odds implied 59% (odds 1.7). WAL was $0.0281 onchain when I called it. Why: WAL rarely moves 0.3% in a few minutes, mean reversion favours under. Commitment sha256 ce0773454319245b32d351dc6eb5186257340404e025864db66302c2aa0612ec, Sui checkpoint digest 5oMnA1eLaMzv59GyKHxLP7jfTMR8jvaDks7ADVkUW2E4. Coach said 63%. Sealed at Sui checkpoint 343935721.",
+      "reasons": false,
+      "status": "stored",
+      "at": "2026-11-11T03:22:30.724Z",
+      "blob_id": "214GBNndBQHHcrfheYOMTs4IX-FgT5z2nj6o1mhdnW0"
+    },
+    {
+      "id": "9ff2d7d6-066f-4f2b-9fa0-d3c992445900",
+      "kind": "reason",
+      "sentence": "My reason for backing WAL above $0.02813 (Crypto): WAL is going to rip, everyone is talking about Walrus today",
+      "reasons": true,
+      "status": "stored",
+      "at": "2026-11-11T03:22:27.795Z",
+      "blob_id": "p_ZlUFL6_xwy08drrRAqfpjndGhWk-WkL-b1W-khcD4"
+    },
+    {
+      "id": "1ed4c8c4-84c3-48f2-ac4d-c9f118e15a00",
+      "kind": "pick",
+      "sentence": "Priors pick logged: I backed WAL above $0.02813 in by 03:26 UTC (Crypto) at 75% confidence. My own typed odds implied 53% (odds 1.9). WAL was $0.0281 onchain when I called it. Why: WAL is going to rip, everyone is talking about Walrus today. Commitment sha256 ed62811668ca9678c029c00c8d36a66b5ae9005b9c6da9babe2cb50c93bf2ae5, Sui checkpoint digest AjfxCbZ8uESDXsw3pF9btaZjmY5Hpdb6HyUEzx36QVf. Coach said 71%. Sealed at Sui checkpoint 343935712.",
+      "reasons": false,
+      "status": "stored",
+      "at": "2026-11-11T03:22:27.793Z",
+      "blob_id": "kFKEg-NlY18qxFhWREfTY-MqB6EjqOLCFULExFrNMK8"
+    },
+    {
+      "id": "e7facf10-ac56-482f-a60f-33c3d9d3b4b8",
+      "kind": "analyze",
+      "sentence": "Walrus Analyze extracted 3 fact(s): User is backing SUI above $0.83313 by 03:25 UTC · User believes SUI always pumps when their timeline is bullish · User thinks SUI is due for a move",
+      "status": "stored",
+      "at": "2026-11-11T03:22:25.453Z"
+    },
+    {
+      "id": "2cbd226e-97da-497d-a0ac-b7e02b024e79",
+      "kind": "reason",
+      "sentence": "My reason for backing SUI below $0.83396 (Crypto): Spot is flat and liquidity is deep, a 0.15% jump in 3 minutes is unlikely",
+      "reasons": true,
+      "status": "stored",
+      "at": "2026-11-11T03:22:24.125Z",
+      "blob_id": "LQh3cNlDiW1kLwpQKviD9td0l9raV0IftxnngX2zwG4"
+    },
+    {
+      "id": "159be221-c2ef-44fa-85ba-415c33e4345a",
+      "kind": "pick",
+      "sentence": "Priors pick logged: I backed SUI below $0.83396 in by 03:25 UTC (Crypto) at 64% confidence. My own typed odds implied 56% (odds 1.8). SUI was $0.8327 onchain when I called it. Why: Spot is flat and liquidity is deep, a 0.15% jump in 3 minutes is unlikely. Commitment sha256 2b2b046a3a0d209340d182ecf8fa989ecc46bd17f996576aae441b1d1a7ad7cb, Sui checkpoint digest 7iyzbiXn3C6LMpNSiwV7kuRxsbz3254K7XepSYiM3pgS. Coach said 71%. Sealed at Sui checkpoint 343935697.",
+      "reasons": false,
+      "status": "stored",
+      "at": "2026-11-11T03:22:24.122Z",
+      "blob_id": "DlzARTCu4TmhHYHCBhSjobE2Hv8vlnRCZRhaNrvDP2I"
+    },
+    {
+      "id": "f7c4e77e-07d2-46e0-8969-8ee9352f25bc",
+      "kind": "reason",
+      "sentence": "My reason for backing SUI above $0.83313 (Crypto): SUI always pumps when my timeline is bullish, it is due a move",
+      "reasons": true,
+      "status": "stored",
+      "at": "2026-11-11T03:22:20.873Z",
+      "blob_id": "5U-BdVxOzMTfPn12a718LLi4gizoauobyakDHKlIsOQ"
+    },
+    {
+      "id": "4fdb502c-4796-4086-b9e5-3182e3f55fb8",
+      "kind": "pick",
+      "sentence": "Priors pick logged: I backed SUI above $0.83313 in by 03:25 UTC (Crypto) at 72% confidence. My own typed odds implied 53% (odds 1.9). SUI was $0.8327 onchain when I called it. Why: SUI always pumps when my timeline is bullish, it is due a move. Commitment sha256 3abf991a2e9aa09ecab2833b95484bab812f1e580a2f04270e83aebef8db321e, Sui checkpoint digest A4q1cjkafqnSBq9ca5q1Vkjsc8Wv6qbpWvgaEErthnrC. Coach said 57%. Sealed at Sui checkpoint 343935681.",
+      "reasons": false,
+      "status": "stored",
+      "at": "2026-11-11T03:22:20.868Z",
+      "blob_id": "lEQ-4M53KK3_7_TnHhshRtkrUs6UTD7uXBJmSjM8SzE"
+    },
     {
       "id": "9eee272f-c27a-43d2-99d1-9298f961b4b5",
       "kind": "lesson",
