@@ -426,7 +426,13 @@ const cleanMemory = (t) => {
   const x = String(t).replace(/^(Gut Check|Priors)\s+(coach\s+)?/i, '');
   return x.charAt(0).toUpperCase() + x.slice(1);
 };
-const gutToCoach = (p) => `<span class="cmp-figs"><span class="pen struck">${pct(p.confidence)}</span> <span class="to">${pct(p.coach?.adjusted ?? p.confidence)}</span></span>`;
+// The red pen only strikes the gut figure when the coach actually corrected it.
+const gutToCoach = (p) => {
+  const coach = p.coach?.adjusted ?? p.confidence;
+  return Math.round(coach * 100) === Math.round(p.confidence * 100)
+    ? `<span class="cmp-figs">${pct(p.confidence)}</span>`
+    : `<span class="cmp-figs"><span class="pen struck">${pct(p.confidence)}</span> <span class="to">${pct(coach)}</span></span>`;
+};
 
 function renderStats(v) {
   const done = v.picks.filter((p) => p.status === 'won' || p.status === 'lost');
