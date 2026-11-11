@@ -166,6 +166,14 @@ form:not([data-feed]) .feed-only, form:not([data-market]) .market-only, form[dat
 .receipt { color: var(--muted); font-size: 12px; line-height: 18px; word-break: break-all; }
 .receipt:empty { display: none; }
 .receipt a { color: var(--text-2); }
+.receipt.ok, .receipt.err { display: grid; gap: 4px; padding: 12px 16px; border-radius: 10px; font-size: 13px; line-height: 20px; word-break: normal; }
+.receipt.ok { color: var(--text); background: color-mix(in srgb, var(--win) 12%, transparent); border: 1px solid color-mix(in srgb, var(--win) 40%, transparent); }
+.receipt.ok b { font-weight: 500; }
+.receipt.ok .link { justify-self: start; }
+.receipt.ok .mono { color: var(--text-2); font-size: 12px; overflow-wrap: anywhere; }
+.receipt.err { color: var(--text); background: color-mix(in srgb, var(--pen) 12%, transparent); border: 1px solid color-mix(in srgb, var(--pen) 45%, transparent); }
+.rows .row.fresh { animation: fresh 2.4s var(--ease); border-radius: 8px; }
+@keyframes fresh { 0%, 35% { background: color-mix(in srgb, var(--win) 16%, transparent); box-shadow: 0 0 0 1px color-mix(in srgb, var(--win) 45%, transparent); } 100% { background: transparent; box-shadow: none; } }
 
 /* ---------- Bias fingerprint ---------- */
 .insights { display: grid; }

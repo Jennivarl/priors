@@ -375,23 +375,41 @@ document.addEventListener('input', (ev) => {
 const isSample = () => !session && operator.readOnly && !ownerToken;
 const sealLabel = () => (isSample() ? 'Connect wallet to seal your pick' : 'Seal on Sui and remember');
 
+/** Scroll to a pick in Open picks and light it up briefly, so a new pick is easy to find. */
+function showPick(id) {
+  const row = document.querySelector(`#open-list [data-pick="${CSS.escape(id)}"]`);
+  if (!row) return;
+  row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  row.classList.remove('fresh');
+  void row.offsetWidth;
+  row.classList.add('fresh');
+}
+
 form.addEventListener('submit', async (ev) => {
   ev.preventDefault();
   if (isSample()) return openConnect();
   const btn = $('#submit');
   const label = btn.querySelector('span');
+  const receiptBox = $('#receipt');
   btn.disabled = true;
-  label.textContent = 'Sealing on Sui';
+  label.textContent = 'Sealing on Sui, a few seconds';
+  receiptBox.className = 'receipt';
+  receiptBox.textContent = '';
   try {
     const { pick, view } = await record().seal(formData());
     const s = pick.stamp;
-    $('#receipt').innerHTML = `Sealed at checkpoint <a href="${SUISCAN}${s.checkpoint}" target="_blank" rel="noopener">${nf.format(s.checkpoint)}</a> · ${esc(s.timestamp.slice(11, 19))} UTC · commitment ${esc(short(pick.commitment))} · writing to Walrus`;
+    receiptBox.className = 'receipt ok';
+    receiptBox.innerHTML =
+      `<b>Sealed: ${esc(pick.subject)}</b> <button type="button" class="link" id="see-pick">See it in open picks</button>` +
+      `<span class="mono">Sui checkpoint <a href="${SUISCAN}${s.checkpoint}" target="_blank" rel="noopener">${nf.format(s.checkpoint)}</a> · ${esc(s.timestamp.slice(11, 19))} UTC · commitment ${esc(short(pick.commitment))} · saving to Walrus</span>`;
     render(view);
+    $('#see-pick').addEventListener('click', () => showPick(pick.id));
     ['event', 'subject', 'reason', 'target'].forEach((n) => (form.elements[n].value = ''));
     if (!form.elements.odds.readOnly) form.elements.odds.value = '';
     if (form.dataset.kind === 'crypto') loadPrice();
   } catch (e) {
-    $('#receipt').textContent = e.message;
+    receiptBox.className = 'receipt err';
+    receiptBox.textContent = e.message;
   } finally {
     btn.disabled = false;
     label.textContent = sealLabel();
@@ -471,7 +489,7 @@ function render(v) {
   $('#open-list').innerHTML = open.length
     ? open
         .map(
-          (p) => `<li class="row"><span class="t">${esc(p.subject)}</span>
+          (p) => `<li class="row" data-pick="${esc(p.id)}"><span class="t">${esc(p.subject)}</span>
           <span class="r">${gutToCoach(p)}${
             p.crypto
               ? `<span class="wait">settles ${esc(p.crypto.deadline.slice(11, 16))} UTC</span>`
