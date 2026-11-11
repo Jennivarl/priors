@@ -102,6 +102,26 @@ Memory layout on Walrus: the demo record uses namespace `gut-check` (plus `gut-c
 
 ## How to Test
 
+### Quickest way: run it locally with your own wallet (about 5 minutes)
+You only need Node.js, a free Tatum key, and a Sui wallet (for example Slush). Your wallet creates your own Walrus Memory account, so no Walrus key is needed on the server.
+```bash
+git clone https://github.com/Jennivarl/priors.git
+cd priors
+npm install
+```
+Create a file called `.env` in the project folder with one line:
+```
+TATUM_API_KEY=your-tatum-key
+```
+Then start it:
+```bash
+npm start
+```
+Open http://localhost:3000, click **Connect wallet**, choose your wallet and approve twice (create your Walrus Memory, then the key for Priors). Mainnet needs about 0.01 SUI for gas; to try it for free, use testnet instead (step 11 below).
+Expected: the connect dialog's four steps turn into ticks, the page shows **Your record**, and a pick you seal shows a green **Sealed** box, then `blob …` lines in the Memory timeline once Walrus has stored it.
+
+The full walkthrough below also covers the operator's own record, the demo history and every feature. It needs a Walrus Memory key as well.
+
 ### What you need
 - **Node.js 22.23.4+ (22.x), 24.22.1+ (24.x) or 26.12.1+ (26.x).** Check with `node -v`.
 - **A Tatum API key** (free): sign up at https://dashboard.tatum.io and copy the Mainnet key.
