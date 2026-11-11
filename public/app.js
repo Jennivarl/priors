@@ -644,6 +644,8 @@ async function header() {
 // 4. Check the key with Walrus. The wallet never shares its own key with Priors.
 const dlg = $('#connect');
 let walletLib;
+let walrusConfig;
+const chainOf = (cfg) => `sui:${cfg.network}`;
 
 function stepState(id, state, note = '') {
   const li = dlg.querySelector(`[data-step="${id}"]`);
@@ -668,13 +670,14 @@ async function openConnect() {
   $('#wallet-list').innerHTML = '<li class="empty">Looking for Sui wallets</li>';
   try {
     walletLib ??= await import('./vendor/wallet.js');
+    walrusConfig ??= await request('/api/walrus/config');
     const draw = (list) => {
       $('#wallet-list').innerHTML = list.length
         ? list.map((w, i) => `<li><button type="button" class="wallet" data-wallet="${i}">${w.icon ? `<img src="${esc(w.icon)}" alt="" width="24" height="24" />` : ''}<span>${esc(w.name)}</span></button></li>`).join('')
         : '<li class="empty">No Sui wallet found in this browser. Install <a href="https://slush.app" target="_blank" rel="noopener">Slush</a>, then reload this page, or use an existing Walrus key below</li>';
       dlg.wallets = list;
     };
-    draw(walletLib.listWallets(draw));
+    draw(walletLib.listWallets(chainOf(walrusConfig), draw));
   } catch (e) {
     $('#wallet-list').innerHTML = `<li class="empty">${esc(e.message)}</li>`;
   }
@@ -710,10 +713,10 @@ async function connectWallet(w) {
   for (const id of ['connect', 'account', 'key', 'check']) stepState(id, 'waiting');
   try {
     stepState('connect', 'active', `Approve in ${w.name}`);
-    const signer = await walletLib.connect(w);
+    const signer = await walletLib.connect(w, chainOf(walrusConfig));
     stepState('connect', 'done', shortAddr(signer.address));
 
-    const cfg = await request('/api/walrus/config');
+    const cfg = walrusConfig;
     const suiClient = { waitForTransaction: ({ digest }) => request(`/api/sui/tx/${digest}`) };
     let { accountId, delegateKeys = [] } = await request(`/api/walrus/account/${signer.address}`);
     if (accountId) {

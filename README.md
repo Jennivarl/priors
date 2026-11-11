@@ -173,6 +173,17 @@ Expected: "Rebuilt from N memories on Walrus", and the picks, results and finger
 In **Ask your past self**, type `why do I lose after a bad week` and click **Recall**, or click one of the example questions under the search box (the first one runs once by itself when the page opens).
 Expected: memories about chasing losses, ranked by meaning, each with its Walrus blob id.
 
+### 11. Try wallet sign-in for free on Sui testnet
+Wallet sign-in on Mainnet costs a little SUI for gas. To try the same flow with free test SUI, start the app on testnet (it uses Walrus Memory's testnet relayer and contract):
+```bash
+SUI_NETWORK=testnet PORT=3001 npm start
+```
+1. In a Sui wallet (for example Slush), switch to **Testnet** and get free SUI at https://faucet.sui.io.
+2. Open http://localhost:3001 and click **Connect wallet**.
+3. Approve twice in the wallet: creating your Walrus Memory account, then the key for Priors.
+
+Expected: the four steps in the dialog turn into ticks, the page shows **Your record**, and a pick you seal shows `blob …` in the Memory timeline once Walrus has stored it. Prices and crypto calls read Mainnet pools, so on testnet log a sports pick by hand.
+
 ## Deploying your own (Vercel)
 Set `TATUM_API_KEY`, `MEMWAL_PRIVATE_KEY`, `MEMWAL_ACCOUNT_ID` and `OWNER_TOKEN` as Production environment variables, run `npm run snapshot` to publish your current history to `demo/state.json`, then `vercel deploy --prod` (Vercel runs `npm run build`, which bundles the wallet sign-in). With `OWNER_TOKEN` set the demo record is read-only for visitors, who can connect their own wallet instead; enter the passcode in the box at the bottom of the page to log picks on the demo record. The demo record's background settlement needs a long-running server (`npm start`), since serverless hosts have no background loop. Pick receipts are signed with `RECEIPT_SECRET` if set, otherwise with a key derived from `OWNER_TOKEN`; set `RECEIPT_SECRET` if you plan to rotate the passcode, so open picks stay settleable.
 
